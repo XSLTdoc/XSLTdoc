@@ -3,6 +3,7 @@
   <xsl:import href="core.xsl"/>
   <xsl:include href="properties/author.xsl"/>
   <xsl:include href="properties/cvsId.xsl"/>
+  <xsl:include href="properties/svnId.xsl"/>
   <xsl:include href="properties/copyright.xsl"/>
   
   <xsl:output name="xhtml"
