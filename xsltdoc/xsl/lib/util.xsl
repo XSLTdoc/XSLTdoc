@@ -151,6 +151,15 @@
     <xsl:param name="to" as="xs:string"/>
     <xsl:param name="reverse" as="xs:boolean"/>
     <xsl:choose>
+      <xsl:when test="not(util:isAbsolutePath($from))">
+        <xsl:message terminate="yes">Error in util:getRelativeUriFiles(). $from must be an absolute URI but is: <xsl:value-of select="$from"/></xsl:message>
+      </xsl:when>
+      <xsl:when test="not(util:isAbsolutePath($to))">
+        <xsl:message terminate="yes">Error in util:getRelativeUriFiles(). $to must be an absolute URI but is: <xsl:value-of select="$to"/></xsl:message>
+      </xsl:when>
+    </xsl:choose>
+    
+    <xsl:choose>
       <xsl:when test="$reverse">
         <xsl:value-of select="concat(util:getRelativeUri(util:getFolder($to), util:getFolder($from)), util:getFile($from))"/>
       </xsl:when>
@@ -241,16 +250,16 @@
     <xd:param name="xml">XML Element. Can also be a sequence of elements. </xd:param>
   </xd:doc>
   <xsl:function name="util:xmlToString">
-    <xsl:param name="xml"/>
+    <xsl:param name="xml" as="item()*"/>
     <xsl:variable name="return">
       <xsl:apply-templates select="$xml" mode="xmlToString"/>
     </xsl:variable>
-    <xsl:value-of select="string-join($return,'')"></xsl:value-of>
+    <xsl:value-of select="string-join($return,'')"/>
   </xsl:function>
   
   <xd:doc>
     Helper template for xmlToString function.
-    <xd:private/>
+  <xd:private/>
   </xd:doc>
   <xsl:template match="*" mode="xmlToString">
     <xsl:value-of select="concat('&lt;', name(.))"></xsl:value-of>
@@ -259,7 +268,46 @@
     </xsl:for-each>
     <xsl:value-of select="'&gt;'"></xsl:value-of>
     <xsl:apply-templates mode="xmlToString"/>
-    <xsl:value-of select="concat('/&lt;', name(.),'&gt;')"></xsl:value-of>
+    <xsl:value-of select="concat('&lt;/', name(.),'&gt;')"></xsl:value-of>
+  </xsl:template>
+  
+  <xsl:function name="util:xmlToHtml" as="item()*">
+    <xsl:param name="xml" as="item()*"/>
+    <xsl:apply-templates select="$xml[not( self::text() and (position() = 1 or position() = last()) )]" mode="xmlToHtml"/>
+  </xsl:function>
+  
+  <xd:doc>
+    Helper template for xmlToHtml function.
+  <xd:private/>
+  </xd:doc>
+  <xsl:template match="*" mode="xmlToHtml" xmlns="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all">
+    <span style="color: #990000">
+      <xsl:value-of select="concat('&lt;', name(.))"/>
+      <xsl:for-each select="@*">
+        <xsl:value-of select="concat(' ', name(.),'=','&quot;',. ,'&quot;')"/>
+      </xsl:for-each>
+      <xsl:choose>
+        <xsl:when test="count(node()) = 0">
+          <xsl:value-of select="'/&gt;'"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'&gt;'"/>
+            <xsl:apply-templates mode="xmlToHtml"/>
+          <xsl:value-of select="concat('&lt;/', name(.),'&gt;')"/>
+        </xsl:otherwise>
+      </xsl:choose>
+      
+    </span>
+  </xsl:template>
+  
+  <xd:doc>
+    Helper template for xmlToHtml function.
+  <xd:private/>
+  </xd:doc>
+  <xsl:template match="text()" mode="xmlToHtml" xmlns="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all">
+    <span style="color:black; font-weight:bold">
+      <xsl:value-of select="."/>
+    </span>
   </xsl:template>
   
   <xd:doc>

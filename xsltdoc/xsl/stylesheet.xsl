@@ -82,7 +82,7 @@
       detail description available&quot; is printed
     </xd:detail>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet" mode="printDetailDescription">
+  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:param" mode="printDetailDescription">
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     
       <xsl:choose>

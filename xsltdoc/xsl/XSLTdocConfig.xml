@@ -75,7 +75,7 @@
       To generate a documentation for one or more XSLT programs you need to write a 
       configuration file which inlcudes all the information needed for the generation process.
       The configuration file is a simple XML file. Use the template below as a starting 
-      point for your own configuration file. All elements are mandatory.</p>
+      point for your own configuration file. Not mandatory elements are marked.</p>
     <div class="source"><pre><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <XSLTdocConfig>
   <Title>The title used on the main page</Title>
@@ -108,7 +108,16 @@
   <RootStylesheets>
     <File href="xsltdoc.xsl"/>
     <File href="test.xsl"/>
-  </RootStylesheets>]]></pre></div>
+  </RootStylesheets>
+  
+  <!-- 
+    A list of CSS Stylesheet files which should be added to the standard CSS file included (XSLTdoc.css)
+    - Not mandatory
+    - media attribute optional.
+  -->
+  <AdditionalCSS>
+    <File href="print.css" media="print"/>
+  </AdditionalCSS>]]></pre></div>
     <p>
     To start the generation process use the configuration file 
     as the input for the xsltdoc.xsl program. 
@@ -235,6 +244,25 @@
       code is accessible through this website. Just go to a detailed description
       of a template or function and click on the <i>source</i> link.
     </p>
+    <h3>Inline tags</h3>
+    <p>You can use so called inline tags to tag special parts inside a <code>xs:short</code> or <code>xd:detail</code> element:</p>
+    <p>The xd:xml inline tag can be used to to print print an xml to the output. The whole xml inside the tag is transformed to html by XSLTdoc.</p>
+    <div class="source"><pre><![CDATA[<xd:doc>
+  <xd:detail>
+    The following XML inside the xd:xml tag is printed exactly as it shows here:
+    <xd:xml>
+<html>
+  <head></head>
+  <body>
+    Bla
+  </body>
+</html>
+    </xd:xml>
+  <xd:detail>
+</xd:doc>
+<xsl:...>]]></pre></div>
+    
+    
     <h2><a name="Download">Download</a></h2>
     <p>The followig downloads are available:</p>
       <ul>

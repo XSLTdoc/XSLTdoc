@@ -12,9 +12,23 @@
   <xsl:include href="lib/util.xsl"/>
   
   <xd:doc type="string">
-    Optional attribute.
+    <xd:short>The directory in which the documentation should be generated.</xd:short>
+    <xd:detail>
+      The directory given
+      must be relative to root stylesheet which is being processed.
+      This parameter is used to compute the variable <code>$targetDirUriAbs</code>. If this parameter is not set
+      the <code>$targetDirUriAbs</code> variable defaults a directory 'xsltdoc' which is created inside the same directory
+      in which the input stylesheet occurs.<br/>
+      <strong>Only used if the input is a stylesheet file. Not used if the input is a XSLTdocConfig XML file.</strong>
+    </xd:detail>
   </xd:doc>
   <xsl:param name="targetDir" select="false()"/>
+  
+  <xd:doc>
+    You can add additional (custom) css stylesheets here, which override css rules from the standard css file (XSLTdoc.css) or add new rules.  
+  </xd:doc>
+  <xsl:param name="additionalCSS" as="xs:string*"/>
+  
   
   <xd:doc type="stylesheet">
     <xd:short>Core XSLTdoc Stylesheet</xd:short>
@@ -100,6 +114,17 @@
         <xsl:copy-of select="$config/*"/>
         <targetDirUriAbs href="{$targetDirUriAbs}"/>
         <sourceRootUriAbs href="{$sourceRootUriAbs}"/>
+        <xsl:if test="AdditionalCSS">
+          <additionalCSS>
+            <xsl:for-each select="AdditionalCSS/File">
+              <file uriAbs="{resolve-uri( @href , $targetDirUriAbs )}">
+                <xsl:if test="@media">
+                  <xsl:copy-of select="@media"/>
+                </xsl:if>
+              </file>
+            </xsl:for-each>
+          </additionalCSS>
+        </xsl:if>
       </xsl:element>
     </xsl:variable>
     
@@ -227,6 +252,15 @@
   <xsl:param name="config" tunnel="yes" as="element()"/>
   <xsl:param name="currentPage" tunnel="yes" as="element()"/>
   <link href="{concat(util:getRelativeUri( util:getFolder($currentPage/@uriAbs), $config/targetDirUriAbs/@href ), 'XSLTdoc.css')}" rel="stylesheet" type="text/css"/>
+  <xsl:if test="$config/additionalCSS">
+    <xsl:for-each select="$config/additionalCSS/file">
+      <link href="{util:getRelativeUriFiles( @uriAbs, $currentPage/@uriAbs, true() )}" rel="stylesheet" type="text/css">
+        <xsl:if test="@media">
+          <xsl:copy-of select="@media"/>
+        </xsl:if>
+      </link>
+    </xsl:for-each>
+  </xsl:if>  
 </xsl:template>
 
 <xd:doc>
