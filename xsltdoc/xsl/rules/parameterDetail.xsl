@@ -40,13 +40,13 @@
     <xsl:param name="filename"/>
     <xsl:variable name="doc" select="preceding-sibling::*[1][self::xd:doc and not(@type)]"/>
     <!-- HTML anchor -->
-    <a name="{generate-id(.)}"/>
+    
     <p class="detailDeclaration">
       <xsl:if test="$doc/xd:param">
         <span class="parameterType">
           <xsl:value-of select="$doc/xd:param/@type"/>&#160;</span>
       </xsl:if>
-      <xsl:value-of select="@name"/>
+      <a name="{generate-id(.)}"><xsl:value-of select="@name"/></a>
       <xsl:if test="@select">
         <xsl:text>(</xsl:text>
         <span class="form">default:</span>

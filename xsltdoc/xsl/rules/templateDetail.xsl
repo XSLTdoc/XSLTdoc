@@ -89,9 +89,9 @@
     <xsl:param name="filename"/>
     <xsl:variable name="doc" select="preceding-sibling::*[1][self::xd:doc and not(@type)]"/>
     <!-- HTML anchor -->
-    <a name="{generate-id(.)}"/>
+    
     <p class="detailDeclaration">
-      <xsl:value-of select="@name"/>
+      <a name="{generate-id(.)}"><xsl:value-of select="@name"/></a>
       <xsl:value-of select="@match"/>
       <xsl:choose>
         <xsl:when test="self::xsl:template">

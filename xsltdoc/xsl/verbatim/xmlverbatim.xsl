@@ -82,7 +82,6 @@
       <xsl:param name="indent-elements" select="false()" />
       <xsl:param name="indent" select="''" />
       <xsl:param name="indent-increment" select="'&#xA0;&#xA0;&#xA0;'" />
-      <a name="{generate-id(.)}"/>
       <xsl:if test="$indent-elements">
          <br/>
          <xsl:value-of select="$indent" />
@@ -97,7 +96,7 @@
          <xsl:text>:</xsl:text>
       </xsl:if>
       <span class="xmlverb-element-name">
-         <xsl:value-of select="local-name()"/>
+         <a name="{generate-id(.)}"><xsl:value-of select="local-name()"/></a>
       </span>
       <xsl:variable name="pns" select="../namespace::*"/>
       <xsl:if test="$pns[name()=''] and not(namespace::*[name()=''])">

@@ -6,13 +6,18 @@ body {
 	margin-left: 20px;
 }
 h1 {
+  padding: 0;
+  margin: 0;
 	text-align:left;
 }
 h2 {
-	margin-bottom: 0;
+  padding: 0;
+	margin: 0;
 }
 
 h3 {
+  padding: 0;
+  margin: 0;
 	font-size:  medium;
 	font-weight: normal;
 }
@@ -41,10 +46,13 @@ td.underlined {
 	border-bottom-width: 1px;
 	border-bottom-style: solid; 
 	border-bottom-color: #D2D2D2;
-	}
+	
+}
 p.shortDescription {
+  margin-top: 0;
 	margin-bottom: 0px;
 	margin-left: 20px;
+	padding: 0;
 }
 
 a:link { text-decoration: none; color: #252E78; font-weight: bold }

@@ -49,13 +49,11 @@
         <a href="#CopyrightAndLicence">Copyright And License</a>
       </li>
     </ul>
-    <a name="News"/>
-    <h2>News</h2>
+    <h2><a name="News">News</a></h2>
     <ul>
       <li>December 20, 2004: Released Version 1.0.1</li>
     </ul>
-    <a name="Features"/>
-    <h2>Features</h2>
+    <h2><a name="Features">Features</a></h2>
     <ul>
       <li>Documentation is embedded in the XSL program</li>
       <li>Documenting of XSLT 2.0 functions</li>
@@ -64,13 +62,12 @@
       <li>Open source under GPL license</li>
       <li>Written in XSLT</li>
     </ul>
-    <a name="InstallingXSLTdoc"/>
-    <h2>Installing XSLTdoc</h2>
+    
+    <h2><a name="InstallingXSLTdoc">Installing XSLTdoc</a></h2>
     <p>Installation of XSLTdoc is simply done by unzipping the XSLTdoc
       distribution file in a dedicated target directory (usually called
       XSLTdoc). </p>
-    <a name="RunningXSLTdoc"/>
-    <h2>Running XSLTdoc</h2>
+    <h2><a name="RunningXSLTdoc">Running XSLTdoc</a></h2>
     <p>XSLTdoc is written in XSLT 2.0. You need an XSLT 2.0 processor to run it.
       The downloadable package of XSLTdoc includes the free version of the Saxon
       XSLT and XQuery Processor from Saxonica Limited, which needs an installation
@@ -152,8 +149,8 @@
       With Saxon 8 the command to create the XSLTdoc documentation looks like
       this (while being in the XSLTdoc installation folder):</p>
     <pre class="fragment"><![CDATA[java -jar lib/saxon8.jar <XSLT file> xsl\stylesheetMultiple.xsl targetDir=<Destination direcory>]]></pre>
-    <a name="DocumentingTheCode"/>
-    <h2>Documenting the code</h2>
+    
+    <h2><a name="DocumentingTheCode">Documenting the code</a></h2>
     <p>Documentation elements are written in XML. Because XSLT is expressed in
       XML too, it is necessary to define a new namespace for XSLTdoc to enable a
       XSLT processor to distinguish between documentation and source code. The
@@ -227,16 +224,14 @@
       code is accessible through this website. Just go to a detailed description
       of a template or function and click on the <i>source</i> link.
     </p>
-    <a name="Download"/>
-    <h2>Download</h2>
+    <h2><a name="Download">Download</a></h2>
     <p>The followig downloads are available:</p>
       <ul>
         <li><a href="http://sourceforge.net/project/showfiles.php?group_id=124907&amp;package_id=136566">XSLTdoc 1.0.1</a></li>
       </ul>
       <p>By downloading any of these files you are accepting the licence condition stated <a href="#CopyrightAndLicence">below</a>.</p>
-    
-    <a name="CopyrightAndLicence"/>
-    <h2>Copyright And Licence</h2>
+
+    <h2><a name="CopyrightAndLicence">Copyright And Licence</a></h2>
     <p>The software and documenation downloadable from this site is made up of the following items:</p>
     <ul>
       <li>Software and documentation for the XSLTdoc documentation tool. The copyright for these items belongs to <a href="http://www.pnp-software.com/">P&amp;P Software</a>. These items can be downloaded and used under the terms of the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public Licence</a>.</li>
