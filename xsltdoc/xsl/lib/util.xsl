@@ -3,7 +3,8 @@
   xmlns:xd="http://www.pnp-software.com/XSLTdoc"
   xmlns:util="http://www.pnp-software.com/util"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  version="2.0">
+  version="2.0"
+  exclude-result-prefixes="xd xsl util xs">
   <xd:doc type="stylesheet">
     Utility functions used by other stylesheets.
     <xd:author>ibirrer</xd:author>

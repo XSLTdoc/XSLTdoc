@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xd="http://www.pnp-software.com/XSLTdoc"
-                version="2.0">
+                xmlns:util="http://www.pnp-software.com/util"
+                version="2.0"
+                exclude-result-prefixes="xd xsl util">
   
   <xd:doc type="stylesheet">
     <xd:short>Creates a HTML page for a single stylesheet.</xd:short>
@@ -43,7 +45,6 @@
     <html>
       <head>
         <title>XSLTdoc</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
         <link href="{$stylesheetPath}" rel="stylesheet" type="text/css"/>
       </head>
       <body>
@@ -71,18 +72,19 @@
     </html>
   </xsl:template>
 
-  <xd:doc> 
+  <xd:doc>
     Extracts the short description from a string. Everything before the
     first period is considered as short description. If the string doesn't
     contain a period, the whole string is returned. 
-    <xd:param name="text" type="string">The text from which the short description is extracted</xd:param>
+    <xd:param name="doc" type="string">xd:doc element</xd:param>
   </xd:doc>
   <xsl:template name="extractShortDescription">
-    <xsl:param name="text"/>
-    <xsl:variable name="shortDesc" select="substring-before(string($text),'.')"/>
+    <xsl:param name="doc"/>
+    <!-- <xsl:message><xsl:copy-of select="$doc/text()[contains(.,'.')][1] | $doc/text()[contains(.,'.')][1]/preceding-sibling::node()"/></xsl:message> -->
+    <xsl:variable name="shortDesc" select="substring-before(string($doc/text()),'.')"/>
     <xsl:choose>
       <xsl:when test="string-length($shortDesc) &lt;= 0">
-        <xsl:value-of select="$text"/>
+        <xsl:value-of select="$doc/text()"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="$shortDesc"/>
@@ -94,13 +96,13 @@
     Extracts the detail description from string. Everything after the
     first period is considered as detail description. If no detail description
     can be extracted, the empty string is returned.
-    <xd:param name="text" type="string">
-      The text from which the detail description is extracted
+    <xd:param name="doc" type="string">
+      xd:doc element
     </xd:param>
   </xd:doc>
   <xsl:template name="extractDetailDescription">
-    <xsl:param name="text"/>
-    <xsl:variable name="detailDesc" select="substring-after(string($text),'.')"/>
+    <xsl:param name="doc"/>
+    <xsl:variable name="detailDesc" select="substring-after(string($doc/text()),'.')"/>
     <xsl:choose>
       <xsl:when test="string-length($detailDesc) &lt;= 0">
         <xsl:text></xsl:text>
@@ -130,7 +132,7 @@
           </xsl:when>
           <xsl:otherwise>
             <xsl:call-template name="extractDetailDescription">
-              <xsl:with-param name="text" select="$doc/text()"/>
+              <xsl:with-param name="doc" select="$doc"/>
             </xsl:call-template>
           </xsl:otherwise>
         </xsl:choose>
@@ -143,7 +145,7 @@
     <xd:short>Prints the short description of a xd:doc element.</xd:short>
     <xd:detail> 
       If no short description is found, the string &quot;No
-      short description available&quot; is printed
+      short description available&quot; is printed.
     </xd:detail>
     <xd:param name="doc" type="node-set">The whole xd:doc node-set</xd:param>
   </xd:doc>
@@ -158,24 +160,13 @@
           </xsl:when>
           <xsl:otherwise>
             <xsl:call-template name="extractShortDescription">
-              <xsl:with-param name="text" select="$doc/text()"/>
+              <xsl:with-param name="doc" select="$doc"/>
             </xsl:call-template>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>No short description available</xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
-  
-  <xd:doc> 
-    Default template for XdocTags mode. This ensures that elements that
-    need no conversion(html tags) are printed. 
-  </xd:doc>
-  <xsl:template match="*" mode="XdocTags">
-    <xsl:copy>
-      <xsl:copy-of select="@*"/>
-      <xsl:apply-templates mode="XdocTags"/>
-    </xsl:copy>
   </xsl:template>
   
   <xd:doc> 
@@ -236,10 +227,30 @@
     </xsl:if>
   </xsl:template>
   
-  <xd:doc> Converts a xd:link element to a html link. Not done yet!</xd:doc>
+  
+  <xd:doc>
+    Default template in XdocTags mode. This ensures that elements that
+    need no conversion(html tags) are copied to the result tree.
+  </xd:doc>
+  <xsl:template match="*" mode="XdocTags">
+    <xsl:message><xsl:value-of select="string-join(namespace::*, ', ')"></xsl:value-of></xsl:message>
+    <xsl:copy copy-namespaces="no">
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="*" mode="XdocTags"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xd:doc>
+    Default template in XdocTags mode for elements in xd namespace.
+  </xd:doc>
+  <xsl:template match="xd:*" mode="XdocTags">
+    <xsl:apply-templates mode="XdocTags"/>
+  </xsl:template>
+  
+  <xd:doc> Converts a xd:link element to a html link. Not implemented yet!</xd:doc>
   <xsl:template match="xd:link" mode="XdocTags">
     <a href="#">
       <xsl:value-of select="."/>
     </a>
-  </xsl:template>  
+  </xsl:template>
 </xsl:stylesheet>

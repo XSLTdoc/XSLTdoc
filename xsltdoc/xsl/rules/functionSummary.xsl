@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns:xd="http://www.pnp-software.com/XSLTdoc">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+                xmlns:util="http://www.pnp-software.com/util"
+                version="2.0"
+                exclude-result-prefixes="xd xsl util">
   <xd:doc type="stylesheet">
     <xd:short>This stylesheet lists all functions in a stylesheet.</xd:short>
     <xd:author>ibirrer</xd:author>
@@ -39,7 +43,7 @@
       <td>
         <table width="100%" border="0" cellspacing="0" cellpadding="3">
           <tr>
-            <td width="15%" nowrap="">
+            <td>
               <a href="#{generate-id(.)}">
                 <xsl:value-of select="@name"/>
               </a>
@@ -48,10 +52,9 @@
                 <xsl:with-param name="function" select="."/>
               </xsl:call-template>
             </td>
-            <td>&#160;</td>
           </tr>
           <tr>
-            <td colspan="2">
+            <td>
               <p class="shortDescription">
                 <xsl:call-template name="printShortDescription">
                   <xsl:with-param name="doc" select="$doc"/>

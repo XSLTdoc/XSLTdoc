@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:xd="http://www.pnp-software.com/XSLTdoc"
-  xmlns:util="http://www.pnp-software.com/util" version="2.0">
+                xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+                xmlns:util="http://www.pnp-software.com/util"
+                version="2.0"
+                exclude-result-prefixes="xd xsl util">
   <xsl:import href="stylesheetMultiple.xsl"/>
   <xd:doc type="stylesheet">
     <xd:short>
@@ -19,6 +21,16 @@
       Any html tags can be used to write this documentation. 
     </xd:detail>
   </xd:doc>
+  
+  <!-- Output definition for generated html files -->
+  <xsl:output name="htmlOutput"
+              omit-xml-declaration="no"
+              method="xml"
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" 
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+              indent="yes" 
+              encoding="iso-8859-1"
+              exclude-result-prefixes="xd util xsl"/>
   
   <!-- Redefine some variables from the imported stylesheet. These variables depend on the setting in the config file. -->
   <xsl:variable name="targetDirNorm" select="resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/TargetDirectory/@path)), base-uri(/) )"/>
@@ -44,13 +56,12 @@
         <xsl:copy-of select="."/>
       </xsl:for-each-group>
     </xsl:variable>
+    
     <!-- Create the index file (Main Page) -->
-    <xsl:message><xsl:value-of select="util:getRelativeUriFiles($indexTarget, $targetDirNorm, true())"/></xsl:message>
-    <xsl:result-document href="{$indexTarget}">
+    <xsl:result-document format="htmlOutput" href="{$indexTarget}">
       <html>
         <head>
           <title>XSLTdoc - Main Page</title>
-          <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
           <link href="XSLTdoc.css" rel="stylesheet" type="text/css"/>
         </head>
         <body>
@@ -65,13 +76,14 @@
           <h1>
             <xsl:value-of select="/XSLTdocConfig/Title"/>
           </h1>
-          <xsl:copy-of select="/XSLTdocConfig/Introduction"/>
+          <xsl:copy-of select="/XSLTdocConfig/Introduction/*"/>
           <hr size="1"/>
           <xsl:text>Powered by </xsl:text>
           <a target="_blank" href="http://www.pnp-software.com/XSLTdoc/index.html">XSLTdoc</a>
         </body>
       </html>
     </xsl:result-document>
+    
     <!-- Call template from multipleStylesheet.xsl and provide filelist as a parameter -->
     <xsl:call-template name="processFiles">
       <xsl:with-param name="filelist" select="$distinctFilelist"/>

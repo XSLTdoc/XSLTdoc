@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:xd="http://www.pnp-software.com/XSLTdoc"
-  xmlns:util="http://www.pnp-software.com/util" version="2.0">
+                xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+                xmlns:util="http://www.pnp-software.com/util"
+                version="2.0"
+                exclude-result-prefixes="xd xsl util">
   
   <xd:doc type="stylesheet">
     <xd:short>
@@ -18,6 +20,16 @@
       <xd:author>ibirrer</xd:author>
     <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
+  
+  <!-- Output definition for generated html files -->
+  <xsl:output name="htmlOutput"
+              omit-xml-declaration="no" 
+              method="xml" 
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" 
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+              indent="yes" 
+              encoding="iso-8859-1"
+              exclude-result-prefixes="xd util xsl"/>
   
   <xsl:include href="lib/util.xsl"/>
   <xsl:include href="stylesheetSingle.xsl"/>
@@ -42,7 +54,7 @@
   <xsl:variable name="templateListTarget" select="concat($targetDirNorm, 'templateList.html')"/>
   <xsl:variable name="indexTarget" select="concat($targetDirNorm, 'index.html')"/>
   
-  <xd:doc> 
+  <xd:doc>
     Root template. Creates the filelist to be documented and passes it to
     the processFiles template.
   </xd:doc>
@@ -81,14 +93,13 @@
       <xsl:with-param name="filelist" select="$filelist"/>
     </xsl:call-template>
     <!-- Build one html page of a list of all stylesheets -->
-    <xsl:result-document href="{$stylesheetListTarget}"
-      omit-xml-declaration="yes" method="html">
+    <xsl:result-document format="htmlOutput" href="{$stylesheetListTarget}">
       <xsl:call-template name="buildStylesheetList">
         <xsl:with-param name="filelist" select="$filelist"/>
       </xsl:call-template>
     </xsl:result-document>
     <!-- Build html list of all named templates and funtcions -->
-    <xsl:result-document href="{$templateListTarget}" omit-xml-declaration="yes" method="html">
+    <xsl:result-document href="{$templateListTarget}" format="htmlOutput">
       <xsl:call-template name="buildTemplateList">
         <xsl:with-param name="filelist" select="$filelist"/>
       </xsl:call-template>
@@ -104,7 +115,7 @@
     <xsl:for-each select="$filelist/file">
       <xsl:variable name="destinationPath" select="concat($targetDirNorm, @relativeUri, '.xd.html')"/>
       <!-- Output a new document for each inlude/import -->
-      <xsl:result-document href="{$destinationPath}" omit-xml-declaration="yes" method="html">
+      <xsl:result-document href="{$destinationPath}" format="htmlOutput">
         <!-- Build the html output of the actual stylesheet. This uses the templates defined in stylesheet.xsl -->
         <xsl:apply-templates select="document(@uri)/xsl:stylesheet">
           <xsl:with-param name="htmlBanner">
@@ -139,7 +150,7 @@
     <xsl:for-each select="$filelist/file">
       <xsl:variable name="destinationPath" select="concat($targetDirNorm, @relativeUri, '.src.html')"/>
       <!-- Output a new document for each inlude/import -->
-      <xsl:result-document href="{$destinationPath}" omit-xml-declaration="yes" method="html">
+      <xsl:result-document href="{$destinationPath}" format="htmlOutput">
         <!-- Build the html output for the actual stylesheet. -->
         <xsl:apply-templates select="document(@uri)" mode="xmlverbwrapper">
           <xsl:with-param name="css-stylesheet">
@@ -159,7 +170,6 @@
     <html>
       <head>
         <title>XSLTdoc - Stylesheets</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
         <link href="XSLTdoc.css" rel="stylesheet" type="text/css"/>
       </head>
       <body>
@@ -187,15 +197,14 @@
                     <td>
                       <table width="100%" border="0" cellspacing="0" cellpadding="3">
                         <tr>
-                          <td width="15%" nowrap="">
+                          <td>
                             <a href="{concat(@relativeUri, '.xd.html')}">
                               <xsl:value-of select="@relativeUri"/>
                             </a>
                           </td>
-                          <td>&#160;</td>
                         </tr>
                         <tr>
-                          <td colspan="2">
+                          <td>
                             <p class="shortDescription">
                               <xsl:call-template name="printShortDescription">
                                 <xsl:with-param name="doc" select="document(@uri)/xsl:stylesheet/xd:doc[@type='stylesheet']"/>
@@ -227,7 +236,6 @@
     <html>
       <head>
         <title>XSLTdoc - Templates / Functions</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
         <link href="XSLTdoc.css" rel="stylesheet" type="text/css"/>
       </head>
       <body>
@@ -256,7 +264,7 @@
                     <td>
                       <table width="100%" border="0" cellspacing="0" cellpadding="3">
                         <tr>
-                          <td width="15%" nowrap="">
+                          <td>
                             <a href="{concat(parent::file/@relativeUri, '.xd.html')}#{generate-id($template)}">
                               <xsl:value-of select="@name"/>
                             </a>
@@ -265,10 +273,9 @@
                               <xsl:with-param name="template" select="$template"/>
                             </xsl:call-template>
                           </td>
-                          <td>&#160;</td>
                         </tr>
                         <tr>
-                          <td colspan="2">
+                          <td>
                             <p class="shortDescription">
                               <xsl:call-template name="printShortDescription">
                                 <xsl:with-param name="doc" select="$doc"/>
@@ -305,7 +312,7 @@
                       <td>
                         <table width="100%" border="0" cellspacing="0" cellpadding="3">
                           <tr>
-                            <td width="15%" nowrap="">
+                            <td>
                               <a href="{concat($relativeUri, '.xd.html')}#{generate-id($function)}">
                                 <xsl:value-of select="@name"/>
                               </a>
@@ -314,10 +321,9 @@
                                 <xsl:with-param name="template" select="$function"/>
                               </xsl:call-template>
                             </td>
-                            <td>&#160;</td>
                           </tr>
                           <tr>
-                            <td colspan="2">
+                            <td>
                               <p class="shortDescription">
                                 <xsl:call-template name="printShortDescription">
                                   <xsl:with-param name="doc" select="$doc"/>
