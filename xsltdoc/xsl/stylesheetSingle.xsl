@@ -151,7 +151,7 @@
     <xsl:param name="doc"/>
     <xsl:choose>
       <xsl:when test="count($doc) &gt; 0">
-        <!-- xd documentation exists, find detail description -->
+        <!-- xd documentation exists, find short description -->
         <xsl:choose>
           <xsl:when test="$doc/xd:short">
             <xsl:apply-templates select="$doc/xd:short" mode="XdocTags"/>

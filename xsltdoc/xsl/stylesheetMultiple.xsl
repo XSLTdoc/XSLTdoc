@@ -245,13 +245,13 @@
               <table width="100%" border="0" cellspacing="1" cellpadding="3">
                 <tr>
                   <th>
-                    <h2>Templates/Functions</h2>
+                    <h2>Templates</h2>
                   </th>
                 </tr>
-                <xsl:for-each select="$filelist/file/template | $filelist/file/function">
+                <xsl:for-each select="$filelist/file/template">
                   <xsl:sort select="@name"/>
-                  <xsl:variable name="doc" select="document(parent::file/@uri)/xsl:stylesheet/xsl:template[@name=current()/@name]/preceding-sibling::*[1][self::xd:doc]"/>
                   <xsl:variable name="template" select="document(parent::file/@uri)/xsl:stylesheet/xsl:template[@name=current()/@name]"/>
+                  <xsl:variable name="doc" select="$template/preceding-sibling::*[1][self::xd:doc]"/>
                   <tr>
                     <td>
                       <table width="100%" border="0" cellspacing="0" cellpadding="3">
@@ -284,6 +284,56 @@
             </td>
           </tr>
         </table>
+        <p>&#160;</p>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="reticuleColor">
+              <table width="100%" border="0" cellspacing="1" cellpadding="3">
+                <tr>
+                  <th>
+                    <h2>Functions</h2>
+                  </th>
+                </tr>
+                <xsl:for-each select="$filelist/file/function">
+                  <xsl:sort select="@name"/>
+                  <xsl:variable name="functions" select="document(parent::file/@uri)/xsl:stylesheet/xsl:function[@name=current()/@name]"/>
+                  <xsl:variable name="relativeUri" select="parent::file/@relativeUri"/>
+                  <xsl:for-each select="$functions">
+                    <xsl:variable name="function" select="."/>
+                    <xsl:variable name="doc" select="$function/preceding-sibling::*[1][self::xd:doc]"/>
+                    <tr>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                          <tr>
+                            <td width="15%" nowrap="">
+                              <a href="{concat($relativeUri, '.xd.html')}#{generate-id($function)}">
+                                <xsl:value-of select="@name"/>
+                              </a>
+                              <xsl:call-template name="printTemplateDeclaration">
+                                <xsl:with-param name="doc" select="$doc"/>
+                                <xsl:with-param name="template" select="$function"/>
+                              </xsl:call-template>
+                            </td>
+                            <td>&#160;</td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">
+                              <p class="shortDescription">
+                                <xsl:call-template name="printShortDescription">
+                                  <xsl:with-param name="doc" select="$doc"/>
+                                </xsl:call-template>
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </xsl:for-each>
+                </xsl:for-each>
+              </table>
+            </td>
+          </tr>
+        </table>
         <hr size="1"/>
         <xsl:text>Powered by </xsl:text>
         <a target="_blank" href="http://www.pnp-software.com/XSLTdoc/index.html">XSLTdoc</a>
@@ -302,8 +352,11 @@
     <xsl:variable name="filename" select="util:getFile($normalizedUri)"/>
     <xsl:variable name="relativeUri" select="util:getRelativeUri($rootSourceFolder, util:getFolder($normalizedUri))"/>
     <file uri="{$normalizedUri}" folder="{$folder}" filename="{$filename}" relativeUri="{concat($relativeUri,$filename)}">
-      <xsl:for-each select="document($normalizedUri)/xsl:stylesheet/xsl:template[@name] | document($normalizedUri)/xsl:stylesheet/xsl:function">
+      <xsl:for-each select="document($normalizedUri)/xsl:stylesheet/xsl:template[@name]">
         <template name="{@name}"/>
+      </xsl:for-each>
+      <xsl:for-each select="document($normalizedUri)/xsl:stylesheet/xsl:function">
+        <function name="{@name}"/>
       </xsl:for-each>
     </file>
     <xsl:for-each select="document($normalizedUri)/xsl:stylesheet/xsl:include | document($normalizedUri)/xsl:stylesheet/xsl:import">
