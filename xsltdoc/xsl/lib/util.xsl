@@ -94,7 +94,7 @@
   	</xd:short>
     <xd:detail>
     	Otherwise the uri is left unchanged. 
-    	The result is normalized with <see type="templates">normalizeUri</see>
+    	The result is normalized with <xd:see type="templates">normalizeUri</xd:see>
     </xd:detail>
     <xd:param name="uri">An uri that points to a folder.</xd:param>
   </xd:doc>
@@ -182,6 +182,20 @@
   <xsl:function name="util:fileSuffixToHtml">
     <xsl:param name="fileUri"/>
     <xsl:sequence select="concat(substring-before( $fileUri, '.xml' ),'.html')"/>
+  </xsl:function>
+  
+  <xd:doc>
+    Appends an element to another element.
+  </xd:doc>
+  <xsl:function name="util:appendElement" as="element()">
+    <xsl:param name="container" as="element()"/>
+    <xsl:param name="element" as="element()"/>
+    
+    <xsl:element name="{node-name($container)}">
+      <xsl:copy-of select="$container/@*"/>
+      <xsl:copy-of select="$container/*"/>
+      <xsl:copy-of select="$element"/>
+    </xsl:element>
   </xsl:function>
   
   <xd:doc>

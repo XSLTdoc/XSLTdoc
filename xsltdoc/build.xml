@@ -13,30 +13,41 @@
         <filename name="*.css" />
       </fileset>
     </copy>
-    <xslt force="true" style="xsl/xsltdoc.xsl" in="xsl/XSLTdocConfig.xml" out="doc/log.txt">
-      <!-- The target directory must be given relative to stylesheet  -->
+    <xslt force="true" style="xsl/xsltdoc.xsl" in="xsl/XSLTdocConfig.xml" out="doc/log.xml">
       <classpath refid="classpath" />
     </xslt>
-  	<delete dir="doc/log.txt"/>
+  </target>
+
+  <target name="xsltdoc1">
+    <delete dir="doc" />
+    <copy todir="doc">
+      <fileset dir="css">
+        <filename name="*.css" />
+      </fileset>
+    </copy>
+    <xslt force="true" style="xsl/xsltdoc.xsl" in="xsl/xsltdoc.xsl" out="doc/log.xml">
+      <param name="targetDir" expression="../doc" />
+      <classpath refid="classpath" />
+    </xslt>
   </target>
 
   <target name="dist" depends="xsltdoc">
     <!-- Delete old zip files -->
-    <delete file="XSLTdoc.zip"/>
+    <delete file="XSLTdoc.zip" />
 
     <property name="destfile" value="XSLTdoc.zip" />
     <zip destfile="${destfile}">
       <fileset dir=".">
         <!-- root -->
-        <include name="build.xml"/>
-        
+        <include name="build.xml" />
+
         <!-- documentation -->
         <include name="doc/**/*.html" />
         <include name="doc/**/*.css" />
-        
+
         <!-- css -->
         <include name="css/*.css" />
-        
+
         <!-- lib -->
         <include name="lib/*.jar" />
 
@@ -53,6 +64,7 @@
     </zip>
   </target>
   <target name="testUtil">
-  	<xslt style="xsl/test/utilTest.xsl" in="xsl/test/dummy.xml" out="xsl/test/testResult.txt"></xslt>
+    <xslt style="xsl/test/utilTest.xsl" in="xsl/test/dummy.xml" out="xsl/test/testResult.txt">
+    </xslt>
   </target>
 </project>

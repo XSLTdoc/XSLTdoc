@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XSLTdocConfig>
-  <Title>XSLTdoc Stylesheet Documentation Tool</Title>
-  <Endocing>UTF-8</Endocing>
+  <Title>XSLTdoc</Title>
   <Introduction>
     <p>
       XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0, 1.1, 2.0). It defines
@@ -77,7 +76,7 @@
       configuration file which inlcudes all the information needed for the generation process.
       The configuration file is a simple XML file. Use the template below as a starting 
       point for your own configuration file. All elements are mandatory.</p>
-    <pre class="fragment"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+    <div class="source"><pre><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <XSLTdocConfig>
   <Title>The title used on the main page</Title>
   <Introduction>
@@ -109,18 +108,18 @@
   <RootStylesheets>
     <File href="xsltdoc.xsl"/>
     <File href="test.xsl"/>
-  </RootStylesheets>]]></pre>
+  </RootStylesheets>]]></pre></div>
     <p>
     To start the generation process use the configuration file 
     as the input for the xsltdoc.xsl program. 
     The command using Saxon 8 XSLT processor looks like this (while being in the XSLTdoc installation folder):</p>
-    <pre class="fragment"><![CDATA[java -jar lib/saxon8.jar <configuration file> xsl/xsltdoc.xsl]]></pre>
+    <div class="source"><pre><![CDATA[java -jar lib/saxon8.jar <configuration file> xsl/xsltdoc.xsl]]></pre></div>
     <p>Fonts, colors and layout of the HTML documentation are defined in two CSS
       files which can be found in the CSS folder of the installation. Copy both
       files to the folder where the documentation was generated. With ant this
       step can easily be automated. See the build.xml ant-file that is used to
       generate the documentation for XSLTdoc as an example:</p>
-    <pre class="fragment"><![CDATA[<?xml version="1.0" standalone="yes" ?>
+    <div class="source"><pre><![CDATA[<?xml version="1.0" standalone="yes" ?>
 <project name="XSLTdoc" default="xsltdoc" basedir=".">
   <description>Ant Build file for the XSLTdoc program</description>
 
@@ -142,13 +141,13 @@
     </xslt>
   	<delete dir="doc/log.txt"/>
   </target>
-</project>]]></pre>
+</project>]]></pre></div>
     <p>If you simply want to create a documentation without writing a config
       file you can use the <code>stylesheetsMultiple.xsl</code> program. The input
       is a stylesheet file and a targetDir parameter for the XSLT processor.
       With Saxon 8 the command to create the XSLTdoc documentation looks like
       this (while being in the XSLTdoc installation folder):</p>
-    <pre class="fragment"><![CDATA[java -jar lib/saxon8.jar <XSLT file> xsl\stylesheetMultiple.xsl targetDir=<Destination direcory>]]></pre>
+    <div class="source"><pre><![CDATA[java -jar lib/saxon8.jar <XSLT file> xsl\stylesheetMultiple.xsl targetDir=<Destination direcory>]]></pre></div>
     
     <h2><a name="DocumentingTheCode">Documenting the code</a></h2>
     <p>Documentation elements are written in XML. Because XSLT is expressed in
@@ -157,56 +156,56 @@
       URI for this namespace is
       <code>http://www.pnp-software.com/XSLTdoc</code>. This namespace must be
       declared in any stylesheet which uses XSLTdoc for documenting. Example:</p>
-    <pre class="fragment"><![CDATA[<xsl: xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    <div class="source"><pre><![CDATA[<xsl: xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                xmlns:xdoc="http://www.pnp-software.com/XSLTdoc" version="2.0">
   ...
-<xsl:stylesheet>]]></pre>
+<xsl:stylesheet>]]></pre></div>
     <p>The documentation is normally added before the source element that should
       be documented. Generally this looks like this (with the XSLTdoc namespace
       mapped to <code>xd</code>):</p>
-    <pre class="fragment"><![CDATA[<xd:doc>
+    <div class="source"><pre><![CDATA[<xd:doc>
   ...
 </xd:doc>
-<xsl:...>]]></pre>
+<xsl:...>]]></pre></div>
     <p>The only exception to this is documentation for the stylesheet itself. It
       must be a child element of the stylesheet element and be declared as is
       with the type attribute of the <code>xd:doc</code> element.</p>
-    <pre class="fragment"><![CDATA[<xsl: xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    <div class="source"><pre><![CDATA[<xsl: xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                xmlns:xdoc="http://www.pnp-software.com/XSLTdoc" version="2.0">
   <xd:doc type="stylesheet">
     ...
   <xd:doc/>
   ...
-<xsl:stylesheet>]]></pre>
+<xsl:stylesheet>]]></pre></div>
     <p>Any XSLTdoc documentation is enclosed in a <code>xd:doc</code> element.
       The possible sub elements depend on the XSLT element which should be
       described. If you just want to write a plain comment for a XSLT element
       the <code>xd:doc</code> element can contain simple text. Text before the
       first period is considered as short description, the remaining as detailed description:</p>
-    <pre class="fragment"><![CDATA[<xd:doc>
+    <div class="source"><pre><![CDATA[<xd:doc>
   This is the short description. And here comes a more detailed 
   description showed only in the detailed view of the documentation.
 </xd:doc>
-<xsl:...>]]></pre>
+<xsl:...>]]></pre></div>
     <p>No HTML elements are allowed in the text. If you want to use HTML tags
       within short and detailed description the text needs to enclosed in
       special XSLTdoc tags:</p>
-    <pre class="fragment"><![CDATA[<xd:doc>
+    <div class="source"><pre><![CDATA[<xd:doc>
   <xd:short>This is the short description with <code>HTML tags</code>.</xd:short>
   <xd:detail>
     And here comes a <b>more detailed</b> 
     description showed only in the detailed view of the documentation.
   <xd:detail>
 </xd:doc>
-<xsl:...>]]></pre>
+<xsl:...>]]></pre></div>
     <p>The parameter of a template or a function can be described with a
       <code>xd:param</code> element. The name attribute is obligatory for
       templates and functions while the type attribute is only possible for
       template definitions.</p>
-    <pre class="fragment"><![CDATA[<xdoc:doc>
+    <div class="source"><pre><![CDATA[<xdoc:doc>
   A template with a parameter of the type string.
   <xdoc:param type="string">The string to be processed.</xdoc:param>
-</xdoc:doc>]]></pre>
+</xdoc:doc>]]></pre></div>
     <p>The elements listed below can only be used in a stylesheet documentation
       (type=stylesheet) element.</p>
     <ul>
@@ -252,10 +251,9 @@
   </Introduction>
   <!-- Target directory. Absolute or relative to this file -->
   <TargetDirectory path="../doc"/>
-  <!-- The source root folder. Abslute or relative to this file -->
-  <SourceDirectory path="./"/>
+
   <!-- The stylesheets to document -->
-  <RootStylesheets>
+  <RootStylesheets dir="./">
     <!-- This stylesheet inlcudes or imports all others -->
     <File href="xsltdoc.xsl"/>
   </RootStylesheets>
