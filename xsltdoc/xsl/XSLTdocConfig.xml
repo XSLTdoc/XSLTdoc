@@ -20,6 +20,10 @@
     <p>
       <a href="http://sourceforge.net/projects/xsltdoc/">Project Page</a> on sourceforge.
     </p>
+    <p>
+      Please report bugs by using the <a href="http://control.ee.ethz.ch/~ceg/mantis">bug tracking tool</a> (Choose XSLTdoc in the upper right corner).
+      <br />Of course we are also reachable by <a href="mailto:birrer@pnp-software.com">email</a>.
+    </p>
     <h2>Table of Contents</h2>
     <ul>
       <li>
