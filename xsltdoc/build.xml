@@ -32,11 +32,16 @@
   </target>
 
   <target name="dist" depends="xsltdoc">
+    <property name="version" value="0.9">
+    </property>
     <!-- Delete old zip files -->
-    <delete file="XSLTdoc.zip" />
+    <delete file="XSLTdoc_${version}.zip" />
 
-    <property name="destfile" value="XSLTdoc.zip" />
-    <zip destfile="${destfile}">
+    <delete dir="XSLTdoc_${version}" />
+    <mkdir dir="XSLTdoc_${version}" />
+
+    
+    <copy todir="XSLTdoc_${version}">
       <fileset dir=".">
         <!-- root -->
         <include name="build.xml" />
@@ -59,7 +64,13 @@
         <exclude name="**/CVS" />
         <exclude name="webUpdate.xml" />
         <exclude name="**/.cvsignore" />
-        <exclude name="XSLTdoc.zip" />
+        <exclude name="XSLTdoc_${version}.zip" />
+      </fileset>
+    </copy>
+    
+    <zip destfile="XSLTdoc_${version}.zip">
+      <fileset dir="XSLTdoc_${version}">
+        <include name="**/*"/>
       </fileset>
     </zip>
   </target>
