@@ -21,7 +21,6 @@
       Any html tags can be used to write this documentation. 
     </xd:detail>
   </xd:doc>
-  
   <!-- Output definition for generated html files -->
   <xsl:output name="htmlOutput"
               omit-xml-declaration="no"

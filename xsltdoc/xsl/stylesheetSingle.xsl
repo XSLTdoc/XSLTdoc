@@ -233,7 +233,6 @@
     need no conversion(html tags) are copied to the result tree.
   </xd:doc>
   <xsl:template match="*" mode="XdocTags">
-    <xsl:message><xsl:value-of select="string-join(namespace::*, ', ')"></xsl:value-of></xsl:message>
     <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="*" mode="XdocTags"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XSLTdocConfig>
   <Title>XSLTdoc Stylesheet Documentation Tool</Title>
+  <Endocing>UTF-8</Endocing>
   <Introduction>
     <p>
       XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0, 1.1, 2.0). It defines
