@@ -49,10 +49,13 @@
         <!-- documentation -->
         <include name="doc/**/*.html" />
         <include name="doc/**/*.css" />
-
+        
         <!-- css -->
         <include name="css/*.css" />
-
+        
+        <!-- htmlTemplates -->
+        <include name="**/*.html"/>
+        
         <!-- lib -->
         <include name="lib/*.jar" />
 
