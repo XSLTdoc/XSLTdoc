@@ -3,8 +3,7 @@
   xmlns:xd="http://www.pnp-software.com/XSLTdoc"
   xmlns:util="http://www.pnp-software.com/util"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  version="2.0"
-  exclude-result-prefixes="xd xsl util xs">
+  version="2.0">
   <xd:doc type="stylesheet">
     Utility functions used by other stylesheets.
     <xd:author>ibirrer</xd:author>
@@ -58,12 +57,16 @@
   <xsl:function name="util:pathToUri">
     <xsl:param name="path" as="xs:string"/>
     <xsl:variable name="pathTmp" select="replace($path, '\\', '/')"/>
-    <xsl:sequence select="if(contains($pathTmp, 'file:/'))
-                          then $pathTmp
+    <xsl:sequence select="if(contains($pathTmp, 'file:/')) then 
+                            $pathTmp
                           else
-                            if( util:isAbsolutePath($pathTmp) )
-                            then concat('file:/', $pathTmp)
-                            else $pathTmp">
+                            if( util:isAbsolutePath($pathTmp) ) then
+                              if (starts-with($pathTmp, '/')) then
+                                concat('file:', $pathTmp)
+                              else 
+                                concat('file:/', $pathTmp)
+                            else 
+                              $pathTmp">
     </xsl:sequence>
   </xsl:function>
   
@@ -75,6 +78,9 @@
     <xsl:sequence select="replace($uri, '///', '/')"/>
   </xsl:function>
   
+  <xd:doc>
+    Tests if a the given path describes an absolute path.
+  </xd:doc>
   <xsl:function name="util:isAbsolutePath" as="xs:boolean">
     <xsl:param name="path" as="xs:string"/>
     <xsl:sequence select="if( starts-with( $path,'/' ) or contains( $path, ':') )
@@ -168,6 +174,14 @@
         <xsl:value-of select="replace($text, $regExpr, '$2', 's')"/>
       </xsl:when>
     </xsl:choose>
+  </xsl:function>
+  
+  <xd:doc>
+  
+  </xd:doc>
+  <xsl:function name="util:fileSuffixToHtml">
+    <xsl:param name="fileUri"/>
+    <xsl:sequence select="concat(substring-before( $fileUri, '.xml' ),'.html')"/>
   </xsl:function>
   
   <xd:doc>
