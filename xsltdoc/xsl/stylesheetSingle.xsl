@@ -235,7 +235,7 @@
   <xsl:template match="*" mode="XdocTags">
     <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@*"/>
-      <xsl:apply-templates select="*" mode="XdocTags"/>
+      <xsl:apply-templates mode="XdocTags"/>
     </xsl:copy>
   </xsl:template>
   
