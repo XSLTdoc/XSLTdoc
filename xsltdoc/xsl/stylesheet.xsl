@@ -43,7 +43,7 @@
   </xd:doc>
   <xsl:template name="extractShortDescription">
     <xsl:param name="doc"/>
-    <xsl:variable name="shortDesc" select="substring-before(string($doc/text()),'.')"/>
+    <xsl:variable name="shortDesc" select="substring-before(string-join($doc/text(),''),'.')"/>
     <xsl:choose>
       <xsl:when test="string-length($shortDesc) &lt;= 0">
         <xsl:value-of select="$doc/text()"/>
@@ -64,7 +64,7 @@
   </xd:doc>
   <xsl:template name="extractDetailDescription">
     <xsl:param name="doc" as="element()"/>
-    <xsl:variable name="detailDesc" select="substring-after(string($doc/text()),'.')"/>
+    <xsl:variable name="detailDesc" select="substring-after(string-join($doc/text(),''),'.')"/>
     <xsl:choose>
       <xsl:when test="string-length($detailDesc) &lt;= 0">
         <xsl:text>&#160;</xsl:text>
