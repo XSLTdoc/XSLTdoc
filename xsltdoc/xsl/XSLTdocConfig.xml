@@ -3,15 +3,16 @@
   <Title>XSLTdoc Stylesheet Documentation Tool</Title>
   <Introduction>
     <p>
-      XSLTdoc is a Javadoc-like tool for all version of XSLT (1.0, 1.1, 2.0). It defines
+      XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0, 1.1, 2.0). It defines
       conventions to document &quot;code elements&quot; directly in the source code. These
       &quot;documentation elements&quot; are then extracted by the XSLTdoc
       tool to build a documentation consisting of several linked HTML pages
       which provide easy browsing through the documentation. The
-      XSLT source code is available with syntay highlighting.
+      XSLT source code is available with syntax highlighting.
     </p>
+    XSLTdoc was developed in a project funded by the European Space Agency under contract 18664/04/NL/LvH.
     <p>
-      XSLTdoc the is written in XSLT 2.0 and is documented with XSLTdoc (This page).
+      XSLTdoc is written in XSLT 2.0 and is documented with XSLTdoc (This page). It is freely available on a GPL licence.
     </p>
     <p>
       <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=124907&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>    
