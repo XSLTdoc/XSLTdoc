@@ -6,6 +6,9 @@
                 version="2.0">
   <xd:doc type="stylesheet">
     Stylesheet for xd:author property.
+    <xd:author>ibirrer</xd:author>
+    <xd:cvsId>$Id$</xd:cvsId>
+    <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
                
   <xd:doc>Prints the xd:author property.</xd:doc>

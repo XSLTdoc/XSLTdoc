@@ -7,6 +7,7 @@
   <xd:doc type="stylesheet">
     Utility functions used by other stylesheets.
     <xd:author>ibirrer</xd:author>
+    <xd:cvsId>$Id$</xd:cvsId>
     <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
   <!-- ********************************************************************** -->

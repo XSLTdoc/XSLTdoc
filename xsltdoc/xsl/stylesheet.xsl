@@ -15,6 +15,7 @@
       That means that any literal element is of this namespace if not specified specificely!
     </xd:detail>
     <xd:author>ibirrer</xd:author>
+    <xd:cvsId>$Id$</xd:cvsId>
     <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
 
@@ -82,7 +83,7 @@
     </xd:detail>
   </xd:doc>
   <xsl:template match="xsl:function | xsl:template | xsl:stylesheet" mode="printDetailDescription">
-    <xsl:variable name="doc" select="xd:getDoc(.)" as="element()*"/>
+    <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     
       <xsl:choose>
         <xsl:when test="count($doc) != 0">
@@ -116,7 +117,7 @@
     <xd:short>Prints the properties of a xd:doc element.</xd:short>
   </xd:doc>
   <xsl:template match="xsl:function | xsl:template | xsl:stylesheet" mode="printProperties">
-    <xsl:variable name="doc" select="xd:getDoc(.)" as="element()*"/>
+    <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <xsl:variable name="htmlResult">
       <!-- Simple properties -->
       <xsl:apply-templates select="$doc/*" mode="printProperty"/>
@@ -166,7 +167,7 @@
     </xd:detail>
   </xd:doc>
   <xsl:template match="*" mode="printShortDescription">
-    <xsl:variable name="doc" select="xd:getDoc(.)" as="element()*"/>
+    <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <div class="shortDescr">
       <xsl:choose>
         <xsl:when test="count($doc) != 0">
@@ -188,24 +189,26 @@
   </xsl:template>
   
   <xd:doc>
-    <xd:short>Return the xd:doc node of an element.</xd:short>
-    <xd:detail>The element can be one of the following:
+    <xd:short>Returns the xd:doc node of an element.</xd:short>
+    <xd:detail></xd:detail>
+    <xd:param name="element">
+      The element can be one of the following:
       <ul>
         <li>xsl:stylesheet</li>
         <li>xsl:template</li>
         <li>xsl:function</li>
       </ul>
       Returns the empty sequence if no xd:doc element was found for the given element.
-    </xd:detail>
+    </xd:param>
   </xd:doc>
-  <xsl:function name="xd:getDoc" as="element()*">
-    <xsl:param name="element" as="element()"/>
+  <xsl:function name="xd:getDoc" as="element(xd:doc)?">
+    <xsl:param name="element" as="element(*)"/>
     <xsl:choose>
       <xsl:when test="$element[self::xsl:stylesheet]">
         <xsl:sequence select="$element/xd:doc[@type='stylesheet']"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:sequence select="$element/preceding-sibling::*[1][self::xd:doc and not(@type)]"/>
+        <xsl:sequence select="$element/preceding-sibling::*[1][self::xd:doc and (@type != 'stylesheet' or not(@type)) ]"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
@@ -217,14 +220,17 @@
   <xsl:template match="xsl:function | xsl:template | xsl:param" mode="printDeclaration">
     <xsl:param name="link" select="false()"/>
     <xsl:param name="verbatimUriRel" select="false()"/>
-    <xsl:variable name="doc" select="xd:getDoc(.)" as="element()*"/>
+    <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <xsl:variable name="verbatimLink" select="if( $verbatimUriRel ) then concat( $verbatimUriRel,'#',  generate-id(if ($doc) then $doc else .)) else concat(util:getFile(base-uri(.)),'.src.html#',generate-id(if ($doc) then $doc else .))"/>
     
     <xsl:variable name="name" select="if ( @match ) then @match else @name"/>
     <div class="declaration">
       <!-- Declaration type -->
       <xsl:choose>
-        <xsl:when test="@as">
+        <xsl:when test="$doc/@type">
+          <span class="paramType"><xsl:value-of select="$doc/@type"/>&#160;</span>
+        </xsl:when>
+        <xsl:when test="@as and not($doc/@type)">
           <span class="paramType"><xsl:value-of select="@as"/>&#160;</span>
         </xsl:when>
       </xsl:choose>
@@ -262,7 +268,9 @@
     </div>
   </xsl:template>
   
-  
+  <xd:doc>
+    
+  </xd:doc>
   <xsl:function name="xd:printParamDeclaration">
     <xsl:param name="param"/>
     <xsl:param name="doc"/>

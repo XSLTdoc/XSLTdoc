@@ -11,7 +11,9 @@
   <xsl:include href="verbatim/xmlverbatimwrapper.xsl"/>
   <xsl:include href="lib/util.xsl"/>
   
-  <xd:doc>Target directory for the documentation</xd:doc>
+  <xd:doc type="string">
+    Optional attribute.
+  </xd:doc>
   <xsl:param name="targetDir" select="false()"/>
   
   <xd:doc type="stylesheet">
@@ -20,6 +22,7 @@
      This stylesheet
     </xd:detail>
     <xd:author>ibirrer</xd:author>
+    <xd:cvsId>$Id$</xd:cvsId>
     <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
   
@@ -152,7 +155,7 @@
     </xsl:copy>
   </xsl:template>
   
-  <xd:doc>
+  <xd:doc type="void">
     Generates each page given in the config parameter.
   </xd:doc>
   <xsl:template name="generatePages">
