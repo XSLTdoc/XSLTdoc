@@ -1,0 +1,128 @@
+body {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	background: white;
+	color: black;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+h1 {
+	text-align:left;
+}
+h2 {
+	margin-bottom: 0;
+}
+
+h3 {
+	font-size:  medium;
+	font-weight: normal;
+}
+.parameterName, .parameterType, .parameterValue { font-family:"Courier New", Courier, mono; font-weight:normal }
+.parameter { margin-left: 20px; margin-bottom: 0px; margin-top: 0px; }
+.form { font-size: smaller; font-weight:bold }
+.detailAttribute { font-style:italic }
+.detailDeclaration { font-weight: bold }
+.detailAttrDesc {
+	margin-left: 20px;
+	margin-top: 0px;
+}
+.detailBlock {
+	margin-left: 20px;
+}
+
+ul {
+	list-style-type: square;
+}
+
+td { background-color: #FFFFFF }
+th { background-color: #EEEEFF; text-align: left }
+.reticuleColor { background-color:#333399}
+
+td.underlined { 
+	border-bottom-width: 1px;
+	border-bottom-style: solid; 
+	border-bottom-color: #D2D2D2;
+	}
+p.shortDescription {
+	margin-bottom: 0px;
+	margin-left: 20px;
+}
+
+a:link { text-decoration: none; color: #252E78; font-weight: bold }
+a:visited {	text-decoration: none; 	color: #3D2185; font-weight: bold }
+a:hover { text-decoration: none; background-color: #f2f2ff; font-weight: bold }
+a:active { text-decoration: none; background-color: #f2f2ff; font-weight: bold }
+
+a.fileLink:link {
+	text-decoration: none;
+	font-weight: normal;
+	font-family: "Courier New", Courier, mono;
+}
+a.fileLink:visited {
+	text-decoration: none;
+	font-weight: normal;
+	font-family: "Courier New", Courier, mono;
+}
+a.fileLink:hover {
+	text-decoration: none;
+	font-weight: normal;
+	font-family: "Courier New", Courier, mono;
+}
+a.fileLink:active {
+	text-decoration: none;
+	font-weight: normal;
+	font-family: "Courier New", Courier, mono;
+}
+
+
+
+pre.fragment {
+	border: 1px solid #CCCCCC;
+	background-color: #f5f5f5;
+	margin-top: 10px;
+	margin-bottom: 4px;
+	margin-left: 10px;
+	margin-right: 20px;
+	
+	padding-left: 6px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+div.qindex {
+	width: 100%;
+	background-color: #eeeeff;
+	border: 1px solid #b0b0b0;
+	text-align: center;
+	margin: 2px;
+	padding: 2px;
+	line-height: 140%;
+}
+
+A.qindex {
+       text-decoration: none;
+       font-weight: bold;
+       color: #1A419D;
+}
+A.qindex:visited {
+       text-decoration: none;
+       font-weight: bold;
+       color: #1A419D
+}
+A.qindex:hover {
+	text-decoration: none;
+	background-color: #ddddff;
+}
+A.qindexHL {
+	text-decoration: none;
+	font-weight: bold;
+	background-color: #6666cc;
+	color: #ffffff;
+	border: 1px double #9295C2;
+}
+A.qindexHL:hover {
+	text-decoration: none;
+	background-color: #6666cc;
+	color: #ffffff;
+}
+A.qindexHL:visited { text-decoration: none; background-color: #6666cc; color: #ffffff }
