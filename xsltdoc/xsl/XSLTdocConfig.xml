@@ -28,6 +28,9 @@
     <h2>Table of Contents</h2>
     <ul>
       <li>
+        <a href="#News">News</a>
+      </li>
+      <li>
         <a href="#Features">Features</a>
       </li>
       <li>
@@ -45,6 +48,11 @@
       <li>
         <a href="#CopyrightAndLicence">Copyright And License</a>
       </li>
+    </ul>
+    <a name="News"/>
+    <h2>News</h2>
+    <ul>
+      <li>December 20, 2004: Released Version 1.0.1</li>
     </ul>
     <a name="Features"/>
     <h2>Features</h2>
