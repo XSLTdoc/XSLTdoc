@@ -22,6 +22,9 @@
     <h2>Table of Contents</h2>
     <ul>
       <li>
+        <a href="#Features">Features</a>
+      </li>
+      <li>
         <a href="#InstallingXSLTdoc">Installing XSLTdoc</a>
       </li>
       <li>
@@ -36,6 +39,16 @@
       <li>
         <a href="#CopyrightAndLicence">Copyright And License</a>
       </li>
+    </ul>
+    <a name="Features"/>
+    <h2>Features</h2>
+    <ul>
+      <li>Documentation is embedded in the XSL program</li>
+      <li>Documenting of XSLT 2.0 functions</li>
+      <li>Syntax highlighted source code browsing</li>
+      <li>Generates documentation for included and imported stylesheets</li>
+      <li>Open source under GPL license</li>
+      <li>Written in XSLT</li>
     </ul>
     <a name="InstallingXSLTdoc"/>
     <h2>Installing XSLTdoc</h2>
