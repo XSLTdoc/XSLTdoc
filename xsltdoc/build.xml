@@ -32,7 +32,7 @@
   </target>
 
   <target name="dist" depends="xsltdoc">
-    <property name="version" value="0.9">
+    <property name="version" value="1.1">
     </property>
     <!-- Delete old zip files -->
     <delete file="XSLTdoc_${version}.zip" />
