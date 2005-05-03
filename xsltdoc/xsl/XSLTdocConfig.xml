@@ -173,7 +173,7 @@
       <code>http://www.pnp-software.com/XSLTdoc</code>. This namespace must be
       declared in any stylesheet which uses XSLTdoc for documenting. Example:</p>
     <div class="source"><pre><![CDATA[<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xdoc="http://www.pnp-software.com/XSLTdoc" version="2.0">
+                xmlns:xd="http://www.pnp-software.com/XSLTdoc" version="2.0">
   ...
 <xsl:stylesheet>]]></pre></div>
 	<h3>General documenting rules</h3>
@@ -225,9 +225,9 @@
       to define its type:</p>
       <div class="source"><pre><![CDATA[<xsl:stylesheet ...>
 ...
-  <xdoc:doc type="string">
+  <xd:doc type="string">
     A Stylesheet parameter of type string.
-  </xdoc:doc>
+  </xd:doc>
   <xsl:param name="outputDir"/>
   ...
 </xsl:stylesheet>]]></pre></div>
@@ -236,10 +236,10 @@
       <code>xd:param</code> element. The name attribute is obligatory for
       templates and functions while the type attribute is optional for
       template definitions.</p>
-    <div class="source"><pre><![CDATA[<xdoc:doc>
+    <div class="source"><pre><![CDATA[<xd:doc>
   A template with a parameter of the type string.
-  <xdoc:param type="string">The string to be processed.</xdoc:param>
-</xdoc:doc>]]></pre></div>
+  <xd:param type="string">The string to be processed.</xd:param>
+</xd:doc>]]></pre></div>
     
 
     
