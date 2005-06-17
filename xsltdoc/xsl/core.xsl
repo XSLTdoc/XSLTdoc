@@ -57,8 +57,8 @@
   </xd:doc>
   <xsl:template match="/xsl:stylesheet">
     <xsl:param name="config" tunnel="yes" as="element()"/>
-    <xsl:variable name="targetDirUriAbs" select="util:normalizeFolder(resolve-uri(if( $targetDir ) then $targetDir else concat(util:getFolder(base-uri(/)), 'xsltdoc/'), base-uri(/) ))"/>
-    <xsl:variable name="sourceRootUriAbs" as="xs:string" select="util:getFolder(base-uri(/))"/>
+    <xsl:variable name="targetDirUriAbs" select="util:normalizeFolder(resolve-uri(if( $targetDir ) then $targetDir else concat(util:getFolder(xs:string(base-uri(/))), 'xsltdoc/'), xs:string(base-uri(/)) ))"/>
+    <xsl:variable name="sourceRootUriAbs" as="xs:string" select="util:getFolder(xs:string(base-uri(/)))"/>
     <xsl:message>Generate documentation in: <xsl:value-of select="$targetDirUriAbs"/></xsl:message>
     <xsl:variable name="tmpConfig" as="element()">
       <xsl:element name="{node-name($config)}">
@@ -77,7 +77,7 @@
     <xsl:variable name="stylesheetList" as="element()*">
       <pagelist id="stylesheets">
         <xsl:call-template name="buildStylesheetPagelist">
-          <xsl:with-param name="stylesheetUri" select="base-uri(/)"/>
+          <xsl:with-param name="stylesheetUri" select="xs:string(base-uri(/))"/>
           <xsl:with-param name="rootUri" select="$sourceRootUriAbs"/>
           <xsl:with-param name="targetUri" select="$targetDirUriAbs"></xsl:with-param>
         </xsl:call-template>
@@ -91,19 +91,19 @@
   </xsl:template>
 
   <xd:doc> 
-    Root template if XSLTdoConfig file is used
+    Root template if XSLTdocConfig file is used
   </xd:doc>
   <xsl:template match="/XSLTdocConfig">
     <xsl:param name="config" tunnel="yes" as="element()"/>
-    <xsl:variable name="targetDirUriAbs" select="resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/TargetDirectory/@path)), base-uri(/) )"/>
+    <xsl:variable name="targetDirUriAbs" select="xs:string(resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/TargetDirectory/@path)), xs:string(base-uri(/)) ))"/>
     <xsl:variable name="sourceRootUriAbs" as="xs:string">
       <!-- Backwards compatibility to old config files. -->
       <xsl:choose>
         <xsl:when test="/XSLTdocConfig/SourceDirectory">
-          <xsl:sequence select="resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/SourceDirectory/@path)), base-uri(/))"/>
+          <xsl:sequence select="xs:string(resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/SourceDirectory/@path)), xs:string(base-uri(/))))"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:sequence select="resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/RootStylesheets/@dir)), base-uri(/))"/>
+          <xsl:sequence select="xs:string(resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/RootStylesheets/@dir)), xs:string(base-uri(/))))"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -136,7 +136,7 @@
     <xsl:variable name="stylesheetList" as="element()*">
       <xsl:for-each select="RootStylesheets/File">
         <xsl:call-template name="buildStylesheetPagelist">
-          <xsl:with-param name="stylesheetUri" select="resolve-uri(@href, $sourceRootUriAbs)"/>
+          <xsl:with-param name="stylesheetUri" select="xs:string(resolve-uri(@href, $sourceRootUriAbs))"/>
           <xsl:with-param name="rootUri" select="$sourceRootUriAbs"/>
           <xsl:with-param name="targetUri" select="$targetDirUriAbs"></xsl:with-param>
         </xsl:call-template>
@@ -171,7 +171,7 @@
       <xsl:copy-of select="@*"/>
       <xsl:if test="@id">
         <xsl:attribute name="uriAbs">
-          <xsl:value-of select="resolve-uri( if( @targetFilename ) then @targetFilename else concat(@id, '.html'), ancestor::config/targetDirUriAbs/@href )"/>
+          <xsl:value-of select="xs:string(resolve-uri( if( @targetFilename ) then @targetFilename else concat(@id, '.html'), ancestor::config/targetDirUriAbs/@href ))"/>
         </xsl:attribute>
         <xsl:attribute name="uriRel">
           <xsl:value-of select="if( @targetFilename ) then @targetFilename else concat(@id, '.html')"/>
@@ -428,7 +428,7 @@
     <xd:param name="rootUri">The root directory to which relative paths should be built to.</xd:param>
   </xd:doc>
   <xsl:template name="buildStylesheetPagelist" as="element()*">
-    <xsl:param name="stylesheetUri" select="base-uri(.)" as="xs:string"/>
+    <xsl:param name="stylesheetUri" select="xs:string(base-uri(.))" as="xs:string"/>
     <xsl:param name="rootUri" as="xs:string"/>
     <xsl:param name="targetUri" as="xs:string"/>
     <xsl:variable name="srcUriAbs" select="util:normalizeUri($stylesheetUri)"/>
@@ -454,7 +454,7 @@
     <!-- Follow import/includes -->
     <xsl:for-each select="document($srcUriAbs)/xsl:stylesheet/xsl:include | document($srcUriAbs)/xsl:stylesheet/xsl:import">
       <xsl:call-template name="buildStylesheetPagelist">
-        <xsl:with-param name="stylesheetUri" select="resolve-uri(@href, base-uri(.))"/>
+        <xsl:with-param name="stylesheetUri" select="xs:string(resolve-uri(@href, xs:string(base-uri(.))))"/>
         <xsl:with-param name="rootUri" select="$rootUri"/>
         <xsl:with-param name="targetUri" select="$targetUri"/>
       </xsl:call-template>

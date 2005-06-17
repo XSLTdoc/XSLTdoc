@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XSLTdocConfig>
-  <Title>XSLTdoc</Title>
+  <Title>XSLTdoc - A Code Documentation Tool for XSLT</Title>
   <Introduction>
     <p>
       XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0, 1.1, 2.0). It defines
-      conventions to document &quot;code elements&quot; directly in the source code. These
+      conventions to document XSL &quot;code elements&quot; directly in the source code. These
       &quot;documentation elements&quot; are then extracted by the XSLTdoc
       tool to build a documentation consisting of several linked HTML pages
       which provide easy browsing through the documentation. The
