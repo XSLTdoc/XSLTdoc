@@ -124,7 +124,8 @@
   -->
   <AdditionalCSS>
     <File href="print.css" media="print"/>
-  </AdditionalCSS>]]></pre></div>
+  </AdditionalCSS>
+</XSLTdocConfig>]]></pre></div>
     <p>
     To start the generation process use the configuration file 
     as the input for the xsltdoc.xsl program. 
@@ -158,12 +159,6 @@
   	<delete dir="doc/log.txt"/>
   </target>
 </project>]]></pre></div>
-    <p>If you simply want to create a documentation without writing a config
-      file you can use the <code>stylesheetsMultiple.xsl</code> program. The input
-      is a stylesheet file and a targetDir parameter for the XSLT processor.
-      With Saxon 8 the command to create the XSLTdoc documentation looks like
-      this (while being in the XSLTdoc installation folder):</p>
-    <div class="source"><pre><![CDATA[java -jar lib/saxon8.jar <XSLT file> xsl\stylesheetMultiple.xsl targetDir=<Destination direcory>]]></pre></div>
     
     <h2><a name="DocumentingTheCode">Documenting the code</a></h2>
     <p>Documentation elements are written in XML. Because XSLT is expressed in
