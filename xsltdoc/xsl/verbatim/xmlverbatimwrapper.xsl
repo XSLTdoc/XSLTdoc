@@ -13,9 +13,6 @@
 
    <xsl:import href="xmlverbatim.xsl" />
 
-   <xsl:output method="html"
-               doctype-public="-//W3C//DTD HTML 4.0 Transitional//EN" />
-
    <!-- select the name of an element that should be formatted
         (print only these elements and their contents) -->
    <xsl:param name="select" />
