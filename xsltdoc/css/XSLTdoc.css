@@ -41,6 +41,11 @@ h3 {
 	margin-left: 5px;
 }
 
+b {
+    color:maroon;
+	font-size: 16px;
+}
+
 /******************************
 /* Layout Divs                *
 /******************************/
@@ -98,7 +103,7 @@ h3 {
 	margin-top: 4px;
 }
 
-#namedTemplatesSummary, #functionsSummary, #matchTemplatesSummary, #parametersSummary {
+#namedTemplatesSummary, #functionsSummary, #matchTemplatesSummary, #parametersSummary, #variablesSummary, #attSetsSummary {
 	border-top: 1px solid #333399;
   border-left: 1px solid #333399;
   border-right: 1px solid #333399;
@@ -106,7 +111,7 @@ h3 {
 	padding: 0px;
 }
 
-#namedTemplatesDetail, #functionsDetail, #matchTemplatesDetail, #parametersDetail {
+#namedTemplatesDetail, #functionsDetail, #matchTemplatesDetail, #parametersDetail, #variablesDetail, #attSetsDetail {
   border-top: 1px solid #333399;
   border-left: 1px solid #333399;
   border-right: 1px solid #333399;
@@ -122,6 +127,21 @@ h3 {
 #matchTemplatesDetail h2,
 #parametersSummary h2,
 #parametersDetail h2 {
+	background-color: #eeeeff;
+	border-bottom: 1px solid #333399;
+	margin: 0px;
+	padding: 3px 3px 3px 3px;
+}
+#variablesSummary h2,
+#variablesDetail h2 {
+	background-color: #eeeeff;
+	border-bottom: 1px solid #333399;
+	margin: 0px;
+	padding: 3px 3px 3px 3px;
+}
+
+#attSetsSummary h2,
+#attSetsDetail h2 {
 	background-color: #eeeeff;
 	border-bottom: 1px solid #333399;
 	margin: 0px;
@@ -203,7 +223,7 @@ p.detailDescr {
 	padding: 0;
 }*/
 
-.paramName, .paramType, .paramValue, .declCaption {
+.paramName, .paramType, .paramValue, .declCaption, .attName {
   font-family: "Courier New", Courier, monospace;
 }
 
@@ -243,6 +263,7 @@ div.declaration {
 
 ul {
 	list-style-type: square;
+	list-style-position:outside;
 }
 
 td.underlined {
@@ -265,5 +286,3 @@ div.source pre {
   margin: 0px;
   padding: 0px;
 }
-
-

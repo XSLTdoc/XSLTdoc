@@ -6,6 +6,8 @@
                 exclude-result-prefixes="#all"
                 version="2.0">
   
+  <xsl:include href="lib/util.xsl"/>
+  
   <xd:doc type="stylesheet">
     <xd:short>Creates a HTML page for a stylesheet.</xd:short>
     <xd:detail>
@@ -26,10 +28,14 @@
   <xsl:template match="/xsl:stylesheet" mode="stylesheet">
       <xsl:apply-templates select="." mode="stylesheetDetail"/>
       <xsl:apply-templates select="." mode="parametersSummary"/>
+      <xsl:apply-templates select="." mode="variablesSummary"/>
+      <xsl:apply-templates select="." mode="attSetsSummary"/>
       <xsl:apply-templates select="." mode="matchTemplatesSummary"/>
       <xsl:apply-templates select="." mode="namedTemplatesSummary"/>
       <xsl:apply-templates select="." mode="functionsSummary"/>
       <xsl:apply-templates select="." mode="parametersDetail"/>
+      <xsl:apply-templates select="." mode="variablesDetail"/>
+      <xsl:apply-templates select="." mode="attSetsDetail"/>
       <xsl:apply-templates select="." mode="matchTemplatesDetail"/>
       <xsl:apply-templates select="." mode="namedTemplatesDetail"/>
       <xsl:apply-templates select="." mode="functionsDetail"/>
@@ -67,10 +73,12 @@
     <xsl:variable name="detailDesc" select="substring-after(string-join($doc/text(),''),'.')"/>
     <xsl:choose>
       <xsl:when test="string-length($detailDesc) &lt;= 0">
-        <xsl:text>&#160;</xsl:text>
+         <xsl:text/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="$detailDesc"/>
+         <div class="detailDescr">
+            <xsl:value-of select="$detailDesc"/>            
+         </div>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -82,16 +90,17 @@
       detail description available&quot; is printed
     </xd:detail>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:param" mode="printDetailDescription">
+  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:param | xsl:variable | xsl:attribute-set" mode="printDetailDescription">
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     
       <xsl:choose>
         <xsl:when test="count($doc) != 0">
-          <div class="detailDescr">
             <!-- xd documentation exists, find detail description -->
             <xsl:choose>
               <xsl:when test="$doc/xd:detail">
-                <xsl:apply-templates select="$doc/xd:detail" mode="XdocTags"/>
+                 <div class="detailDescr">
+                    <xsl:apply-templates select="$doc/xd:detail" mode="XdocTags"/>
+                 </div>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:call-template name="extractDetailDescription">
@@ -99,7 +108,6 @@
                 </xsl:call-template>
               </xsl:otherwise>
             </xsl:choose>
-          </div>
         </xsl:when>
         <xsl:otherwise>
           <xsl:text></xsl:text>
@@ -116,7 +124,7 @@
   <xd:doc>
     <xd:short>Prints the properties of a xd:doc element.</xd:short>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet" mode="printProperties">
+  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:attribute-set" mode="printProperties">
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <xsl:variable name="htmlResult">
       <!-- Simple properties -->
@@ -137,7 +145,33 @@
           </div>
         </div>
       </xsl:if>
-      
+
+       <!-- Attribute Sets (JK, 11/2007) -->
+       <xsl:if test="@use-attribute-sets">
+          <div class="property">
+             <div class="propertyCaption">Attribute Sets:</div>
+             <div class="propertyContent">
+                <div class="attSetDetail">
+                   <xsl:copy-of select="xd:printUseAttributeSets(.)"/>
+                </div>
+             </div>
+          </div>
+       </xsl:if>
+       
+       <xsl:if test="xsl:attribute">
+          <div class="property">
+             <div class="propertyCaption">Attributes:</div>
+             <div class="propertyContent">
+                <xsl:for-each select="xsl:attribute">
+                   <!-- List attributes -->
+                   <div class="attSetDetail">
+                      <xsl:copy-of select="xd:printAttribute(.)"/>
+                   </div>
+                </xsl:for-each>
+             </div>
+          </div>
+       </xsl:if>
+       
     </xsl:variable>
     <xsl:if test="count($htmlResult/*) != 0">   
       <div class="properties">
@@ -217,7 +251,7 @@
     Prints the declaration of a function or template.
     <xd:param name="link">If this parameter equals to true() it adds the declaration as a link to the detailied declaration</xd:param>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:param" mode="printDeclaration">
+  <xsl:template match="xsl:function | xsl:template | xsl:param | xsl:variable | xsl:attribute-set" mode="printDeclaration">
     <xsl:param name="link" select="false()"/>
     <xsl:param name="verbatimUriRel" select="false()"/>
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
@@ -288,7 +322,25 @@
       <xsl:value-of select="$param/@name"/>
     </span>
   </xsl:function>
-  
+
+   <!-- JK, 11/2007 -->
+   <xsl:function name="xd:printAttribute">
+      <xsl:param name="att"/>
+      <!-- Param name -->          
+      <span class="attName">
+         <xsl:value-of select="concat($att/@name,': ',$att)"/>
+      </span>
+   </xsl:function>
+
+  <!-- JK, 11/2007 -->
+  <xsl:function name="xd:printUseAttributeSets">
+      <xsl:param name="set"/>
+      <!-- Param name -->          
+      <span class="attName">
+         <xsl:value-of select="$set/@use-attribute-sets"/>
+      </span>
+   </xsl:function>
+   
   <xd:doc> 
     Prints the short form of the decalaration of a template. This
     includes the parameters and the mode. 
@@ -383,7 +435,7 @@
     </xsl:if>
   </xsl:template>
   
-  <xd:doc>Outputs title for match template details and creates detailed documentation for each match template</xd:doc>
+  <xd:doc>Outputs title for parameter details and creates detailed documentation for each parameter</xd:doc>
   <xsl:template match="xsl:stylesheet" mode="parametersDetail">
     <xsl:if test="xsl:param">
       <div id="parametersDetail">
@@ -402,8 +454,48 @@
       </div>
     </xsl:if>
   </xsl:template>
-  
-  <xd:doc>Prints details of the stylesheet.</xd:doc>
+
+   <xd:doc>JK, 11/2007 - Outputs title for variables details and creates detailed documentation for each variable</xd:doc>
+   <xsl:template match="xsl:stylesheet" mode="variablesDetail">
+      <xsl:if test="xsl:variable">
+         <div id="variablesDetail">
+            <h2>Variables Detail</h2>
+            <xsl:for-each select="xsl:variable">
+               <xsl:sort select="@name"/>
+               <div class="listItem"> 
+                  <xsl:apply-templates select="." mode="printDeclaration"/>
+                  <div class="detailDoc">
+                     <xsl:apply-templates select="." mode="printShortDescription"/>
+                     <xsl:apply-templates select="." mode="printDetailDescription"/>
+                     <xsl:apply-templates select="." mode="printProperties"/>
+                  </div>
+               </div>
+            </xsl:for-each>
+         </div>
+      </xsl:if>
+   </xsl:template>
+
+   <xd:doc>JK, 11/2007 - Outputs title for attribute sets details and creates detailed documentation for each attribute set</xd:doc>
+   <xsl:template match="xsl:stylesheet" mode="attSetsDetail">
+      <xsl:if test="xsl:attribute-set">
+         <div id="attSetsDetail">
+            <h2>Attibute Sets Detail</h2>
+            <xsl:for-each select="xsl:attribute-set">
+               <xsl:sort select="@name"/>
+               <div class="listItem"> 
+                  <xsl:apply-templates select="." mode="printDeclaration"/>
+                  <div class="detailDoc">
+                     <xsl:apply-templates select="." mode="printShortDescription"/>
+                     <xsl:apply-templates select="." mode="printDetailDescription"/>
+                     <xsl:apply-templates select="." mode="printProperties"/>
+                  </div>
+               </div>
+            </xsl:for-each>
+         </div>
+      </xsl:if>
+   </xsl:template>
+   
+   <xd:doc>Prints details of the stylesheet.</xd:doc>
   <xsl:template match="xsl:stylesheet" mode="stylesheetDetail" xmlns="http://www.w3.org/1999/xhtml">
     <div xmlns="http://www.w3.org/1999/xhtml" id="stylesheetDetail">
       <!-- ************* Title ********************** -->
@@ -516,6 +608,56 @@
   </xsl:template>
   
   <xd:doc>
+    JK, 11/2007
+    Generates variable summary section.
+    Prints title of the section and then iterates through
+    all top level variables and prints its declaration and short description
+  </xd:doc>
+  <xsl:template match="xsl:stylesheet" mode="variablesSummary">
+    <xsl:if test="xsl:variable">
+      <div id="variablesSummary">
+        <h2>Variables Summary</h2>
+        <xsl:for-each select="xsl:variable">
+          <xsl:sort select="@name"/>
+          <div class="listItem">      
+            <xsl:apply-templates select="." mode="printDeclaration">
+              <xsl:with-param name="link" select="concat('#', generate-id(.))"/>
+            </xsl:apply-templates>
+            <div class="shortDoc">
+              <xsl:apply-templates select="." mode="printShortDescription"/>
+            </div>
+          </div>
+        </xsl:for-each>
+      </div>
+    </xsl:if>
+  </xsl:template>
+  
+  <xd:doc>
+    JK, 11/2007
+    Generates attribute set summary section.
+    Prints title of the section and then iterates through
+    all top level variables and prints its declaration and short description
+  </xd:doc>
+  <xsl:template match="xsl:stylesheet" mode="attSetsSummary">
+    <xsl:if test="xsl:attribute-set">
+      <div id="attSetsSummary">
+        <h2>Attribute Sets Summary</h2>
+        <xsl:for-each select="xsl:attribute-set">
+          <xsl:sort select="@name"/>
+          <div class="listItem">      
+            <xsl:apply-templates select="." mode="printDeclaration">
+              <xsl:with-param name="link" select="concat('#', generate-id(.))"/>
+            </xsl:apply-templates>
+            <div class="shortDoc">
+              <xsl:apply-templates select="." mode="printShortDescription"/>
+            </div>
+          </div>
+        </xsl:for-each>
+      </div>
+    </xsl:if>
+  </xsl:template>
+  
+  <xd:doc>
     Generates template summary section.
     Prints title of the section and then iterates through
     all templates and prints its declaration and short description
@@ -558,10 +700,61 @@
     <xsl:apply-templates mode="XdocTags"/>
   </xsl:template>
   
-  <xd:doc> Converts a xd:link element to a html link. Not implemented yet!</xd:doc>
+  <xd:doc> Converts a xd:link element to a html link. (JK, 11/2007)</xd:doc>
   <xsl:template match="xd:link" mode="XdocTags">
-    <a href="#">
+     <xsl:text disable-output-escaping="yes">&lt;a href=&quot;</xsl:text>
+     <xsl:call-template name="getGeneratedId">
+        <xsl:with-param name="name" select="."/>
+       <xsl:with-param name="type" select="@type"/>
+       <xsl:with-param name="mode" select="@mode"/>
+     </xsl:call-template>
+     <xsl:text disable-output-escaping="yes">&quot;&gt;</xsl:text>
+     <xsl:if test="@type = 'variable'">
+       <xsl:value-of select="'$'"/>
+     </xsl:if>
       <xsl:value-of select="."/>
-    </a>
+    <xsl:if test="@mode">
+      <xsl:value-of select="concat(', mode=&quot;',@mode,'&quot;')"/>
+    </xsl:if>
+     <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
   </xsl:template>
+   
+   <xsl:template name="getGeneratedId">
+      <xsl:param name="name"/>
+     <xsl:param name="type"/>
+      <xsl:param name="mode"/>
+     <xsl:choose>
+       <xsl:when test="$type = 'named-template'">
+         <xsl:text>#</xsl:text>
+         <xsl:if test="/xsl:stylesheet/xsl:template[@name = $name]">
+           <xsl:value-of select="generate-id(/xsl:stylesheet/xsl:template[@name = $name])"></xsl:value-of>
+         </xsl:if>         
+       </xsl:when>
+       <xsl:when test="$type = 'match-template'">
+         <xsl:text>#</xsl:text>
+         <xsl:choose>
+           <xsl:when test="$mode">
+             <xsl:if test="/xsl:stylesheet/xsl:template[@match = $name and @mode = $mode]">
+               <xsl:value-of select="generate-id(/xsl:stylesheet/xsl:template[@match = $name and @mode = $mode])"></xsl:value-of>
+             </xsl:if>               
+           </xsl:when>
+           <xsl:otherwise>
+             <xsl:if test="/xsl:stylesheet/xsl:template[@match = $name]">
+               <xsl:value-of select="generate-id(/xsl:stylesheet/xsl:template[@match = $name])"></xsl:value-of>
+             </xsl:if>                        
+           </xsl:otherwise>
+         </xsl:choose>         
+       </xsl:when>
+       <xsl:when test="$type = 'variable'">
+         <xsl:text>#</xsl:text>
+         <xsl:if test="/xsl:stylesheet/xsl:variable[@name = $name]">
+           <xsl:value-of select="generate-id(/xsl:stylesheet/xsl:variable[@name = $name])"></xsl:value-of>
+         </xsl:if>                  
+       </xsl:when>
+       <xsl:when test="$type = 'import'">
+         <xsl:value-of select="concat($name,'.xd.html')"/>
+       </xsl:when>
+     </xsl:choose>
+   </xsl:template>
+   
 </xsl:stylesheet>
