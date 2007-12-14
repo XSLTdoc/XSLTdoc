@@ -49,12 +49,20 @@
       </li>
     </ul>
     <h2><a name="News">News</a></h2>
-    <ul>
-      <li>January 5, 2005: Release 1.1 is available for download</li>
-    </ul>
-    <ul>
-      <li>December 20, 2004: Released Version 1.0.1</li>
-    </ul>
+      <h3>December 14, 2007</h3>
+      <p>Release 1.2 is available for <a href="#Download">download</a>.</p>
+      <p>Thanks to <b>Johannes Katelaan</b> and <b>Sascha Mantscheff</b> for their contributions.</p>
+      <p>New Features</p>
+      <ul>
+        <li>added section for documentation on xsl:variable</li>
+        <li>added section for documentation on xsl:attribute-set</li>
+        <li>implemented  <code>xd:link</code> for referencing templates</li>
+        <li>supports <code>xsl:key</code> elements</li>
+      </ul>
+      <h3>January 5, 2005</h3>
+      <p>Release 1.1 is available for download</p>
+      <h3>December 20, 2004</h3>
+      <p>Released Version 1.0.1</p>
     <h2><a name="Features">Features</a></h2>
     <ul>
       <li>Documentation is embedded in the XSL program</li>
@@ -207,7 +215,7 @@
   <xd:doc ]]><strong>type="stylesheet"</strong><![CDATA[>
     ...
     <xd:author>ibirrer</xd:author>
-    <xd:copyright>P&amp;P Software, 2005</xd:copyright>
+    <xd:copyright>P&amp;P Software, 2007</xd:copyright>
     <xd:cvsId>$Id$</xd:cvsId>
   <xd:doc/>
   ...

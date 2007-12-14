@@ -30,12 +30,14 @@
       <xsl:apply-templates select="." mode="parametersSummary"/>
       <xsl:apply-templates select="." mode="variablesSummary"/>
       <xsl:apply-templates select="." mode="attSetsSummary"/>
-      <xsl:apply-templates select="." mode="matchTemplatesSummary"/>
+  	  <xsl:apply-templates select="." mode="keysSummary"/>
+  	  <xsl:apply-templates select="." mode="matchTemplatesSummary"/>
       <xsl:apply-templates select="." mode="namedTemplatesSummary"/>
       <xsl:apply-templates select="." mode="functionsSummary"/>
       <xsl:apply-templates select="." mode="parametersDetail"/>
       <xsl:apply-templates select="." mode="variablesDetail"/>
-      <xsl:apply-templates select="." mode="attSetsDetail"/>
+  	  <xsl:apply-templates select="." mode="keysDetail"/>
+  	  <xsl:apply-templates select="." mode="attSetsDetail"/>
       <xsl:apply-templates select="." mode="matchTemplatesDetail"/>
       <xsl:apply-templates select="." mode="namedTemplatesDetail"/>
       <xsl:apply-templates select="." mode="functionsDetail"/>
@@ -90,15 +92,19 @@
       detail description available&quot; is printed
     </xd:detail>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:param | xsl:variable | xsl:attribute-set" mode="printDetailDescription">
+	<xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:param | xsl:variable | xsl:attribute-set | xsl:key " mode="printDetailDescription">
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     
       <xsl:choose>
         <xsl:when test="count($doc) != 0">
             <!-- xd documentation exists, find detail description -->
             <xsl:choose>
-              <xsl:when test="$doc/xd:detail">
-                 <div class="detailDescr">
+            	<!-- Sascha Mantscheff, 05/12/07: Added string length to test. 
+            		Otherwise the processor may output an empty <div class="detailDescr""/>
+            		which is not understood by IE and FireFox and leads to wrong formatting.
+            		-->
+            	<xsl:when test="$doc/xd:detail and string-length(xd:detail/text())">
+            		<div class="detailDescr">
                     <xsl:apply-templates select="$doc/xd:detail" mode="XdocTags"/>
                  </div>
               </xsl:when>
@@ -251,13 +257,13 @@
     Prints the declaration of a function or template.
     <xd:param name="link">If this parameter equals to true() it adds the declaration as a link to the detailied declaration</xd:param>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:param | xsl:variable | xsl:attribute-set" mode="printDeclaration">
+  <xsl:template match="xsl:function | xsl:template | xsl:param | xsl:variable | xsl:attribute-set | xsl:key" mode="printDeclaration">
     <xsl:param name="link" select="false()"/>
     <xsl:param name="verbatimUriRel" select="false()"/>
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <xsl:variable name="verbatimLink" select="if( $verbatimUriRel ) then concat( $verbatimUriRel,'#',  generate-id(if ($doc) then $doc else .)) else concat(util:getFile(base-uri(.)),'.src.html#',generate-id(if ($doc) then $doc else .))"/>
     
-    <xsl:variable name="name" select="if ( @match ) then @match else @name"/>
+    <xsl:variable name="name" select="if ( self::xsl:template/@match ) then @match else @name"/>
     <div class="declaration">
       <!-- Declaration type -->
       <xsl:choose>
@@ -279,8 +285,8 @@
           </xsl:otherwise>
         </xsl:choose>
       </span>
-      <!-- Mode and Params -->
-      <xsl:if test="xsl:param or @mode">
+      <!-- Mode and Params and (key: match and use)  -->
+      <xsl:if test="xsl:param or @mode or self::xsl:key/@match or @use">
         <xsl:text> (</xsl:text>
         <xsl:if test="xsl:param">
           <span class="declCaption">param: </span>
@@ -294,7 +300,17 @@
           <span class="declCaption">mode: </span>
           <span class="paramValue"><xsl:value-of select="@mode"/></span>
         </xsl:if>
-        <xsl:text>)</xsl:text>
+      	<!-- xsl:key/match -->
+      	<xsl:if test="self::xsl:key/@match">
+      		<span class="declCaption">match: </span>
+      		<span class="paramValue"><xsl:value-of select="@match"/></span>,
+      	</xsl:if>
+      	<!-- Mode -->
+      	<xsl:if test="@use">
+      		<span class="declCaption">use: </span>
+      		<span class="paramValue"><xsl:value-of select="@use"/></span>
+      	</xsl:if>
+      	<xsl:text>)</xsl:text>
       </xsl:if>
       <!-- Link to source -->
       <xsl:text> - </xsl:text>
@@ -342,7 +358,7 @@
    </xsl:function>
    
   <xd:doc> 
-    Prints the short form of the decalaration of a template. This
+    Prints the short form of the declaration of a template. This
     includes the parameters and the mode. 
     <xd:param name="doc" type="node-set">The xd:doc node-set</xd:param>
     <xd:param name="template" type="node-set">
@@ -475,7 +491,27 @@
       </xsl:if>
    </xsl:template>
 
-   <xd:doc>JK, 11/2007 - Outputs title for attribute sets details and creates detailed documentation for each attribute set</xd:doc>
+	<xd:doc>SM, 05/12/2007 - Outputs title for keys and creates detailed documentation for each key</xd:doc>
+	<xsl:template match="xsl:stylesheet" mode="keysDetail">
+		<xsl:if test="xsl:key">
+			<div id="keysDetail">
+				<h2>Keys Detail</h2>
+				<xsl:for-each select="xsl:key">
+					<xsl:sort select="@name"/>
+					<div class="listItem"> 
+						<xsl:apply-templates select="." mode="printDeclaration"/>
+						<div class="detailDoc">
+							<xsl:apply-templates select="." mode="printShortDescription"/>
+							<xsl:apply-templates select="." mode="printDetailDescription"/>
+							<xsl:apply-templates select="." mode="printProperties"/>
+						</div>
+					</div>
+				</xsl:for-each>
+			</div>
+		</xsl:if>
+	</xsl:template>
+	
+	<xd:doc>JK, 11/2007 - Outputs title for attribute sets details and creates detailed documentation for each attribute set</xd:doc>
    <xsl:template match="xsl:stylesheet" mode="attSetsDetail">
       <xsl:if test="xsl:attribute-set">
          <div id="attSetsDetail">
@@ -632,7 +668,32 @@
     </xsl:if>
   </xsl:template>
   
-  <xd:doc>
+	<xd:doc>
+		SM, 05/12/2007
+		Generates key summary section.
+		Prints title of the section and then iterates through
+		all keys and prints its declaration and short description
+	</xd:doc>
+	<xsl:template match="xsl:stylesheet" mode="keysSummary">
+		<xsl:if test="xsl:key">
+			<div id="keysSummary">
+				<h2>Keys Summary</h2>
+				<xsl:for-each select="xsl:key">
+					<xsl:sort select="@name"/>
+					<div class="listItem">      
+						<xsl:apply-templates select="." mode="printDeclaration">
+							<xsl:with-param name="link" select="concat('#', generate-id(.))"/>
+						</xsl:apply-templates>
+						<div class="shortDoc">
+							<xsl:apply-templates select="." mode="printShortDescription"/>
+						</div>
+					</div>
+				</xsl:for-each>
+			</div>
+		</xsl:if>
+	</xsl:template>
+	
+	<xd:doc>
     JK, 11/2007
     Generates attribute set summary section.
     Prints title of the section and then iterates through

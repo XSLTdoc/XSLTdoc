@@ -41,11 +41,6 @@ h3 {
 	margin-left: 5px;
 }
 
-b {
-    color:maroon;
-	font-size: 16px;
-}
-
 /******************************
 /* Layout Divs                *
 /******************************/
@@ -103,7 +98,7 @@ b {
 	margin-top: 4px;
 }
 
-#namedTemplatesSummary, #functionsSummary, #matchTemplatesSummary, #parametersSummary, #variablesSummary, #attSetsSummary {
+#namedTemplatesSummary, #functionsSummary, #matchTemplatesSummary, #parametersSummary, #variablesSummary, #keysSummary {
 	border-top: 1px solid #333399;
   border-left: 1px solid #333399;
   border-right: 1px solid #333399;
@@ -111,7 +106,7 @@ b {
 	padding: 0px;
 }
 
-#namedTemplatesDetail, #functionsDetail, #matchTemplatesDetail, #parametersDetail, #variablesDetail, #attSetsDetail {
+#namedTemplatesDetail, #functionsDetail, #matchTemplatesDetail, #parametersDetail, #variablesDetail, #keysDetail {
   border-top: 1px solid #333399;
   border-left: 1px solid #333399;
   border-right: 1px solid #333399;
@@ -126,22 +121,11 @@ b {
 #functionsDetail  h2, 
 #matchTemplatesDetail h2,
 #parametersSummary h2,
-#parametersDetail h2 {
-	background-color: #eeeeff;
-	border-bottom: 1px solid #333399;
-	margin: 0px;
-	padding: 3px 3px 3px 3px;
-}
+#parametersDetail h2,
 #variablesSummary h2,
-#variablesDetail h2 {
-	background-color: #eeeeff;
-	border-bottom: 1px solid #333399;
-	margin: 0px;
-	padding: 3px 3px 3px 3px;
-}
-
-#attSetsSummary h2,
-#attSetsDetail h2 {
+#variablesDetail h2,
+#keysSummary h2,
+#keysDetail h2 {
 	background-color: #eeeeff;
 	border-bottom: 1px solid #333399;
 	margin: 0px;
@@ -223,7 +207,7 @@ p.detailDescr {
 	padding: 0;
 }*/
 
-.paramName, .paramType, .paramValue, .declCaption, .attName {
+.paramName, .paramType, .paramValue, .declCaption {
   font-family: "Courier New", Courier, monospace;
 }
 
@@ -263,7 +247,6 @@ div.declaration {
 
 ul {
 	list-style-type: square;
-	list-style-position:outside;
 }
 
 td.underlined {
@@ -285,4 +268,14 @@ div.source pre {
   color:black;
   margin: 0px;
   padding: 0px;
+}
+
+
+div.remark {
+  font-style: italic;
+  margin-left:3em;
+  margin-right:3em;
+  border-style: solid;
+  border-width: 1px;
+  border-color: red;
 }
