@@ -15,12 +15,12 @@
   </xd:doc>
   
   <xsl:output name="xhtml"
-              omit-xml-declaration="yes"
+              omit-xml-declaration="no"
               method="xml"
               doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" 
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
               indent="no" 
-              encoding="iso-8859-1"/>
+              encoding="UTF-8"/>
   
   <xsl:template match="/">
     <xsl:apply-templates>
