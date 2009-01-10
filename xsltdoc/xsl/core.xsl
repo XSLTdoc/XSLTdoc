@@ -25,7 +25,7 @@
   <xsl:param name="targetDir" select="false()"/>
   
   <xd:doc>
-    You can add additional (custom) css stylesheets here, which override css rules from the standard css file (XSLTdoc.css) or add new rules.  
+    Custom Stylesheets. Add additional (custom) css stylesheets here to override css rules from the standard css file (XSLTdoc.css). 
   </xd:doc>
   <xsl:param name="additionalCSS" as="xs:string*"/>
   
@@ -43,7 +43,7 @@
   <!-- Default output format, normally overwritten by importing stylesheet -->
   <xsl:output name="xhtml"
               omit-xml-declaration="no"
-              method="xml"
+              method="xhtml"
               doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" 
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
               indent="no"

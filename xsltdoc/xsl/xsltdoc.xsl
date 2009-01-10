@@ -16,10 +16,10 @@
   
   <xsl:output name="xhtml"
               omit-xml-declaration="no"
-              method="xml"
+              method="xhtml"
               doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" 
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-              indent="no" 
+              indent="no"
               encoding="UTF-8"/>
   
   <xsl:template match="/">

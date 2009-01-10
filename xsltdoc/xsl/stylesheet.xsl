@@ -94,32 +94,30 @@
   </xd:doc>
 	<xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:param | xsl:variable | xsl:attribute-set | xsl:key " mode="printDetailDescription">
     <xsl:variable name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
-    
-      <xsl:choose>
-        <xsl:when test="count($doc) != 0">
-            <!-- xd documentation exists, find detail description -->
-            <xsl:choose>
-            	<!-- Sascha Mantscheff, 05/12/07: Added string length to test. 
-            		Otherwise the processor may output an empty <div class="detailDescr""/>
-            		which is not understood by IE and FireFox and leads to wrong formatting.
-            		-->
-            	<xsl:when test="$doc/xd:detail and string-length(xd:detail/text())">
-            		<div class="detailDescr">
-                    <xsl:apply-templates select="$doc/xd:detail" mode="XdocTags"/>
-                 </div>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:call-template name="extractDetailDescription">
-                  <xsl:with-param name="doc" select="$doc"/>
-                </xsl:call-template>
-              </xsl:otherwise>
-            </xsl:choose>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text></xsl:text>
-        </xsl:otherwise>
-      </xsl:choose>
-    
+    <xsl:choose>
+  <xsl:when test="count($doc) != 0">
+    <!-- xd documentation exists, find detail description -->
+  <xsl:choose>
+    <xsl:when test="$doc/xd:detail">
+      <div class="detailDescr">
+        <xsl:apply-templates select="$doc/xd:detail" mode="XdocTags" />
+      </div>
+    </xsl:when>
+    <xsl:otherwise>
+      <!--
+        No xd:detail element found, use text after first period as
+        detail description.
+      -->
+      <xsl:call-template name="extractDetailDescription">
+        <xsl:with-param name="doc" select="$doc" />
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:text></xsl:text>
+  </xsl:otherwise>
+</xsl:choose>
   </xsl:template>
   
   <!-- 
