@@ -15,7 +15,7 @@
 	</target>
 
 	<target name="dist" depends="xsltdoc" description="Creates zip file with all xsltdoc files.">
-		<property name="version" value="1.2">
+		<property name="version" value="1.2.1">
 		</property>
 		<!-- Delete old zip files -->
 		<delete file="XSLTdoc_${version}.zip" />

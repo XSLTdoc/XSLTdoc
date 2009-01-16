@@ -3,7 +3,8 @@
   <Title>XSLTdoc - A Code Documentation Tool for XSLT</Title>
   <Introduction>
     <p>
-      XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0, 1.1, 2.0). It defines
+      XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0,
+      1.1, 2.0). It defines
       conventions to document XSL &quot;code elements&quot; directly in the source code. These
       &quot;documentation elements&quot; are then extracted by the XSLTdoc
       tool to build a documentation consisting of several linked HTML pages
@@ -18,11 +19,10 @@
       <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=124907&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>    
     </p>
     <p>
-      <a href="http://sourceforge.net/projects/xsltdoc/">Project Page</a> on sourceforge.
+      <a href="http://sourceforge.net/projects/xsltdoc/">Project Page</a> on SourceForge.
     </p>
     <p>
-      Please report bugs by using the <a href="http://control.ee.ethz.ch/~ceg/mantis">bug tracking tool</a> (Choose 'XSLTdoc' project in the upper right corner).
-      <br />Any comments on XSLTdoc are welcome. <a href="mailto:birrer@pnp-software.com">Email us</a>.
+      Please use <b><a href="https://sourceforge.net/forum/?group_id=124907">the Forum</a></b> on SourceForge if you need help or have comments on XSLTdoc.
     </p>
     <h2>Table of Contents</h2>
     <ul>
@@ -49,6 +49,17 @@
       </li>
     </ul>
     <h2><a name="News">News</a></h2>
+      <h3>January 16, 2009</h3>
+      <p>A bugfix release 1.2.1 is available for <a href="#Download">download</a>.</p>
+      <p>Changelog</p>
+      <ul>
+        <li>Changed output format from XML to XHTML</li>
+        <li>Changed output encoding to UTF-8</li>
+        <li>Fixed a bug where xd:detail was not printed</li>
+        <li><code>xml:xd</code> inline tag supports an <code>href</code> attribute which allows to include external XML markup</li>
+        <li>Enabled <a href="https://sourceforge.net/forum/?group_id=124907">the Forum</a> on sourceforge</li>
+      </ul>
+    
       <h3>December 14, 2007</h3>
       <p>Release 1.2 is available for <a href="#Download">download</a>.</p>
       <p>Thanks to <b>Johannes Katelaan</b> and <b>Sascha Mantscheff</b> for their contributions.</p>
