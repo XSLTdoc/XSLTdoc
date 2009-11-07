@@ -80,25 +80,21 @@ h3 {
   padding: 0;
 }
 
-#includes {
+#includes, #imports, #importedSchemas {
 	margin: 10px 0px 10px 0px;
 }
 
-#imports {
-	margin: 10px 0px 10px 0px;
-}
-
-#includes h2, #imports h2 {
+#includes h2, #imports h2, #importedSchemas h2 {
 	font-size: 14px;
 	padding: 0px;
 	margin: 0px;
 }
 
-#includes ul, #imports ul {
+#includes ul, #imports ul, #importedSchemas ul {
 	margin-top: 4px;
 }
 
-#namedTemplatesSummary, #functionsSummary, #matchTemplatesSummary, #parametersSummary, #variablesSummary, #keysSummary {
+.summarySection {
 	border-top: 1px solid #333399;
   border-left: 1px solid #333399;
   border-right: 1px solid #333399;
@@ -106,7 +102,7 @@ h3 {
 	padding: 0px;
 }
 
-#namedTemplatesDetail, #functionsDetail, #matchTemplatesDetail, #parametersDetail, #variablesDetail, #keysDetail {
+.detailSection {
   border-top: 1px solid #333399;
   border-left: 1px solid #333399;
   border-right: 1px solid #333399;
@@ -114,18 +110,8 @@ h3 {
 	padding: 0px;
 }
 
-#namedTemplatesSummary h2,
-#functionsSummary  h2, 
-#matchTemplatesSummary  h2,
-#namedTemplatesDetail  h2, 
-#functionsDetail  h2, 
-#matchTemplatesDetail h2,
-#parametersSummary h2,
-#parametersDetail h2,
-#variablesSummary h2,
-#variablesDetail h2,
-#keysSummary h2,
-#keysDetail h2 {
+.summarySection h2,
+.detailSection h2 {
 	background-color: #eeeeff;
 	border-bottom: 1px solid #333399;
 	margin: 0px;
@@ -207,7 +193,7 @@ p.detailDescr {
 	padding: 0;
 }*/
 
-.paramName, .paramType, .paramValue, .declCaption {
+.paramName, .paramType, .paramValue, .declCaption, .modeName, .paramPropertyList, .paramPropertyName, .paramPropertyValue, .accessType {
   font-family: "Courier New", Courier, monospace;
 }
 
@@ -215,7 +201,7 @@ p.detailDescr {
   font-weight: bold;
 }
 
-.declName {
+.declName, .accessType {
   font-weight: bold;
 }
 
@@ -278,4 +264,65 @@ div.remark {
   border-style: solid;
   border-width: 1px;
   border-color: red;
+}
+
+div.outputAttributes, div.decimalFormatAttributes {
+  display: table;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #339933;
+  border-collapse: collapse;
+  margin-left: 20px;
+  caption-side: top;
+}
+
+div.outputAttributesHeader, div.decimalFormatAttributesHeader {
+  display: table-caption;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #339933;
+  background-color: #eeffee;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0.2em;
+  margin-top: 10px;
+}
+div.outputAttributeItem, div.decimalFormatAttributeItem {
+  display: table-row;
+}
+
+div.outputAttributeName, div.decimalFormatAttributeName {
+  font-weight: bold;
+}
+
+div.outputAttributeName, div.outputAttributeValue,
+div.decimalFormatAttributeName, div.decimalFormatAttributeValue {
+  display: table-cell;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #339933;
+  padding: 0.2em;
+}
+
+table.characterMapTable {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #993333;
+  margin-top: 10px;
+  border-collapse: collapse;
+  margin-left: 20px;
+}
+
+table.characterMapTable th, table.characterMapTable td {
+  text-align: left;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #993333;
+  padding: 0.2em;
+}
+
+table.characterMapTable th {
+  background-color: #ffeeee;
+  font-weight: bold;
+  font-size: 14px;
 }

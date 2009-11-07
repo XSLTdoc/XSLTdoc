@@ -55,7 +55,7 @@
   <xd:doc> 
     Root template if XSLTdoConfig file is used
   </xd:doc>
-  <xsl:template match="/xsl:stylesheet">
+  <xsl:template match="/xsl:stylesheet | /xsl:transform">
     <xsl:param name="config" tunnel="yes" as="element()"/>
     <xsl:variable name="targetDirUriAbs" select="util:normalizeFolder(resolve-uri(if( $targetDir ) then $targetDir else concat(util:getFolder(xs:string(base-uri(/))), 'xsltdoc/'), xs:string(base-uri(/)) ))"/>
     <xsl:variable name="sourceRootUriAbs" as="xs:string" select="util:getFolder(xs:string(base-uri(/)))"/>
@@ -325,7 +325,7 @@
           <a class="declLink" href="{@uriRel}"><xsl:value-of select="@srcUriRel"/></a>
         </span>
         <div class="shortDoc">
-          <xsl:apply-templates select="doc(@srcUriAbs)/xsl:stylesheet" mode="printShortDescription"/>
+          <xsl:apply-templates select="doc(@srcUriAbs)/(xsl:stylesheet | xsl:transform)" mode="printShortDescription"/>
         </div>
       </div>
     </xsl:for-each>
@@ -344,7 +344,7 @@
     <xsl:variable name="allFunctions" as="element()*">
       <xsl:for-each select="$config/pagelist[@id='stylesheets']/page">
         <xsl:variable name="page" select="."/>
-        <xsl:for-each select="doc(@srcUriAbs)/xsl:stylesheet/xsl:function">
+        <xsl:for-each select="doc(@srcUriAbs)/(xsl:stylesheet | xsl:transform)/xsl:function[xd:accessMatch(.)]">
           <xsl:sequence select="."/>
           <xsl:sequence select="$page"/>
         </xsl:for-each>
@@ -354,14 +354,14 @@
     <xsl:variable name="allTemplates" as="element()*">
       <xsl:for-each select="$config/pagelist[@id='stylesheets']/page">
         <xsl:variable name="page" select="."/>
-        <xsl:for-each select="doc(@srcUriAbs)/xsl:stylesheet/xsl:template[@name]">
+        <xsl:for-each select="doc(@srcUriAbs)/(xsl:stylesheet | xsl:transform)/xsl:template[@name][xd:accessMatch(.)]">
           <xsl:sequence select="."/>
           <xsl:sequence select="$page"/>
         </xsl:for-each>
       </xsl:for-each>
     </xsl:variable>
 
-    <div id="namedTemplatesSummary">
+    <div id="namedTemplatesSummary" class="summarySection">
       <h2>Templates</h2>
       <xsl:for-each select="$allTemplates[self::xsl:template]">
         <xsl:variable name="pos" select="position()"/>
@@ -377,7 +377,7 @@
       </xsl:for-each>
     </div>
     
-    <div id="functionsSummary">
+    <div id="functionsSummary" class="summarySection">
       <h2>Functions</h2>
       <xsl:for-each select="$allFunctions[self::xsl:function]">
         <xsl:variable name="pos" select="position()"/>
@@ -452,7 +452,7 @@
     </page>
     
     <!-- Follow import/includes -->
-    <xsl:for-each select="document($srcUriAbs)/xsl:stylesheet/xsl:include | document($srcUriAbs)/xsl:stylesheet/xsl:import">
+    <xsl:for-each select="document($srcUriAbs)/(xsl:stylesheet | xsl:transform)/xsl:include | document($srcUriAbs)/(xsl:stylesheet | xsl:transform)/xsl:import">
       <xsl:call-template name="buildStylesheetPagelist">
         <xsl:with-param name="stylesheetUri" select="xs:string(resolve-uri(@href, xs:string(base-uri(.))))"/>
         <xsl:with-param name="rootUri" select="$rootUri"/>

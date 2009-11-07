@@ -5,6 +5,7 @@
   <xsl:include href="properties/cvsId.xsl"/>
   <xsl:include href="properties/svnId.xsl"/>
   <xsl:include href="properties/copyright.xsl"/>
+  <xsl:include href="properties/doxygen.xsl"/>
   <xsl:include href="inlineTags/xml.xsl"/>
   
   <xd:doc type="stylesheet">
