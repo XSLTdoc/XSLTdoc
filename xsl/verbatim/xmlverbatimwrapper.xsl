@@ -27,6 +27,7 @@
             <title>XML source view</title>
             <link rel="stylesheet" type="text/css" 
 	          href="{$css-stylesheet}" />
+            <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8" />
          </head>
          <body class="xmlverb-default">
             <tt>
