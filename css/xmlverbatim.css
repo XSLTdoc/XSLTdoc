@@ -1,6 +1,6 @@
 .xmlverb-default          { color: #333333; background-color: #ffffff;
 							font-size: 10pt;
-                            font-family:"Courier New", Courier, mono; }
+                            font-family: Monaco, "Courier New", Courier, mono; }
 .xmlverb-element-name     { color: #990000 }
 .xmlverb-element-nsprefix { color: #666600 }
 .xmlverb-attr-name        { color: #660000 }
