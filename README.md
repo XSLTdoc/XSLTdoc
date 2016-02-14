@@ -1,5 +1,6 @@
 XSLTdoc is a Javadoc-like tool for XSLT 2.0. [Home 
-page](http://www.pnp-software.com/XSLTdoc/).
+page](http://www.pnp-software.com/XSLTdoc/). The site pages are also deployed
+here to [GitHub pages](http://xsltdoc.github.io/).
 
 This project has been migrated from SourceForge
 [here](https://sourceforge.net/projects/xsltdoc/) to GitHub at
