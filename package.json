@@ -1,0 +1,42 @@
+{
+  "name": "xsltdoc",
+  "version": "1.2.2",
+  "description": "Tool for auto-generating documentation from XSLT",
+  "scripts": {
+    "prepublish": "node fetch-maven-deps.js",
+    "test": "ant test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XSLTdoc/XSLTdoc.git"
+  },
+  "keywords": [
+    "xslt",
+    "xml",
+    "documentation"
+  ],
+  "author": "Iwan Birrer",
+  "contributors": [
+    "Chris Maloney <voldrani@gmail.com>",
+    "David Rekowski"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/XSLTdoc/XSLTdoc/issues"
+  },
+  "homepage": "https://github.com/XSLTdoc/XSLTdoc#readme",
+  "dependencies": {
+    "java": "^0.6.0",
+    "node-java-maven": "0.0.12"
+  },
+  "java": {
+    "localRepository": "./jars",
+    "dependencies": [
+      {
+        "groupId": "net.sf.saxon",
+        "artifactId": "Saxon-HE",
+        "version": "9.6.0-7"
+      }
+    ]
+  }
+}

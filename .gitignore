@@ -1,3 +1,5 @@
 doc/
+jars/
 lib/
+node_modules/
 testResult.txt
