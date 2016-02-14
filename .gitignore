@@ -1,5 +1,5 @@
-doc/
-jars/
-lib/
-node_modules/
-testResult.txt
+/doc/
+/jars/
+/lib/
+/node_modules/
+/test/testResult.txt

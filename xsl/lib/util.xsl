@@ -133,7 +133,14 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-	 	<xsl:value-of select="$return"/>
+    <xsl:choose>
+      <xsl:when test="$return = ''">
+        <xsl:text>./</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$return"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:function>
   
   <xd:doc> 
