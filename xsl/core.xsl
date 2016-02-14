@@ -57,7 +57,10 @@
   </xd:doc>
   <xsl:template match="/xsl:stylesheet | /xsl:transform">
     <xsl:param name="config" tunnel="yes" as="element()"/>
-    <xsl:variable name="targetDirUriAbs" select="util:normalizeFolder(resolve-uri(if( $targetDir ) then $targetDir else concat(util:getFolder(xs:string(base-uri(/))), 'xsltdoc/'), xs:string(base-uri(/)) ))"/>
+    <xsl:variable name="targetDirUriAbs" 
+      select="util:normalizeFolder(resolve-uri(
+        if( $targetDir ) then $targetDir else concat(util:getFolder(xs:string(base-uri(/))), 'xsltdoc/'), 
+        xs:string(base-uri(/)) ))"/>
     <xsl:variable name="sourceRootUriAbs" as="xs:string" select="util:getFolder(xs:string(base-uri(/)))"/>
     <xsl:message>Generate documentation in: <xsl:value-of select="$targetDirUriAbs"/></xsl:message>
     <xsl:variable name="tmpConfig" as="element()">
