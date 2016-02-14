@@ -80,10 +80,10 @@ Thanks to Johannes Katelaan and Sascha Mantscheff for their contributions.
 
 New Features:
 
-added section for documentation on xsl:variable
-added section for documentation on xsl:attribute-set
-implemented xd:link for referencing templates
-supports xsl:key elements
+* added section for documentation on xsl:variable
+* added section for documentation on xsl:attribute-set
+* implemented xd:link for referencing templates
+* supports xsl:key elements
 
 ## 1.1 - 2005-01-05
 
