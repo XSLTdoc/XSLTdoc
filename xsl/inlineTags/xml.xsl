@@ -6,7 +6,7 @@
   <xd:doc type="stylesheet">
     Stylesheet to for the inline tag: xd:xml.
     <xd:author>ibirrer</xd:author>
-    <xd:cvsId>$Id$
+    <xd:cvsId>$Id: xml.xsl 42 2009-01-16 15:02:32Z ibirrer $
     </xd:cvsId>
     <xd:copyright>2009, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>

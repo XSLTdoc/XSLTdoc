@@ -18,7 +18,7 @@
       That means that any literal element is of this namespace if not specified specificely!
     </xd:detail>
     <xd:author>ibirrer</xd:author>
-    <xd:cvsId>$Id$</xd:cvsId>
+    <xd:cvsId>$Id: stylesheet.xsl 43 2009-11-07 13:02:24Z ibirrer $</xd:cvsId>
     <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
   

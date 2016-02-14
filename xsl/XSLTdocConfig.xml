@@ -227,7 +227,7 @@
     ...
     <xd:author>ibirrer</xd:author>
     <xd:copyright>P&amp;P Software, 2007</xd:copyright>
-    <xd:cvsId>$Id$</xd:cvsId>
+    <xd:cvsId>$Id: XSLTdocConfig.xml 42 2009-01-16 15:02:32Z ibirrer $</xd:cvsId>
   <xd:doc/>
   ...
 <xsl:stylesheet>]]></pre></div>

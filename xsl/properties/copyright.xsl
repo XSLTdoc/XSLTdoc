@@ -7,7 +7,7 @@
   <xd:doc type="stylesheet">
     Stylesheet for xd:copyright property.
     <xd:author>ibirrer</xd:author>
-    <xd:cvsId>$Id$</xd:cvsId>
+    <xd:cvsId>$Id: copyright.xsl 22 2005-01-03 10:07:35Z ibirrer $</xd:cvsId>
     <xd:copyright>2004, P&amp;P Software GmbH</xd:copyright>
   </xd:doc>
                
