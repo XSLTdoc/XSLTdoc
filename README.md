@@ -153,6 +153,8 @@ http-server
 #=> Then go to http://localhost:8080/doc, and check everything
 npm run gh-pages
 #=> Go to https://xsltdoc.github.io, and check it
+npm publish
+```
 
 
 ## See also 
