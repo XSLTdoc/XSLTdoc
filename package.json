@@ -1,9 +1,9 @@
 {
   "name": "xsltdoc",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Tool for auto-generating documentation from XSLT",
   "scripts": {
-    "prepublish": "node fetch-maven-deps.js",
+    "prepublish": "node scripts/fetch-maven-deps.js",
     "test": "ant test"
   },
   "bin": {
@@ -44,5 +44,8 @@
         "version": "9.6.0-7"
       }
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^0.10.0"
   }
 }

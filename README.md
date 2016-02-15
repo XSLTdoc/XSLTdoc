@@ -1,3 +1,5 @@
+# XSLTdoc
+
 XSLTdoc is a Javadoc-like tool for XSLT 2.0. [Home 
 page](http://www.pnp-software.com/XSLTdoc/). The site pages are also deployed
 here to [GitHub pages](http://xsltdoc.github.io/).
@@ -10,39 +12,108 @@ We are still trying to contact the original authors for permission to make this
 the "official" project repo.
 
 
-## Using
+## Using 
+
+The easiest (but not the only) way to use this tool is via Node.js.
+If you don't have that installed, and don't want to install it, then
+see the section below, "Running manually".
+
+To install the tool:
+
+```
+npm install -g xsltdoc
+```
+
+Next, in the project where your XSLT resides, create a configuration file
+to control how the tool works. See the tool's [home 
+page](http://xsltdoc.github.io/) for information about the format of that file.
+The tool expects the file to be named xsltdoc-config.xml, but you can override
+that with a command line option.
+
+To run the tool, and generate the documenation:
+
+```
+xsltdoc
+```
+
+Use the `--help` switch to get some more usage information.
+
+You can run it programmatically from another Node.js script with
+
+```javascript
+var xsltdoc = require('xsltdoc');
+xsltdoc(opts, function(targetDir) {
+  console.log('Done. Documentation written to ' + targetDir);
+});
+```
+
+
+## Running manually
 
 Download from [the Sourceforge
 site](https://sourceforge.net/projects/xsltdoc/files/xsltdoc/). The latest
 version is 1.2.2.
 
-See the [home page](http://www.pnp-software.com/XSLTdoc/) for more
+See the [home page](http://xsltdoc.github.io/) for more
 detailed instructions on running from the command line.
 
-Since those were written, we've added a very primitive bash script. This is not
-yet included in any release version, so to use it, you'll have to get the code 
-from the GitHub repository, either by cloneing or using the "Download Zip" 
-button. Then,
+We've also added a very primitive bash script, scripts/xsltdoc.sh. (This is a
+completely different wrapper than the Node.js tool described above). This is not
+yet included in any released version, so to use it, you'll have to get the code 
+from the [GitHub repository](https://github.com/XSLTdoc/XSLTdoc/), either by 
+cloning or using the "Download Zip" button. Then,
 put the "bin" subdirectory into your PATH, and run the tool with:
 
 ```
-xsltdoc <config-file>
+xsltdoc.sh <config-file>
 ```
 
 
 ## Building
 
-You don't need to build this project in order to run it. The build script
-creates the home page site (using this tool itself) and provides tasks for
-testing and creating a distribution tarball.
+You don't need to build this project in order to run it. If you want to build
+it anyway, for whatever reason, this section gives some information about how
+to do that.
+
+First of all, note that the original project used the Java build tool Ant.
+We've kept that here, and it still works, but we are moving to using Node.js
+and npm to manage test and build tasks.
+
+### Building with Ant
+
+The Ant build.xml file has tasks that
+create the home page site (using this tool itself), that test the app, and
+that create a distribution tarball.
 
 To run any of the build tasks, install and run `ant`. The default task builds 
 the pages for the home page, and writes them to the doc directory.
 
 The tool uses SaxonHE 9 to run the XSLT transformations. It is downloaded
-automatically, the first time you run the build.
+automatically, the first time you run the build. The Ant tool puts the
+SaxonHE jar into the "jars" subdirectory.
 
 Use `ant -p` to see the list of tasks.
+
+
+### Building with npm
+
+To install all the dependencies that the main script uses:
+
+```
+npm install
+```
+
+This uses node-java-maven to fetch SaxonHE from the Maven repository, and
+put it into the same place (not by coincidence) as the Ant task.
+
+To test:
+
+```
+npm test
+```
+
+Currently, the Node.js package.json file invokes `ant` to run the tests, so
+you'll have to make sure you have Ant installed even if you're using npm.
 
 
 ## See also 

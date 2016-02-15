@@ -388,7 +388,7 @@
     <xsl:param name="element" as="element(*)"/>
     <xsl:choose>
       <xsl:when test="$element[self::xsl:stylesheet | self::xsl:transform]">
-        <xsl:sequence select="$element/xd:doc[@type='stylesheet']"/>
+        <xsl:sequence select="($element/xd:doc[@type='stylesheet'])[1]"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:sequence select="$element/preceding-sibling::*[1][self::xd:doc and (@type != 'stylesheet' or not(@type)) and not(@mode)]"/>
