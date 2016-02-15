@@ -1,15 +1,12 @@
 # XSLTdoc
 
-XSLTdoc is a Javadoc-like tool for XSLT 2.0. [Home 
-page](http://www.pnp-software.com/XSLTdoc/). The site pages are also deployed
-here to [GitHub pages](http://xsltdoc.github.io/).
+***XSLTdoc is a Javadoc-like tool for XSLT 2.0.***
 
-This project has been migrated from SourceForge
-[here](https://sourceforge.net/projects/xsltdoc/) to GitHub at
-[XSLTdoc/XSLTdoc](https://github.com/XSLTdoc/XSLTdoc), preserving original
-Subversion commit history. 
-We are still trying to contact the original authors for permission to make this 
-the "official" project repo.
+See also the [home page](http://xsltdoc.github.io/). This project has recently 
+been moved, with kind permission from the original authors Iwan Birrer and 
+Alessandro Pasetti, from 
+[SourceForge](https://sourceforge.net/projects/xsltdoc/) to this new home on 
+GitHub. The migration has preserved the original Subversion commit history.
 
 
 ## Using 
@@ -18,7 +15,7 @@ The easiest (but not the only) way to use this tool is via Node.js.
 If you don't have that installed, and don't want to install it, then
 see the section below, "Running manually".
 
-To install the tool:
+To install the XSLTdoc tool:
 
 ```
 npm install -g xsltdoc

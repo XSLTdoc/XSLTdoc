@@ -4,7 +4,12 @@
   <Introduction>
     <p>
       XSLTdoc is a Javadoc-like tool for all versions of XSLT (1.0,
-      1.1, 2.0). It defines
+      1.1, 2.0). This project has recently been moved, with kind permission from 
+      the original authors Iwan Birrer and Alessandro Pasetti, from 
+      <a href='https://sourceforge.net/projects/xsltdoc/'>SourceForge</a> to this new home on 
+      GitHub (project repository at <a 
+        href='https://github.com/XSLTdoc/XSLTdoc'>XSLTdoc/XSLTdoc</a>). </p>
+    <p>The XSLTdoc tool defines
       conventions to document XSL &quot;code elements&quot; directly in the source code. These
       &quot;documentation elements&quot; are then extracted by the XSLTdoc
       tool to build a documentation consisting of several linked HTML pages
