@@ -7,8 +7,6 @@
                 exclude-result-prefixes="#all"
                 version="2.0">
   
-  <xsl:include href="lib/util.xsl"/>
-  
   <xd:doc type="stylesheet">
     <xd:short>Creates a HTML page for a stylesheet.</xd:short>
     <xd:detail>

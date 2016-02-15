@@ -1,7 +1,7 @@
 <project name="XSLTdoc" default="xsltdoc" basedir=".">
 	<description>Ant Build file for the XSLTdoc program</description>
 
-	<target name="xsltdoc" depends='lib' 
+	<target name="xsltdoc" depends='lib'
 		description='Creates the home page, using this tool itself.'>
 		<delete dir="doc" />
 		<copy todir="doc">
@@ -15,7 +15,7 @@
 		</java>
 	</target>
 
-	<target name="dist" depends="test,xsltdoc" 
+	<target name="dist" depends="test,xsltdoc"
 		description="Creates zip file with all xsltdoc files.">
 		<property name="version" value="1.2.2">
 		</property>
@@ -62,16 +62,17 @@
 			</fileset>
 		</zip>
 	</target>
-	
+
 	<target name="test" depends="lib" description='Run tests.'>
-		<xslt style="xsl/test/utilTest.xsl" in="xsl/test/dummy.xml" out="xsl/test/testResult.txt">
+		<xslt style="test/utilTest.xsl" in="test/dummy.xml"
+			out="test/testResult.txt">
 		</xslt>
 	</target>
 
 	<target name='lib' description="Download third-party libraries.">
 		<mkdir dir="lib"/>
-		<get src="http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-2/Saxon-HE-9.7.0-2.jar" 
-			dest="lib/saxon9he.jar" 
+		<get src="http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-2/Saxon-HE-9.7.0-2.jar"
+			dest="lib/saxon9he.jar"
 			verbose="true"
 			usetimestamp="true"/>
 	</target>

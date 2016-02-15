@@ -16,10 +16,12 @@
     <xd:detail>
       The directory given
       must be relative to root stylesheet which is being processed.
-      This parameter is used to compute the variable <code>$targetDirUriAbs</code>. If this parameter is not set
-      the <code>$targetDirUriAbs</code> variable defaults a directory 'xsltdoc' which is created inside the same directory
+      This parameter is used to compute the variable <code>$targetDirUriAbs</code>. 
+      If this parameter is not set the <code>$targetDirUriAbs</code> variable 
+      defaults to the directory 'doc', which is created inside the same directory
       in which the input stylesheet occurs.<br/>
-      <strong>Only used if the input is a stylesheet file. Not used if the input is a XSLTdocConfig XML file.</strong>
+      <strong>Only used if the input is a stylesheet file. Not used if the input 
+        is a XSLTdocConfig XML file.</strong>
     </xd:detail>
   </xd:doc>
   <xsl:param name="targetDir" select="false()"/>
@@ -41,28 +43,24 @@
   </xd:doc>
   
   <!-- Default output format, normally overwritten by importing stylesheet -->
-  <xsl:output name="xhtml"
-              omit-xml-declaration="no"
-              method="xhtml"
-              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" 
-              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-              indent="no"
-              encoding="UTF-8"/>
+  <xsl:output name="text" encoding="UTF-8"/>
   
   <!-- Output format for logfile -->
   <xsl:output method="xml" indent="yes"/>
   
   <xd:doc> 
-    Root template if XSLTdoConfig file is used
+    Root template if XSLTdocConfig file is not used; if the input is a stylesheet.
   </xd:doc>
   <xsl:template match="/xsl:stylesheet | /xsl:transform">
     <xsl:param name="config" tunnel="yes" as="element()"/>
     <xsl:variable name="targetDirUriAbs" 
       select="util:normalizeFolder(resolve-uri(
-        if( $targetDir ) then $targetDir else concat(util:getFolder(xs:string(base-uri(/))), 'xsltdoc/'), 
+        if ($targetDir) then $targetDir else 
+          concat(util:getFolder(xs:string(base-uri(/))), 'doc/'), 
         xs:string(base-uri(/)) ))"/>
-    <xsl:variable name="sourceRootUriAbs" as="xs:string" select="util:getFolder(xs:string(base-uri(/)))"/>
-    <xsl:message>Generate documentation in: <xsl:value-of select="$targetDirUriAbs"/></xsl:message>
+    <xsl:variable name="sourceRootUriAbs" as="xs:string" 
+      select="util:getFolder(xs:string(base-uri(/)))"/>
+    <xsl:message>Generated documentation in: <xsl:value-of select="$targetDirUriAbs"/></xsl:message>
     <xsl:variable name="tmpConfig" as="element()">
       <xsl:element name="{node-name($config)}">
         <xsl:copy-of select="$config/@*"/>
@@ -98,7 +96,9 @@
   </xd:doc>
   <xsl:template match="/XSLTdocConfig">
     <xsl:param name="config" tunnel="yes" as="element()"/>
-    <xsl:variable name="targetDirUriAbs" select="xs:string(resolve-uri(util:normalizeFolder(util:pathToUri(/XSLTdocConfig/TargetDirectory/@path)), xs:string(base-uri(/)) ))"/>
+    <xsl:variable name="targetDirUriAbs" 
+      select="xs:string(resolve-uri(util:normalizeFolder(
+        util:pathToUri(/XSLTdocConfig/TargetDirectory/@path)), xs:string(base-uri(/)) ))"/>
     <xsl:variable name="sourceRootUriAbs" as="xs:string">
       <!-- Backwards compatibility to old config files. -->
       <xsl:choose>
@@ -155,9 +155,22 @@
       </pagelist>
     </xsl:variable>
     
+    <!-- Append the filelist to the config variable -->
+    <xsl:variable name='finalConfig' 
+      select='util:appendElement(
+        util:appendElement($extConfig, $distinctStylesheetList), /XSLTdocConfig)'
+      as="element()"/>
+    
+    <!-- Write the report file -->
+    <xsl:result-document href='{resolve-uri( "xsltdoc-report.xml", $targetDirUriAbs )}'>
+      <xsl:copy-of select='$finalConfig'/>
+    </xsl:result-document>
+    
+    <!-- Output the target directory -->
+    <xsl:value-of select="$targetDirUriAbs"/>
+   
     <xsl:call-template name="generatePages">
-      <!-- Append the filelist to the config variable -->
-      <xsl:with-param name="config" select="util:appendElement(util:appendElement($extConfig,$distinctStylesheetList), /XSLTdocConfig)" as="element()"/>
+      <xsl:with-param name="config" select="$finalConfig" as="element()"/>
     </xsl:call-template>
   </xsl:template>
   
@@ -188,8 +201,8 @@
   </xd:doc>
   <xsl:template name="generatePages">
     <xsl:param name="config" as="element()"/>
-    <!-- To logfile -->
-    <xsl:copy-of select="$config"/>
+    <!-- To logfile 
+    <xsl:copy-of select="$config"/>-->
     <xsl:variable name="htmlTemplate" select="doc($config/htmlTemplate/@href)" as="document-node()"/>
     
     <!-- Generate one html page for each page in config -->

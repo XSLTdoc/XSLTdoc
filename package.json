@@ -6,6 +6,9 @@
     "prepublish": "node fetch-maven-deps.js",
     "test": "ant test"
   },
+  "bin": {
+    "xsltdoc": "./main.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/XSLTdoc/XSLTdoc.git"
@@ -26,8 +29,11 @@
   },
   "homepage": "https://github.com/XSLTdoc/XSLTdoc#readme",
   "dependencies": {
+    "commander": "^2.9.0",
+    "fs-extra": "^0.26.5",
     "java": "^0.6.0",
-    "node-java-maven": "0.0.12"
+    "node-java-maven": "0.0.12",
+    "temp": "^0.8.3"
   },
   "java": {
     "localRepository": "./jars",
