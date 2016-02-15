@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 'use strict';
-
-// XSLTdoc main driver script
-
 var fs = require('fs-extra');
 var java = require('java');
 var mvn = require('node-java-maven');
@@ -17,6 +14,10 @@ java.asyncOptions = {
   syncSuffix: "",             // Sync methods use the base name
   promiseSuffix: undefined,   // No promises
 };
+
+/**
+ * @module xsltdoc
+ */
 
 var pkg = require(path.join(__dirname, 'package.json'));
 
@@ -44,7 +45,13 @@ if (!module.parent) {
   });
 }
 
-// Entry point for scripts that `require` this module.
+
+/**
+ * Entry point for scripts that `require` this module.
+ * @alias module:xsltdoc.xsltdoc
+ * @param {object} opts - options
+ * @param {mainCallback} cb - Called when finished.
+ */
 function xsltdoc(opts, cb) {
   opts.configPath = path.resolve(process.cwd(), opts.config);
 
@@ -77,6 +84,13 @@ function xsltdoc(opts, cb) {
   );
 }
 
+
+/**
+ * Run the XSLT to generate the documentation.
+ * @alias module:xsltdoc.doTransform
+ * @param {object} opts - options; same as for the xsltdoc function
+ * @param {mainCallback} cb
+ */
 function doTransform(opts, cb) {
   var Transform = java.import('net.sf.saxon.Transform');
   var config = opts.configPath;
@@ -122,6 +136,13 @@ function doTransform(opts, cb) {
   cb(null, targetDir);
 }
 
+/**
+ * Copy the XSLTdoc CSS files to the target directory.
+ * @alias module:xsltdoc.copyCss
+ * @param {string} targetDir - path to the destination directory, either
+ *   absolute or relative to the current working directory.
+ * @throws an exception if there are any problems
+ */
 function copyCss(targetDir) {
   fs.copySync(path.join(__dirname, 'css'), targetDir);
 }
@@ -129,3 +150,11 @@ function copyCss(targetDir) {
 exports.xsltdoc = xsltdoc;
 exports.doTransform = doTransform;
 exports.copyCss = copyCss;
+
+/**
+ * @callback mainCallback
+ * @param err - an Error object
+ * @param {string} targetDir - path to the destination directory, either
+ *   absolute or relative to the current working directory.
+ */
+

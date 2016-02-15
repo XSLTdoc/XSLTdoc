@@ -4,8 +4,8 @@
   "description": "Tool for auto-generating documentation from XSLT",
   "scripts": {
     "test": "ant test",
-    "prepublish": "scripts/fetch-maven-deps.js",
-    "gh-pages": "scripts/publish-gh-pages.js",
+    "prepublish": "bin/fetch-maven-deps.js",
+    "gh-pages": "bin/publish-gh-pages.js",
     "make-docs": "./main.js --config xsl/XSLTdocConfig.xml"
   },
   "bin": {
@@ -52,6 +52,7 @@
     "gh-pages": "^0.10.0",
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.12.0",
+    "grunt-jsdoc": "^1.1.0",
     "http-server": "^0.8.5"
   }
 }

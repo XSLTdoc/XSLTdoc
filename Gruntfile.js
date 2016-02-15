@@ -8,12 +8,22 @@ module.exports = function(grunt) {
         esversion: 6,
         funcscope: true,
       },
-      all: ['Gruntfile.js', 'main.js', 'scripts/*.js'],
+      all: ['Gruntfile.js', 'main.js', 'bin/*.js'],
+    },
+    jsdoc : {
+      dist : {
+        src: ['main.js', 'bin/*.js', 'test/*.js'],
+        options: {
+          destination: 'jsdoc',
+          'readme': 'README.md',
+        }
+      }
     },
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jsdoc');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'jsdoc']);
 };

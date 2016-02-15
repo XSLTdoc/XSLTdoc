@@ -54,7 +54,7 @@ version is 1.2.2.
 See the [home page](http://xsltdoc.github.io/) for more
 detailed instructions on running from the command line.
 
-We've also added a very primitive bash script, scripts/xsltdoc.sh. (This is a
+We've also added a very primitive bash script, bin/xsltdoc.sh. (This is a
 completely different wrapper than the Node.js tool described above). This is not
 yet included in any released version, so to use it, you'll have to get the code 
 from the [GitHub repository](https://github.com/XSLTdoc/XSLTdoc/), either by 
@@ -145,7 +145,7 @@ npm test  #=> verify that it runs and passes > 5 tests
 
 # Verify that fetch-maven-deps.js is working:
 rm -rf jars
-scripts/fetch-maven-deps.js
+bin/fetch-maven-deps.js
 tree jars   #=> verify that you see the Saxon jar
 
 # Make the docs, check them, and publish to gh-pages
