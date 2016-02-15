@@ -121,6 +121,8 @@ To build the documentation for the home page, run
 npm run make-docs
 ```
 
+### Publishing docs to GitHub pages
+
 To publish these pages to [the GitHub pages 
 site](http://xsltdoc.github.io), first do `npm run make-docs`, then bring the
 pages up in a static server to make sure they look okay. Then run
@@ -129,6 +131,31 @@ pages up in a static server to make sure they look okay. Then run
 npm gh-pages
 ```
 
+### Releasing and publishing to npm
+
+Here are some instructions with a bunch of manual tests to make sure everything
+is working correctly.
+
+Wipe out any temporary directories and files, bump the version number, 
+update the release notes, and then:
+
+```
+npm uninstall -g .
+npm uninstall -g xsltdoc
+npm install
+npm test  #=> verify that it runs and passes > 5 tests
+
+# Verify that fetch-maven-deps.js is working:
+rm -rf jars
+scripts/fetch-maven-deps.js
+tree jars   #=> verify that you see the Saxon jar
+
+# Make the docs, check them, and publish to gh-pages
+npm run make-docs
+http-server
+#=> Then go to http://localhost:8080/doc, and check everything
+npm run gh-pages
+#=> Go to https://xsltdoc.github.io, and check it
 
 
 ## See also 
