@@ -42,7 +42,7 @@ function xsltdoc(opts, cb) {
 
   mvn({
       packageJsonPath: path.join(__dirname, 'package.json'),
-      localRepository: pkg.java.localRepository
+      localRepository: path.join(__dirname, pkg.java.localRepository),
     },
     function(err, mvnResults) {
       if (err) {

@@ -8,13 +8,14 @@ xsltdoc({config: path.join(__dirname, '../xsl/XSLTdocConfig.xml')},
   function(targetDir) {
     ghpages.publish(path.join(__dirname, '../doc'),
       { repo: 'git@github.com:XSLTdoc/xsltdoc.github.io.git',
-        branch: 'master', },
+        branch: 'master',
+        logger: function(message) {
+          console.log(message);
+        }
+      },
       function(err) {
         console.log("done");
       }
     );
   }
 );
-
-
-

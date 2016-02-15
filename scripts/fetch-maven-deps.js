@@ -6,7 +6,8 @@
 
 var mvn = require('node-java-maven');
 mvn({
-    localRepository: require('./package.json').java.localRepository
+    packageJsonPath: path.join(__dirname, '../package.json'),
+    localRepository: path.join(__dirname, '..', pkg.java.localRepository),
   },
   function(err, mvnResults) {
     if (err) {

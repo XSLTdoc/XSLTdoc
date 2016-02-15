@@ -11,24 +11,32 @@
       which provide easy browsing through the documentation. The
       XSLT source code is available with syntax highlighting.
     </p>
-    XSLTdoc was developed in a project funded by the European Space Agency under contract 18664/04/NL/LvH.
     <p>
-      XSLTdoc is written in XSLT 2.0 and is documented with XSLTdoc (This page). It is freely available on a GPL licence.
+      XSLTdoc was developed in a project funded by the European Space Agency 
+      under contract 18664/04/NL/LvH.
     </p>
     <p>
-      <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=124907&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>    
+      XSLTdoc is written in XSLT 2.0 and is documented with XSLTdoc (This 
+      page). It is freely available on a GPL licence.
     </p>
     <p>
-      <a href="http://sourceforge.net/projects/xsltdoc/">Project Page</a> on SourceForge.
+      <a href="https://github.com/XSLTdoc/XSLTdoc">Project Page</a> 
+      on GitHub.
     </p>
     <p>
-      Please use <b><a href="https://sourceforge.net/forum/?group_id=124907">the Forum</a></b> on SourceForge if you need help or have comments on XSLTdoc.
+      Please open a <b><a href="https://github.com/XSLTdoc/XSLTdoc/issues">GitHub 
+        issue</a></b> if you need help or have comments on XSLTdoc.
     </p>
+    <p style='color: #A00'><b><i>This tool has recently been worked on a bit to make it easier to
+      install and use. Please see the <a 
+        href='https://github.com/XSLTdoc/XSLTdoc'>README file</a> on
+      GitHub for some instructions on how you can install and run it very
+      easily.
+      The instructions below have not been completely updated yet
+      to reflect recent changes.</i></b></p>
+    
     <h2>Table of Contents</h2>
     <ul>
-      <li>
-        <a href="#News">News</a>
-      </li>
       <li>
         <a href="#Features">Features</a>
       </li>
@@ -47,33 +55,12 @@
       <li>
         <a href="#CopyrightAndLicence">Copyright And License</a>
       </li>
+      <li>
+        <a href='https://github.com/XSLTdoc/XSLTdoc/blob/master/release-notes.md'>
+          Release notes</a>
+      </li>
     </ul>
-    <h2><a name="News">News</a></h2>
-      <h3>January 16, 2009</h3>
-      <p>A bugfix release 1.2.1 is available for <a href="#Download">download</a>.</p>
-      <p>Changelog</p>
-      <ul>
-        <li>Changed output format from XML to XHTML</li>
-        <li>Changed output encoding to UTF-8</li>
-        <li>Fixed a bug where xd:detail was not printed</li>
-        <li><code>xml:xd</code> inline tag supports an <code>href</code> attribute which allows to include external XML markup</li>
-        <li>Enabled <a href="https://sourceforge.net/forum/?group_id=124907">the Forum</a> on sourceforge</li>
-      </ul>
-    
-      <h3>December 14, 2007</h3>
-      <p>Release 1.2 is available for <a href="#Download">download</a>.</p>
-      <p>Thanks to <b>Johannes Katelaan</b> and <b>Sascha Mantscheff</b> for their contributions.</p>
-      <p>New Features</p>
-      <ul>
-        <li>added section for documentation on xsl:variable</li>
-        <li>added section for documentation on xsl:attribute-set</li>
-        <li>implemented  <code>xd:link</code> for referencing templates</li>
-        <li>supports <code>xsl:key</code> elements</li>
-      </ul>
-      <h3>January 5, 2005</h3>
-      <p>Release 1.1 is available for download</p>
-      <h3>December 20, 2004</h3>
-      <p>Released Version 1.0.1</p>
+
     <h2><a name="Features">Features</a></h2>
     <ul>
       <li>Documentation is embedded in the XSL program</li>
@@ -89,9 +76,10 @@
     </ul>
     
     <h2><a name="InstallingXSLTdoc">Installing XSLTdoc</a></h2>
-    <p>Installation of XSLTdoc is simply done by unzipping the XSLTdoc
+     <p>Installation of XSLTdoc is simply done by unzipping the XSLTdoc
       distribution file in a dedicated target directory (usually called
       XSLTdoc). </p>
+
     <h2><a name="RunningXSLTdoc">Running XSLTdoc</a></h2>
     <p>XSLTdoc is written in XSLT 2.0. You need an XSLT 2.0 processor to run it.
       The downloadable package of XSLTdoc includes the free version of the Saxon
@@ -281,14 +269,26 @@
     
     
     <h2><a name="Download">Download</a></h2>
-    <p>Downloads are available through the <a href="http://sourceforge.net/project/showfiles.php?group_id=124907&amp;package_id=136566">sourceforge project page</a>.</p>
-    <p>By downloading any of these files you are accepting the licence condition stated <a href="#CopyrightAndLicence">below</a>.</p>
+    <p>Old downloads (1.2.2 and earlier) are available through the
+      <a href="http://sourceforge.net/project/showfiles.php?group_id=124907&amp;package_id=136566">sourceforge 
+        project page</a>. We hope to have a new release of 1.3.0 out soon, and
+      there will be some different distribution channel then.</p>
 
     <h2><a name="CopyrightAndLicence">Copyright And Licence</a></h2>
-    <p>The software and documenation downloadable from this site is made up of the following items:</p>
+    <p>The software and documenation downloadable from this site is made up of 
+      the following items:</p>
     <ul>
-      <li>Software and documentation for the XSLTdoc documentation tool. The copyright for these items belongs to <a href="http://www.pnp-software.com/">P&amp;P Software</a>. These items can be downloaded and used under the terms of the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public Licence</a>.</li>
-      <li> The The Saxon XSLT and XQuery Processor from <a href="http://www.saxonica.com/">Saxonica Limited</a>. This software is used and distributed in accordance with the terms of the <a href="http://www.mozilla.org/MPL/">Mozilla Public License Version 1.0</a>.</li>
+      <li>Software and documentation for the XSLTdoc documentation tool. The 
+        copyright for these items belongs to <a 
+          href="http://www.pnp-software.com/">P&amp;P Software</a>. These 
+        items can be downloaded and used under the terms of the <a 
+          href="http://www.gnu.org/copyleft/gpl.html">GNU General Public 
+          Licence</a>.</li>
+      <li> The The Saxon XSLT and XQuery Processor from <a 
+        href="http://www.saxonica.com/">Saxonica Limited</a>. This software is 
+        used and distributed in accordance with the terms of the <a 
+          href="http://www.mozilla.org/MPL/">Mozilla Public License Version 
+          1.0</a>.</li>
       <li>The XML to HTML Verbatim Formatter with Syntax Highlighting. This software was downloaded from <a href="http://www.informatik.hu-berlin.de/%7Eobecker/XSLT/">http://www.informatik.hu-berlin.de/~obecker/XSLT/</a>. There was no license information available on this site at the time of downloading (October 2004).</li>
     </ul>
     <p>

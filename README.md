@@ -115,6 +115,21 @@ npm test
 Currently, the Node.js package.json file invokes `ant` to run the tests, so
 you'll have to make sure you have Ant installed even if you're using npm.
 
+To build the documentation for the home page, run
+
+```
+npm run make-docs
+```
+
+To publish these pages to [the GitHub pages 
+site](http://xsltdoc.github.io), first do `npm run make-docs`, then bring the
+pages up in a static server to make sure they look okay. Then run
+
+```
+npm gh-pages
+```
+
+
 
 ## See also 
 

@@ -3,8 +3,10 @@
   "version": "1.3.0",
   "description": "Tool for auto-generating documentation from XSLT",
   "scripts": {
-    "prepublish": "node scripts/fetch-maven-deps.js",
-    "test": "ant test"
+    "test": "ant test",
+    "prepublish": "scripts/fetch-maven-deps.js",
+    "gh-pages": "scripts/publish-gh-pages.js",
+    "make-docs": "./main.js --config xsl/XSLTdocConfig.xml"
   },
   "bin": {
     "xsltdoc": "./main.js"
