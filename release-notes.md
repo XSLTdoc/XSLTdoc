@@ -1,5 +1,15 @@
 # Release notes
 
+## 1.3.0 - 2016-02-15
+
+Project has moved to GitHub and is under new management. Thanks go out to the
+original authors Iwan Birrer and Alessandro Pasetti for granting permission.
+
+* Added Node.js and npm packaging information, for clean dependency management
+  and ease of installation.
+* Got all the self-tests working again.
+
+
 ## 1.2.2 - 2009-01-20
 
 Thanks to the patch of Greg Beauchesne, XSLTdoc got some new features and bug 
