@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
+// XSLTdoc main driver script
+
 var fs = require('fs-extra');
 var java = require('java');
 var mvn = require('node-java-maven');
@@ -8,11 +10,12 @@ var path = require('path');
 var prg = require('commander');
 var temp = require('temp');
 var url = require('url');
+var VError = require('verror');
 
 java.asyncOptions = {
-  asyncSuffix: undefined,     // Don't generate async methods
-  syncSuffix: "",             // Sync methods use the base name(!!)
-  promiseSuffix: undefined,   // Don't generate methods returning promises
+  asyncSuffix: undefined,
+  syncSuffix: "",             // Sync methods use the base name
+  promiseSuffix: undefined,   // No promises
 };
 
 var pkg = require(path.join(__dirname, 'package.json'));
@@ -30,15 +33,20 @@ if (!module.parent) {
   xsltdoc({
     debug: !!prg.debug,
     config: prg.config,
-  }, function(targetDir) {
+  }, function(err, targetDir) {
+    if (err) {
+      console.error('\nERROR!');
+      console.error('Error while generating documentation.');
+      console.error('Detailed error information:', err);
+      process.exit(1);
+    }
     console.log('Done. Documentation written to ' + targetDir);
   });
 }
 
-// Here's the main document-generation function
+// Entry point for scripts that `require` this module.
 function xsltdoc(opts, cb) {
-  var debug = opts.debug;
-  var config = path.resolve(process.cwd(), opts.config);
+  opts.configPath = path.resolve(process.cwd(), opts.config);
 
   mvn({
       packageJsonPath: path.join(__dirname, 'package.json'),
@@ -46,60 +54,78 @@ function xsltdoc(opts, cb) {
     },
     function(err, mvnResults) {
       if (err) {
-        console.error('Could not resolve maven dependencies', err);
-        process.exit(1);
+        cb(new VError(err, 'Could not resolve maven dependencies'));
       }
-      // initialize the classpath
-      mvnResults.classpath.forEach(c => java.classpath.push(c));
-
-      try {
-        main();
-      }
-      catch(err) {
-        console.error('\nERROR!\n');
-        if (err.xsltdocMessage) console.error(err.xsltdocMessage);
-        console.error('\nDetailed error info:\n', err);
+      else {
+        mvnResults.classpath.forEach(c => java.classpath.push(c));
+        doTransform(opts, (err, targetDir) => {
+          if (err) {
+            cb(err);
+            return;
+          }
+          try {
+            copyCss(targetDir);
+          }
+          catch(err) {
+            cb(new VError(err, 'Problem while copying the css files'));
+            return;
+          }
+          cb(null, targetDir);
+        });
       }
     }
   );
+}
 
-  function main() {
-    var Transform = java.import('net.sf.saxon.Transform');
+function doTransform(opts, cb) {
+  var Transform = java.import('net.sf.saxon.Transform');
+  var config = opts.configPath;
+  var debug = opts.debug;
 
-    // Some checks
-    try {
-      fs.accessSync(config);
-    }
-    catch(err) {
-      err.xsltdocMessage = 'Can\'t find the configuration file ' + config;
-      throw err;
-    }
+  // Some checks
+  try {
+    fs.accessSync(config);
+  }
+  catch(err) {
+    cb(new VError(err, 'Can\'t find the config file ' + config));
+    return;
+  }
 
-    // Make an array of Strings to hold the command line arguments
-    var xslt = path.join(__dirname, 'xsl/xsltdoc.xsl');
-    var tempOut = temp.path({
-      prefix: 'xsltdoc-', suffix: '.xml'
-    });
-    var args = ['-quit:off', `-s:${config}`, `-xsl:${xslt}`, `-o:${tempOut}`];
+  // Make an array of Strings to hold the command line arguments
+  var xslt = path.join(__dirname, 'xsl/xsltdoc.xsl');
+  var tempOut = temp.path({
+    prefix: 'xsltdoc-', suffix: '.xml'
+  });
+  var args = ['-quit:off', `-s:${config}`, `-xsl:${xslt}`, `-o:${tempOut}`];
 
-    if (debug) console.log('Running `transform ' + args.join(' ') + '`');
-    try {
-      Transform.main(args);
-    }
-    catch (err) {
-      err.xsltdocMessage = 'There was a problem when we tried to run the ' +
-        'transformation with these arguments:\n  ' + args.join('\n  ');
-      throw err;
-    }
+  if (debug) console.log('Running `transform ' + args.join(' ') + '`');
+  try {
+    Transform.main(args);
+  }
+  catch (err) {
+    cb(new VError(err,
+      'There was a problem when we tried to run the ' +
+      'transformation with these arguments:\n  ' + args.join('\n  ')));
+    return;
+  }
 
+  try {
     // The transformer wrote the output directory into the tempOut file.
     var targetDir = url.parse(fs.readFileSync(tempOut, 'utf8')).pathname;
-
-    // Copy css
-    fs.copySync(path.join(__dirname, 'css'), targetDir);
-    cb(targetDir);
   }
-};
+  catch (err) {
+    cb(new VError(err, 'Problem while reading target directory from the ' +
+      'tranformer output.'));
+    return;
+  }
 
-module.exports = xsltdoc;
+  cb(null, targetDir);
+}
 
+function copyCss(targetDir) {
+  fs.copySync(path.join(__dirname, 'css'), targetDir);
+}
+
+exports.xsltdoc = xsltdoc;
+exports.doTransform = doTransform;
+exports.copyCss = copyCss;

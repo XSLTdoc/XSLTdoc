@@ -139,6 +139,7 @@ update the release notes, and then:
 ```
 npm uninstall -g .
 npm uninstall -g xsltdoc
+rm -rf node_modules doc jars
 npm install
 npm test  #=> verify that it runs and passes > 5 tests
 
