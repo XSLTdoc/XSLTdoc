@@ -158,17 +158,28 @@ npm publish
 ```
 
 
+
+
 ## See also 
 
 * [Release notes](release-notes.md)
 
-
-## Node.js implementation
+## To do
 
 * The node-java-maven dependency right now points to a specific commit on
   GitHub, because of a very minor
   fix to remove a `console.log` message. This should be updated whenever 
   it's released again.
+* It would be nice to auto-generate documentation for the JavaScript here.
+  I did some experimenting with jsdoc (see [this tag]()), docco, and
+  grok, but didn't find anything perfect:
+    * jsdoc - a bit onerous in terms of getting your structured comments
+      just right; especially for CommonJS modules -- it's a bad fit.
+    * docco and grok - too *unstructured*. They produce very pretty pages,
+      but nothing like API documentation.
+* What would be really cool is if we could integrate that JS documentation 
+  framework with this XSLTdoc output -- a generalized doc framework.
+
 
 ## Copyright And Licence
 
