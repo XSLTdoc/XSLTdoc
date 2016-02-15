@@ -50,6 +50,13 @@ Use `ant -p` to see the list of tasks.
 * [Release notes](release-notes.md)
 
 
+## Node.js implementation
+
+* The node-java-maven dependency right now points to a specific commit on
+  GitHub, because of a very minor
+  fix to remove a `console.log` message. This should be updated whenever 
+  it's released again.
+
 ## Copyright And Licence
 
 *This license information was copied from the [XSLTdoc home

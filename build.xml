@@ -63,9 +63,10 @@
 		</zip>
 	</target>
 
+	<!-- Note that this often doesn't fail if there's an error. -->
 	<target name="test" depends="lib" description='Run tests.'>
 		<xslt style="test/utilTest.xsl" in="test/dummy.xml"
-			out="test/testResult.txt">
+			out="test/testResult.txt" failOnError='true'>
 		</xslt>
 	</target>
 

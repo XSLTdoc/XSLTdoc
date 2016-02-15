@@ -52,7 +52,7 @@
     
     <xsl:variable name='passed' select='$expected = $received'/>
     <xsl:variable name="message" select='concat(
-      "", if ($passed) then "PASSED" else "FAILED", "] ",
+      "[", if ($passed) then "PASSED" else "FAILED", "] ",
       $test-name, " [", $subtest-num, "]",
       if ($passed) then "" else concat(
         "expected: ", $expected, "; ",

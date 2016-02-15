@@ -9,7 +9,7 @@ var prg = require('commander');
 var temp = require('temp');
 var url = require('url');
 
-var pkg = require('./package.json');
+var pkg = require(path.join(__dirname, 'package.json'));
 
 java.asyncOptions = {
   asyncSuffix: undefined,     // Don't generate async methods

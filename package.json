@@ -32,7 +32,7 @@
     "commander": "^2.9.0",
     "fs-extra": "^0.26.5",
     "java": "^0.6.0",
-    "node-java-maven": "0.0.12",
+    "node-java-maven": "joeferner/node-java-maven#e30ac06d",
     "temp": "^0.8.3"
   },
   "java": {
