@@ -4,7 +4,7 @@ var assert = require('assert');
 var fs = require('fs-extra');
 var jd = require('../bin/java-driver.js');
 var path = require('path');
-
+var VError = require('verror');
 
 // Test the XSLT
 describe('XSLT tests', function() {
@@ -23,7 +23,22 @@ describe('XSLT tests', function() {
   });
 
   it('has working utility xslt templates', function(done) {
-    console.log("Hey!");
+    this.timeout(10000);
+    var src = path.join(__dirname, 'dummy.xml');
+    var xsl = path.join(__dirname, 'utilTest.xsl');
+    var out = path.join(__dirname, 'testResult.txt');
+    var args = ['-quit:off', `-s:${src}`, `-xsl:${xsl}`, `-o:${out}`,
+      'quiet=true'];
+    try {
+      var Transform = java.import('net.sf.saxon.Transform');
+      Transform.main(args);
+    }
+    catch (err) {
+      done(new VError(err,
+        'There was a problem when we tried to run the ' +
+        'transformation with these arguments:\n  ' + args.join('\n  ')));
+      return;
+    }
     done();
   });
 });

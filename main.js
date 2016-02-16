@@ -2,19 +2,12 @@
 'use strict';
 var _ = require('lodash');
 var fs = require('fs-extra');
-var java = require('java');
-var mvn = require('node-java-maven');
+var jd = require('./bin/java-driver.js');
 var path = require('path');
 var prg = require('commander');
 var temp = require('temp');
 var url = require('url');
 var VError = require('verror');
-
-java.asyncOptions = {
-  asyncSuffix: undefined,
-  syncSuffix: "",             // Sync methods use the base name
-  promiseSuffix: undefined,   // No promises
-};
 
 var pkg = require(path.join(__dirname, 'package.json'));
 var defaults = {
@@ -56,39 +49,33 @@ function xsltdoc(_opts, cb) {
   var opts = _.merge({}, defaults, _opts);
   opts.configPath = path.resolve(process.cwd(), opts.config);
 
-  mvn({
-      packageJsonPath: path.join(__dirname, 'package.json'),
-      localRepository: path.join(__dirname, pkg.java.localRepository),
-    },
-    function(err, mvnResults) {
-      if (err) {
-        cb(new VError(err, 'Could not resolve maven dependencies'));
-      }
-      else {
-        mvnResults.classpath.forEach(c => java.classpath.push(c));
-        doTransform(opts, (err, targetDir) => {
-          if (err) {
-            cb(err);
-            return;
-          }
-          try {
-            copyCss(targetDir);
-          }
-          catch(err) {
-            cb(new VError(err, 'Problem while copying the css files'));
-            return;
-          }
-          cb(null, targetDir);
-        });
-      }
+  jd.java(function(err, java) {
+    if (err) {
+      cb(err);
+      return;
     }
-  );
+    module.java = java;
+    doTransform(opts, (err, targetDir) => {
+      if (err) {
+        cb(err);
+        return;
+      }
+      try {
+        copyCss(targetDir);
+      }
+      catch(err) {
+        cb(new VError(err, 'Problem while copying the css files'));
+        return;
+      }
+      cb(null, targetDir);
+    });
+  });
 }
 
 // Run the XSLT to generate the documentation. This requires the node-java's
 // classpath to be already set up.
 function doTransform(opts, cb) {
-  var Transform = java.import('net.sf.saxon.Transform');
+  var Transform = module.java.import('net.sf.saxon.Transform');
   var config = opts.configPath;
   var debug = opts.debug;
 
@@ -102,6 +89,8 @@ function doTransform(opts, cb) {
   }
 
   // Make an array of Strings to hold the command line arguments
+  // Saxon command-line arguments are described here:
+  // http://www.saxonica.com/documentation9.5/using-xsl/commandline.html
   var xslt = path.join(__dirname, 'xsl/xsltdoc.xsl');
   var tempOut = temp.path({
     prefix: 'xsltdoc-', suffix: '.xml'

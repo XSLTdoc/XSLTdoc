@@ -144,7 +144,7 @@
     The command using Saxon 8 XSLT processor looks like this (while being in the XSLTdoc installation folder):</p>
     <div class="source"><pre><![CDATA[java -jar lib/saxon8.jar <configuration file> xsl/xsltdoc.xsl]]></pre></div>
     <p>Fonts, colors and layout of the HTML documentation are defined in two CSS
-      files which can be found in the CSS folder of the installation. Copy both
+      files which can be found in the css directory of the installation. Copy both
       files to the folder where the documentation was generated. With ant this
       step can easily be automated. See the build.xml ant-file that is used to
       generate the documentation for XSLTdoc as an example:</p>
@@ -309,10 +309,10 @@
     </p>
   </Introduction>
   <!-- Target directory. Absolute or relative to this file -->
-  <TargetDirectory path="../doc"/>
+  <TargetDirectory path="./doc"/>
 
   <!-- The stylesheets to document -->
-  <RootStylesheets dir="./">
+  <RootStylesheets dir="./xsl">
     <!-- This stylesheet inlcudes or imports all others -->
     <File href="xsltdoc.xsl"/>
   </RootStylesheets>

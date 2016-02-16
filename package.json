@@ -6,7 +6,7 @@
     "test": "ant test",
     "prepublish": "bin/java-driver.js",
     "gh-pages": "bin/publish-gh-pages.js",
-    "make-docs": "./main.js --config xsl/XSLTdocConfig.xml"
+    "make-docs": "./main.js"
   },
   "bin": {
     "xsltdoc": "./main.js"

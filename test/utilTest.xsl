@@ -5,6 +5,7 @@
                 version="2.0">
 	<xsl:output method="text"/>
   <xsl:include href='../xsl/lib/util.xsl'/>
+  <xsl:param name='quiet' select='false()'/>
   <xsl:param name='halt-on-error' select='true()'/>
 
   <xsl:template match="/">
@@ -15,7 +16,8 @@
 
   <xd:doc type="stylesheet">
     This function logs a message both to the console, using &lt;xsl:message>,
-    and to the result document.
+    and to the result document. If the `quiet` parameter is set to true, this
+    won't log non-terminal messages to the console.
     <xd:param name='message'>The message to log.</xd:param>
     <xd:param name='terminate' type='boolean'>If true, causes the process to exit.</xd:param>
   </xd:doc>
@@ -24,20 +26,22 @@
     <xsl:param name='terminate'/>
     <!-- write it to the result document, with a newline -->
     <xsl:value-of select='concat($message, "&#xA;")'/>
-    <!-- And to the console, without the newline. Unfortunately, the
+    <!-- 
+      And to the console, without the newline. Unfortunately, the
       `terminate` attribute can't be parameterized, so we have to use a
-      `choose` here. -->
+      `choose` here. 
+    -->
     <xsl:choose>
       <xsl:when test="$terminate">
         <xsl:message terminate='yes'>
           <xsl:value-of select="$message"/>
         </xsl:message>
       </xsl:when>
-      <xsl:otherwise>
+      <xsl:when test='not($quiet)'>
         <xsl:message terminate='no'>
           <xsl:value-of select="$message"/>
         </xsl:message>
-      </xsl:otherwise>
+      </xsl:when>
     </xsl:choose>
   </xsl:function>
   
@@ -61,13 +65,19 @@
     )'/>
     <xsl:value-of select="util:log($message, not($passed))"/>
   </xsl:function>
+  
+  <xsl:function name='util:log-test-name'>
+    <xsl:param name='name'/>
+    <xsl:value-of select='util:log(concat("Running test ", $name), false())'/>
+  </xsl:function>
 
   <xd:doc>
     Test the util:getSharedPath() function.
   </xd:doc>
   <xsl:function name="util:testGetSharedPath">
     <xsl:variable name='test-name' select='"util:testGetSharedPath"'/>
-    <xsl:message>Running test <xsl:value-of select="$test-name"/></xsl:message>
+    <xsl:value-of select='util:log-test-name($test-name)'/>
+
     <xsl:value-of select='util:assert-equal($test-name, 1, "D:/", 
       util:getSharedPath("D:/test", "D:/testCenter"))'/>
     <xsl:value-of select='util:assert-equal($test-name, 2, "D:/", 
@@ -83,7 +93,8 @@
   </xd:doc>
   <xsl:function name="util:testGetRelativeUri">
     <xsl:variable name='test-name' select='"util:testGetRelativeUri"'/>
-    <xsl:message>Running test <xsl:value-of select="$test-name"/></xsl:message>
+    <xsl:value-of select='util:log-test-name($test-name)'/>
+
     <xsl:value-of select='util:assert-equal($test-name, 1, "./", 
       util:getRelativeUri("file://D:/test", "file://D:/test"))'/>
   </xsl:function>

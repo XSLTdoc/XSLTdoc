@@ -18,26 +18,18 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       }
     }
-  /*
-    Experimented with jsdoc (and some others -- see the README)
-    but I'm not happy with it.
-    jsdoc : {
-      dist : {
-        src: ['main.js', 'bin/*.js', 'test/*.js'],
-        options: {
-          destination: 'jsdoc',
-          'readme': 'README.md',
-        }
-      }
-    },
-  */
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  //grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-mocha-test');
-
-
-  // Default task(s).
-  grunt.registerTask('default', ['jshint', 'mochaTest']);
+  grunt.registerTask('makeDocs', 'Generate this project\'s docs.',
+    function() {
+      var done = this.async();
+      var xsltdoc = require('./main.js');
+      xsltdoc.xsltdoc(null, function(err, docDir) {
+        if (!err) grunt.log.writeln(`Docs written to ${docDir}`);
+        done(err);
+      });
+    });
+  grunt.registerTask('default', ['jshint', 'mochaTest', 'makeDocs']);
 };

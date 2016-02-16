@@ -8,6 +8,8 @@
 // Usage:
 //   var jd = require('./java-driver.js');
 //   jd.java(function(err, java) {
+//     if (err) { ... }
+//     module.java = java;
 //     ...
 //   });
 //
@@ -21,6 +23,7 @@
 var java = require('java');
 var mvn = require('node-java-maven');
 var path = require('path');
+var VError = require('verror');
 
 java.asyncOptions = {
   asyncSuffix: undefined,
@@ -47,7 +50,7 @@ function _java(cb) {
     },
     function(err, mvnResults) {
       if (err) {
-        cb(err);
+        cb(new VError(err, 'Could not resolve maven dependencies'));
         return;
       }
       //console.log('mvnResults: ', mvnResults);
