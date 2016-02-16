@@ -31,5 +31,17 @@ module.exports = function(grunt) {
         done(err);
       });
     });
+  grunt.registerTask('ghPages',
+    'Publish to GitHub pages (requires that you have commit access to the ' +
+    'repo)',
+    function() {
+      var done = this.async();
+      require('./bin/publish-gh-pages.js')(
+        grunt.log.writeln,
+        function(err) {
+          done(err);
+        }
+      );
+    });
   grunt.registerTask('default', ['jshint', 'mochaTest', 'makeDocs']);
 };

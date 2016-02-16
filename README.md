@@ -65,60 +65,41 @@ You don't need to build this project in order to run it. If you want to build
 it anyway, for whatever reason, this section gives some information about how
 to do that.
 
-First of all, note that the original project used the Java build tool Ant.
-We've kept that here, and it still works, but we are moving to using Node.js
-and npm to manage test and build tasks.
+You'll need to have Node.js and Java installed.
 
-### Building with Ant
-
-The Ant build.xml file has tasks that
-create the home page site (using this tool itself), that test the app, and
-that create a distribution tarball.
-
-To run any of the build tasks, install and run `ant`. The default task builds 
-the pages for the home page, and writes them to the doc directory.
-
-The tool uses SaxonHE 9 to run the XSLT transformations. It is downloaded
-automatically, the first time you run the build. The Ant tool puts the
-SaxonHE jar into the "jars" subdirectory.
-
-Use `ant -p` to see the list of tasks.
-
-
-### Building with npm
-
-To install all the dependencies that the main script uses:
+Then, after cloning the repository, install all the dependencies that the 
+main script uses, and install the grunt build tool (you should only need to
+do these once):
 
 ```
 npm install
+npm install -g grunt
 ```
 
 This uses node-java-maven to fetch SaxonHE from the Maven repository, and
-put it into the same place (not by coincidence) as the Ant task.
+put it into vendor subdirectory.
 
-To test:
-
-```
-npm test
-```
-
-Currently, the Node.js package.json file invokes `ant` to run the tests, so
-you'll have to make sure you have Ant installed even if you're using npm.
-
-To build the documentation for the home page, run
+Then:
 
 ```
-npm run make-docs
+grunt
+```
+
+To get help with grunt, including a list of tasks defined for this project:
+
+```
+grunt --help
 ```
 
 ### Publishing docs to GitHub pages
 
-To publish these pages to [the GitHub pages 
-site](http://xsltdoc.github.io), first do `npm run make-docs`, then bring the
-pages up in a static server to make sure they look okay. Then run
+You'll need to have commit access to the [GitHub pages 
+repo](https://github.com/XSLTdoc/xsltdoc.github.io). To publish,
+first run a build, and then bring up the "doc" pages 
+in a static server to make sure they look okay. Then run
 
 ```
-npm gh-pages
+grunt gh-pages
 ```
 
 ### Releasing and publishing to npm
@@ -145,15 +126,10 @@ Then make a temp directory as a sibling of this project dir, and do:
 ```
 npm init -f
 npm install ../XSLTdoc
-
-
-npm run gh-pages
-#=> Go to https://xsltdoc.github.io, and check it
-npm publish
+./node_modules/.bin/xsltdoc --init
+cp ../XSLTdoc/test/test.xsl .
+./node_modules/.bin/xsltdoc
 ```
-
-
-
 
 ## See also 
 

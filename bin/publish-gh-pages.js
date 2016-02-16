@@ -5,7 +5,7 @@
 // You can call this either from the command-line, or as a module. If as a
 // module, use it like this:
 //   require('./publish-gh-pages.js')(console.log,
-//     function(err, messages) {
+//     function(err,) {
 //       ...
 //     });
 
