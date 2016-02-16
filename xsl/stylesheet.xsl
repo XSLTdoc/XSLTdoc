@@ -26,7 +26,9 @@
       This parameter overrides the &lt;Access&gt; element inside an XSLTdocConfig file.
     </xd:detail>
   </xd:doc>
-  <xsl:param name="access" select="if (/XSLTdocConfig/Access) then /XSLTdocConfig/Access else 'public'" as="xs:string" />
+  <xsl:param name="access" 
+    select="if (/XSLTdocConfig/Access) then /XSLTdocConfig/Access else 'public'" 
+    as="xs:string" />
 
   <xd:doc>
     <xd:short>Calls sub-templates for each part of the stylesheet documentation.</xd:short>
@@ -113,27 +115,32 @@
       detail description available&quot; is printed
     </xd:detail>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:transform | xsl:param | xsl:variable | xsl:attribute-set | xsl:key | xsl:output | xsl:preserve-space | xsl:strip-space | xsl:namespace-alias | xsl:character-map | xsl:decimal-format | xd:mode" mode="printDetailDescription">
+  <xsl:template 
+    match="xsl:function | xsl:template | xsl:stylesheet | 
+      xsl:transform | xsl:param | xsl:variable | xsl:attribute-set | xsl:key | 
+      xsl:output | xsl:preserve-space | xsl:strip-space | xsl:namespace-alias | 
+      xsl:character-map | xsl:decimal-format | xd:mode" 
+    mode="printDetailDescription">
     <xsl:param name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <xsl:choose>
-  <xsl:when test="count($doc) != 0">
-    <!-- xd documentation exists, find detail description -->
-  <xsl:choose>
-    <xsl:when test="$doc/xd:detail">
-      <div class="detailDescr">
-        <xsl:apply-templates select="$doc/xd:detail/child::node()" mode="XdocTags" />
-      </div>
-    </xsl:when>
-    <xsl:otherwise>
-      <!--
-        No xd:detail element found, use text after first period as
-        detail description.
-      -->
-      <xsl:call-template name="extractDetailDescription">
-        <xsl:with-param name="doc" select="$doc" />
-      </xsl:call-template>
-    </xsl:otherwise>
-  </xsl:choose>
+      <xsl:when test="count($doc) != 0">
+      <!-- xd documentation exists, find detail description -->
+      <xsl:choose>
+      <xsl:when test="$doc/xd:detail">
+        <div class="detailDescr">
+          <xsl:apply-templates select="$doc/xd:detail/child::node()" mode="XdocTags" />
+        </div>
+      </xsl:when>
+      <xsl:otherwise>
+        <!--
+          No xd:detail element found, use text after first period as
+          detail description.
+        -->
+        <xsl:call-template name="extractDetailDescription">
+          <xsl:with-param name="doc" select="$doc" />
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:when>
   <xsl:otherwise>
     <xsl:text></xsl:text>
@@ -149,7 +156,12 @@
   <xd:doc>
     <xd:short>Prints the properties of a xd:doc element.</xd:short>
   </xd:doc>
-  <xsl:template match="xsl:function | xsl:template | xsl:stylesheet | xsl:transform | xsl:param | xsl:variable | xsl:attribute-set | xsl:key | xsl:output | xsl:preserve-space | xsl:strip-space | xsl:namespace-alias | xsl:character-map | xsl:decimal-format | xd:mode" mode="printProperties">
+  <xsl:template 
+    match="xsl:function | xsl:template | xsl:stylesheet | xsl:transform | 
+      xsl:param | xsl:variable | xsl:attribute-set | xsl:key | xsl:output | 
+      xsl:preserve-space | xsl:strip-space | xsl:namespace-alias | 
+      xsl:character-map | xsl:decimal-format | xd:mode" 
+    mode="printProperties">
     <xsl:param name="doc" select="xd:getDoc(.)" as="element(xd:doc)?"/>
     <xsl:param name="root" select="(ancestor-or-self::xsl:stylesheet | ancestor-or-self::xsl:transform)[last()]" as="element(*)?"/>
     <xsl:param name="modeDoc" select="if (self::xsl:template) then xd:getModeDoc($root, @mode) else ()" />

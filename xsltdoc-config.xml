@@ -309,10 +309,10 @@
     </p>
   </Introduction>
   <!-- Target directory. Absolute or relative to this file -->
-  <TargetDirectory path="./doc"/>
+  <TargetDirectory path="doc"/>
 
   <!-- The stylesheets to document -->
-  <RootStylesheets dir="./xsl">
+  <RootStylesheets dir="xsl">
     <!-- This stylesheet inlcudes or imports all others -->
     <File href="xsltdoc.xsl"/>
   </RootStylesheets>

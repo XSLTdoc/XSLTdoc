@@ -24,7 +24,34 @@ if (!module.parent) {
     .option('-c, --config [file]',
       'XSLTdoc config file; default is xsltdoc-config.xml.',
       defaults.config)
+    .option('--init',
+      'Create a copy of the default xsltdoc-config.xml file in this ' +
+      'directory, if one doesn\'t exist already.', false)
     .parse(process.argv);
+
+  // The `init` option is only for the command-line tool
+  if (prg.init) {
+    try {
+      fs.statSync('./xsltdoc-config.xml'); // will throw if doesn't exist
+      console.error('You already seem to have xsltdoc-config.xml here.');
+      process.exit(1);
+    }
+    catch(err) {}
+
+    fs.copy(path.join(__dirname, 'templates/xsltdoc-config.xml'),
+      './xsltdoc-config.xml',
+      { clobber: false },
+      function(err) {
+        if (err) {
+          console.error('Failed to create xsltdoc-config.xml file', err);
+          process.exit(1);
+        }
+        console.log('New configuration file created: xsltdoc-config.xml');
+        return;
+      }
+    );
+    return;
+  }
 
   xsltdoc({
     debug: !!prg.debug,

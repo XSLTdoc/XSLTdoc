@@ -207,6 +207,7 @@
     
     <!-- Generate one html page for each page in config -->
     <xsl:for-each select="$config/page">
+      <!--<xsl:message><xsl:copy-of select="@uriAbs">&#xA;</xsl:copy-of></xsl:message>-->
       <xsl:result-document href="{@uriAbs}" format="xhtml">
         <xsl:apply-templates select="$htmlTemplate" mode="htmlTemplate">
           <xsl:with-param name="config" select="$config" tunnel="yes"/>
@@ -217,6 +218,12 @@
    
     <!-- Generate one html page for each stylesheet -->
     <xsl:for-each select="$config/pagelist/page">
+    <!--
+      <xsl:message>
+        <xsl:copy-of select="."/>
+        <xsl:text>&#xA;&#xA;</xsl:text>
+      </xsl:message>
+    -->
       <xsl:result-document href="{@uriAbs}" format="xhtml">
         <xsl:apply-templates select="$htmlTemplate" mode="htmlTemplate">
           <xsl:with-param name="config" select="$config" tunnel="yes"/>
@@ -230,7 +237,9 @@
       <xsl:result-document href="{@verbatimUriAbs}" format="xhtml">
         <xsl:apply-templates select="doc(@srcUriAbs)" mode="xmlverbwrapper">
           <xsl:with-param name="css-stylesheet">
-            <xsl:value-of select="concat(util:getRelativeUri( util:getFolder(@uriAbs), $config/targetDirUriAbs/@href ), 'xmlverbatim.css')"/>
+            <xsl:value-of 
+              select="concat(util:getRelativeUri( util:getFolder(@uriAbs), 
+                $config/targetDirUriAbs/@href ), 'xmlverbatim.css')"/>
           </xsl:with-param>
         </xsl:apply-templates>
       </xsl:result-document>
@@ -264,10 +273,13 @@
 <xd:doc>
   This template replaces the xdt:cssDeclaration element in the html template.
 </xd:doc>
-<xsl:template match="xdt:cssDeclaration" mode="htmlTemplate" xmlns="http://www.w3.org/1999/xhtml">
+<xsl:template match="xdt:cssDeclaration" mode="htmlTemplate"
+  xmlns="http://www.w3.org/1999/xhtml">
   <xsl:param name="config" tunnel="yes" as="element()"/>
-  <xsl:param name="currentPage" tunnel="yes" as="element()"/>
-  <link href="{concat(util:getRelativeUri( util:getFolder($currentPage/@uriAbs), $config/targetDirUriAbs/@href ), 'XSLTdoc.css')}" rel="stylesheet" type="text/css"/>
+  <xsl:param name="currentPage" tunnel="yes" as="element()"/>  
+  <link href="{concat(util:getRelativeUri(util:getFolder($currentPage/@uriAbs), 
+      $config/targetDirUriAbs/@href ), 'XSLTdoc.css')}" 
+    rel="stylesheet" type="text/css"/>
   <xsl:if test="$config/additionalCSS">
     <xsl:for-each select="$config/additionalCSS/file">
       <link href="{util:getRelativeUriFiles( @uriAbs, $currentPage/@uriAbs, true() )}" rel="stylesheet" type="text/css">

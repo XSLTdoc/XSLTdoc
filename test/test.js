@@ -56,7 +56,6 @@ describe('Main module', function() {
     // Start with a clean temp directory
     fs.removeSync(tempDir);
     fs.mkdirpSync(tempDir);
-    process.chdir(tempDir);
 
     // Copy the sample/template config file
     var src, dest;
@@ -95,15 +94,18 @@ describe('Main module', function() {
   // test.xsl to generate documentation in the test/doc subdirectory
   it('can generate documentation for an XSLT', function(done) {
     this.timeout(10000);
-    xsltdoc.xsltdoc(null, function(err, targetPath) {
-      //console.log('Generating documentation in ' + targetPath);
-      if (err) {
-        done(err);
-        return;
+    xsltdoc.xsltdoc(
+      { config: path.join(tempDir, 'xsltdoc-config.xml') },
+      function(err, targetPath) {
+        //console.log('Generating documentation in ' + targetPath);
+        if (err) {
+          done(err);
+          return;
+        }
+        // Check the results
+        assert(fs.statSync(path.join(tempDir, 'doc/index.html')).isFile());
+        done();
       }
-      // Check the results
-      assert(fs.statSync(path.join(tempDir, 'doc/index.html')).isFile());
-      done();
-    });
+    );
   });
 });

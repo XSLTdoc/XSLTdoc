@@ -12,6 +12,7 @@
     <xsl:value-of select='util:log(concat("Running tests on ", current-dateTime()), false())'/>
     <xsl:copy-of select="util:testGetSharedPath()"/>
     <xsl:copy-of select="util:testGetRelativeUri()"/>
+    <xsl:copy-of select="util:testNormalizeUri()"/>
   </xsl:template>
 
   <xd:doc type="stylesheet">
@@ -97,6 +98,22 @@
 
     <xsl:value-of select='util:assert-equal($test-name, 1, "./", 
       util:getRelativeUri("file://D:/test", "file://D:/test"))'/>
+    <xsl:value-of select='util:assert-equal($test-name, 2, "./", 
+      util:getRelativeUri("file:///a/b/", "file:///a/b/./"))'/>
+    <xsl:value-of select='util:assert-equal($test-name, 3, "./", 
+      util:getRelativeUri("file:///a/b/./", "file:///a/b/"))'/>
   </xsl:function>
 
+  <xd:doc>
+    Test that util:normalizeUri() works as advertised.
+  </xd:doc>
+  <xsl:function name='util:testNormalizeUri'>
+    <xsl:variable name='test-name' select='"util:testNormalizeUri"'/>
+    <xsl:value-of select='util:log-test-name($test-name)'/>
+
+    <xsl:value-of select='util:assert-equal($test-name, 1, "file:/a/b/c", 
+      util:normalizeUri("file:///a/b/./c"))'/>    
+    <xsl:value-of select='util:assert-equal($test-name, 1, "file:/a/b/d", 
+      util:normalizeUri("file:///a/b/././././d"))'/>   
+  </xsl:function>
 </xsl:stylesheet>

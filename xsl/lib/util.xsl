@@ -71,12 +71,15 @@
     </xsl:sequence>
   </xsl:function>
   
-  <xd:doc> Replaces triple slashes '///' by a single slash. <xd:param
-      name="uri">The uri to be normalized.</xd:param>
+  <xd:doc> 
+    Replaces triple slashes '///' by a single slash. Also removes any 
+    single-dot path segments.
+    <xd:param name="uri">The uri to be normalized.</xd:param>
   </xd:doc>
   <xsl:function name="util:normalizeUri">
     <xsl:param name="uri" as="xs:string"/>
-    <xsl:sequence select="replace($uri, '///', '/')"/>
+    <xsl:sequence select="replace(
+      replace($uri, '///', '/'), '/(\./)+', '/')"/>
   </xsl:function>
   
   <xd:doc>
@@ -102,9 +105,11 @@
   <xsl:function name="util:normalizeFolder">
     <xsl:param name="uri" as="xs:string"/>
     <xsl:sequence
-     select="util:normalizeUri(if (ends-with($uri, '/'))
-             then $uri
-             else concat($uri, '/'))"/>
+     select="util:normalizeUri(
+               if (ends-with($uri, '/'))
+               then $uri
+               else concat($uri, '/')
+             )"/>
   </xsl:function>
   
   <xd:doc> 
@@ -117,6 +122,7 @@
     <xsl:param name="to"   as="xs:string"/>
     <xsl:variable name="fromNorm" select="util:normalizeFolder($from)"/>
     <xsl:variable name="toNorm" select="util:normalizeFolder($to)"/>
+    
     <xsl:variable name="sharedPath" select="util:getSharedPath($fromNorm, $toNorm)"/>
     <xsl:variable name="return">
       <xsl:choose>
@@ -159,19 +165,31 @@
     <xsl:param name="reverse" as="xs:boolean"/>
     <xsl:choose>
       <xsl:when test="not(util:isAbsolutePath($from))">
-        <xsl:message terminate="yes">Error in util:getRelativeUriFiles(). $from must be an absolute URI but is: <xsl:value-of select="$from"/></xsl:message>
+        <xsl:message terminate="yes">Error in util:getRelativeUriFiles(). 
+          $from must be an absolute URI but is: <xsl:value-of select="$from"/></xsl:message>
       </xsl:when>
       <xsl:when test="not(util:isAbsolutePath($to))">
-        <xsl:message terminate="yes">Error in util:getRelativeUriFiles(). $to must be an absolute URI but is: <xsl:value-of select="$to"/></xsl:message>
+        <xsl:message terminate="yes">Error in util:getRelativeUriFiles(). 
+          $to must be an absolute URI but is: <xsl:value-of select="$to"/></xsl:message>
       </xsl:when>
     </xsl:choose>
     
     <xsl:choose>
       <xsl:when test="$reverse">
-        <xsl:value-of select="concat(util:getRelativeUri(util:getFolder($to), util:getFolder($from)), util:getFile($from))"/>
+        <xsl:value-of select="
+          concat(
+            util:getRelativeUri(
+              util:getFolder($to), util:getFolder($from)
+            ), util:getFile($from)
+          )"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="concat(util:getRelativeUri(util:getFolder($from), util:getFolder($to)), util:getFile($from))"/>
+        <xsl:value-of select="
+          concat(
+            util:getRelativeUri(
+              util:getFolder($from), util:getFolder($to)
+            ), util:getFile($from)
+          )"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
