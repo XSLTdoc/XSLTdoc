@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+var _ = require('lodash');
 var fs = require('fs-extra');
 var java = require('java');
 var mvn = require('node-java-maven');
@@ -15,20 +16,21 @@ java.asyncOptions = {
   promiseSuffix: undefined,   // No promises
 };
 
-/**
- * @module xsltdoc
- */
-
 var pkg = require(path.join(__dirname, 'package.json'));
+var defaults = {
+  debug: false,
+  config: 'xsltdoc-config.xml'
+};
 
 // If this is being called as a script (rather than `required`) then get
 // options from the command line, and invoke the tool.
 if (!module.parent) {
   prg.version(pkg.version)
-    .option('--debug', 'Enable debugging output messages.')
+    .option('--debug', 'Enable debugging output messages.',
+      defaults.debug)
     .option('-c, --config [file]',
       'XSLTdoc config file; default is xsltdoc-config.xml.',
-      'xsltdoc-config.xml')
+      defaults.config)
     .parse(process.argv);
 
   xsltdoc({
@@ -45,14 +47,13 @@ if (!module.parent) {
   });
 }
 
-
-/**
- * Entry point for scripts that `require` this module.
- * @alias module:xsltdoc.xsltdoc
- * @param {object} opts - options
- * @param {mainCallback} cb - Called when finished.
- */
-function xsltdoc(opts, cb) {
+// Entry point for scripts that `require` this module.
+// Options:
+// - config - pathname of the config file, either absolute, or relative
+//   to theh current working directory
+// - debug - enable verbose messages
+function xsltdoc(_opts, cb) {
+  var opts = _.merge({}, defaults, _opts);
   opts.configPath = path.resolve(process.cwd(), opts.config);
 
   mvn({
@@ -84,13 +85,8 @@ function xsltdoc(opts, cb) {
   );
 }
 
-
-/**
- * Run the XSLT to generate the documentation.
- * @alias module:xsltdoc.doTransform
- * @param {object} opts - options; same as for the xsltdoc function
- * @param {mainCallback} cb
- */
+// Run the XSLT to generate the documentation. This requires the node-java's
+// classpath to be already set up.
 function doTransform(opts, cb) {
   var Transform = java.import('net.sf.saxon.Transform');
   var config = opts.configPath;
@@ -136,13 +132,7 @@ function doTransform(opts, cb) {
   cb(null, targetDir);
 }
 
-/**
- * Copy the XSLTdoc CSS files to the target directory.
- * @alias module:xsltdoc.copyCss
- * @param {string} targetDir - path to the destination directory, either
- *   absolute or relative to the current working directory.
- * @throws an exception if there are any problems
- */
+// Copy the XSLTdoc CSS files to the target directory.
 function copyCss(targetDir) {
   fs.copySync(path.join(__dirname, 'css'), targetDir);
 }
@@ -150,11 +140,3 @@ function copyCss(targetDir) {
 exports.xsltdoc = xsltdoc;
 exports.doTransform = doTransform;
 exports.copyCss = copyCss;
-
-/**
- * @callback mainCallback
- * @param err - an Error object
- * @param {string} targetDir - path to the destination directory, either
- *   absolute or relative to the current working directory.
- */
-

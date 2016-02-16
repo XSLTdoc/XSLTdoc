@@ -10,6 +10,17 @@ module.exports = function(grunt) {
       },
       all: ['Gruntfile.js', 'main.js', 'bin/*.js'],
     },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'nyan',
+        },
+        src: ['test/**/*.js']
+      }
+    }
+  /*
+    Experimented with jsdoc (and some others -- see the README)
+    but I'm not happy with it.
     jsdoc : {
       dist : {
         src: ['main.js', 'bin/*.js', 'test/*.js'],
@@ -19,11 +30,14 @@ module.exports = function(grunt) {
         }
       }
     },
+  */
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-jsdoc');
+  //grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.loadNpmTasks('grunt-mocha-test');
+
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'jsdoc']);
+  grunt.registerTask('default', ['jshint', 'mochaTest']);
 };

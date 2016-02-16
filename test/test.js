@@ -1,49 +1,69 @@
 // Mocha tests
 
 var assert = require('assert');
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
-var temp = require('temp');
 
-// Automatically track and cleanup files at exit
-temp.track();
-
-
+// These tests use test/temp as a working directory.
 describe('Main module', function() {
+  var tempDir = path.join(__dirname, 'temp');
   var xsltdoc;
 
   before(function() {
     xsltdoc = require('../main.js');
+
+    // Start with a clean temp directory
+    fs.removeSync(tempDir);
+    fs.mkdirpSync(tempDir);
+    process.chdir(tempDir);
+
+    // Copy the sample/template config file
+    var src, dest;
+    src = path.join(__dirname, '../templates/xsltdoc-config.xml');
+    dest = path.join(tempDir, 'xsltdoc-config.xml');
+    console.log(`copying ${src} to ${dest}`);
+    fs.copySync(src, dest);
+
+    // Copy the sample XSLT
+    src = path.join(__dirname, 'test.xsl');
+    dest = path.join(tempDir, 'test.xsl');
+    console.log(`copying ${src} to ${dest}`);
+    fs.copySync(src, dest);
   });
+
 
   it('should be able to be required', function() {
     assert(xsltdoc);
-    console.log('xsltdoc: ', xsltdoc);
   });
 
-  it('copyCss() should work', function(done) {
-    temp.mkdir('css', function(err, dirPath) {
-      console.log('css temp dir: ', dirPath);
-      xsltdoc.copyCss(dirPath);
-      ['xmlverbatim.css', 'XSLTdoc.css', 'XSLTdoc_green.css'].forEach(
-        function(cssFile) {
-          assert(
-            fs.statSync(
-              path.join(dirPath, cssFile)
-            ).isFile());
-        }
-      );
+  // Copy the CSS files to a temp directory, and make sure they arrive
+  it('should copy css files', function(done) {
+    //console.log('Copying css files to ' + tempDir);
+    xsltdoc.copyCss(tempDir);
+    ['xmlverbatim.css', 'XSLTdoc.css', 'XSLTdoc_green.css'].forEach(
+      function(cssFile) {
+        assert(
+          fs.statSync(
+            path.join(tempDir, cssFile)
+          ).isFile());
+      }
+    );
+    done();
+  });
+
+  // Copies the template config file into the test directory, and uses it and
+  // test.xsl to generate documentation in the test/doc subdirectory
+  it('can generate documentation for an XSLT', function(done) {
+    this.timeout(10000);
+    xsltdoc.xsltdoc(null, function(err, targetPath) {
+      //console.log('Generating documentation in ' + targetPath);
+      if (err) {
+        done(err);
+        return;
+      }
+      // Check the results
+      assert(fs.statSync(path.join(tempDir, 'doc/index.html')).isFile());
       done();
-    });
-  });
-
-
-
-
-  describe('#indexOf()', function () {
-    it('should return -1 when the value is not present', function () {
-      assert.equal(-1, [1,2,3].indexOf(5));
-      assert.equal(-1, [1,2,3].indexOf(0));
     });
   });
 });
