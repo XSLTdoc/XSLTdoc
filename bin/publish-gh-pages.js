@@ -4,7 +4,7 @@ var ghpages = require('gh-pages');
 var path = require('path');
 
 var xsltdoc = require('../main.js');
-xsltdoc({config: path.join(__dirname, '../xsl/XSLTdocConfig.xml')},
+xsltdoc.xsltdoc({config: path.join(__dirname, '../xsl/XSLTdocConfig.xml')},
   function(targetDir) {
     ghpages.publish(path.join(__dirname, '../doc'),
       { repo: 'git@github.com:XSLTdoc/xsltdoc.github.io.git',

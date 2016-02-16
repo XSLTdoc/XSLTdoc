@@ -1,5 +1,5 @@
 /doc/
-/jars/
+/vendor/
 /node_modules/
 /test/testResult.txt
 /test/temp/

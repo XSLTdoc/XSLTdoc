@@ -5,8 +5,9 @@
 See also the [home page](http://xsltdoc.github.io/). This project has recently 
 been moved, with kind permission from the original authors Iwan Birrer and 
 Alessandro Pasetti, from 
-[SourceForge](https://sourceforge.net/projects/xsltdoc/) to this new home on 
-GitHub. The migration has preserved the original Subversion commit history.
+[SourceForge](https://sourceforge.net/projects/xsltdoc/) to a [new home on 
+GitHub](https://github.com/XSLTdoc/XSLTdoc/). The migration has preserved 
+the original Subversion commit history.
 
 
 ## Using 
@@ -47,23 +48,15 @@ xsltdoc(opts, function(targetDir) {
 
 ## Running manually
 
-Download from [the Sourceforge
-site](https://sourceforge.net/projects/xsltdoc/files/xsltdoc/). The latest
-version is 1.2.2.
+Download the latest release, version 1.3.0 from 
+[here](https://github.com/XSLTdoc/XSLTdoc/archive/1.3.0.zip).
+
+If you need an older version, you can find them listed 
+[here](https://github.com/XSLTdoc/XSLTdoc/releases).
 
 See the [home page](http://xsltdoc.github.io/) for more
-detailed instructions on running from the command line.
-
-We've also added a very primitive bash script, bin/xsltdoc.sh. (This is a
-completely different wrapper than the Node.js tool described above). This is not
-yet included in any released version, so to use it, you'll have to get the code 
-from the [GitHub repository](https://github.com/XSLTdoc/XSLTdoc/), either by 
-cloning or using the "Download Zip" button. Then,
-put the "bin" subdirectory into your PATH, and run the tool with:
-
-```
-xsltdoc.sh <config-file>
-```
+detailed instructions on running from the command line using the
+`java` command.
 
 
 ## Building
@@ -139,14 +132,9 @@ update the release notes, and then:
 ```
 npm uninstall -g .
 npm uninstall -g xsltdoc
-rm -rf node_modules doc jars
+rm -rf node_modules doc vendor
 npm install
 npm test  #=> verify that it runs and passes > 5 tests
-
-# Verify that fetch-maven-deps.js is working:
-rm -rf jars
-bin/fetch-maven-deps.js
-tree jars   #=> verify that you see the Saxon jar
 
 # Make the docs, check them, and publish to gh-pages
 npm run make-docs

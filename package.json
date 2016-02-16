@@ -4,7 +4,7 @@
   "description": "Tool for auto-generating documentation from XSLT",
   "scripts": {
     "test": "ant test",
-    "prepublish": "bin/fetch-maven-deps.js",
+    "prepublish": "bin/java-driver.js",
     "gh-pages": "bin/publish-gh-pages.js",
     "make-docs": "./main.js --config xsl/XSLTdocConfig.xml"
   },
@@ -44,10 +44,11 @@
     "grunt-contrib-jshint": "^0.12.0",
     "grunt-mocha-test": "^0.12.7",
     "http-server": "^0.8.5",
-    "lodash": "^4.3.0"
+    "lodash": "^4.3.0",
+    "mocha": "^2.4.5"
   },
   "java": {
-    "localRepository": "./jars",
+    "localRepository": "./vendor",
     "dependencies": [
       {
         "groupId": "net.sf.saxon",

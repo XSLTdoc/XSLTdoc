@@ -72,9 +72,9 @@
 	</target>
 
 	<target name='lib' description="Download third-party libraries.">
-		<mkdir dir="jars/net/sf/saxon/Saxon-HE/9.6.0-7"/>
+		<mkdir dir="vendor/net/sf/saxon/Saxon-HE/9.6.0-7"/>
 		<get src="http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-2/Saxon-HE-9.7.0-2.jar"
-			dest="jars/net/sf/saxon/Saxon-HE/9.6.0-7/Saxon-HE-9.6.0-7.jar"
+			dest="vendor/net/sf/saxon/Saxon-HE/9.6.0-7/Saxon-HE-9.6.0-7.jar"
 			verbose="true"
 			usetimestamp="true"/>
 	</target>

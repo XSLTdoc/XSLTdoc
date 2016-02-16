@@ -2,8 +2,34 @@
 
 var assert = require('assert');
 var fs = require('fs-extra');
+var jd = require('../bin/java-driver.js');
 var path = require('path');
 
+
+// Test the XSLT
+describe('XSLT tests', function() {
+  var java;
+
+  // In the before hook, initialize the java instance.
+  before(function(done) {
+    jd.java(function(err, _java) {
+      if (err) {
+        done(err);
+        return;
+      }
+      java = _java;
+      done();
+    });
+  });
+
+  it('has working utility xslt templates', function(done) {
+    console.log("Hey!");
+    done();
+  });
+});
+
+
+// Test the main javascript driver
 // These tests use test/temp as a working directory.
 describe('Main module', function() {
   var tempDir = path.join(__dirname, 'temp');
@@ -21,16 +47,15 @@ describe('Main module', function() {
     var src, dest;
     src = path.join(__dirname, '../templates/xsltdoc-config.xml');
     dest = path.join(tempDir, 'xsltdoc-config.xml');
-    console.log(`copying ${src} to ${dest}`);
+    //console.log(`copying ${src} to ${dest}`);
     fs.copySync(src, dest);
 
     // Copy the sample XSLT
     src = path.join(__dirname, 'test.xsl');
     dest = path.join(tempDir, 'test.xsl');
-    console.log(`copying ${src} to ${dest}`);
+    //console.log(`copying ${src} to ${dest}`);
     fs.copySync(src, dest);
   });
-
 
   it('should be able to be required', function() {
     assert(xsltdoc);
