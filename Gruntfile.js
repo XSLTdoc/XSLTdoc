@@ -22,7 +22,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.registerTask('makeDocs', 'Generate this project\'s docs.',
+  grunt.registerTask('makeDocs', 'Generate this project\'s docs in the "doc" ' +
+    'subdirectory',
     function() {
       var done = this.async();
       var xsltdoc = require('./main.js');
