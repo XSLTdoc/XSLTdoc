@@ -23,10 +23,19 @@ npm install -g xsltdoc
 ```
 
 Next, in the project where your XSLT resides, create a configuration file
-to control how the tool works. See the tool's [home
-page](http://xsltdoc.github.io/) for information about the format of that file.
-The tool expects the file to be named xsltdoc-config.xml, but you can override
-that with a command line option.
+to control how the tool works. You can use the following command to create
+a default config file in the current directory, and then edit that file to
+customize it for your XSLT project:
+
+```
+xsltdoc --init
+```
+
+The default config file has a lot of comments describing the format. See also
+the tool's [home page](http://xsltdoc.github.io/) for more information about 
+the the config file. The tool expects the file, by default, to be named 
+xsltdoc-config.xml, but if you want to use a different name, you can do that,
+and then specify it with a command line option.
 
 To run the tool, and generate the documenation:
 
@@ -40,6 +49,8 @@ You can run it programmatically from another Node.js script with
 
 ```javascript
 var xsltdoc = require('xsltdoc');
+
+// The conversion runs asynchronously and then invokes a callback
 xsltdoc(opts, function(targetDir) {
   console.log('Done. Documentation written to ' + targetDir);
 });
