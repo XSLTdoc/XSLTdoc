@@ -1,45 +1,64 @@
-# XSLTdoc
+# XSLTdoc - code documentation tool for XSLT
 
-***XSLTdoc is a Javadoc-like tool for XSLT 2.0.***
+***XSLTdoc is a Javadoc-like tool for XSLT all versions of XSLT (1.0, 1.1, 
+2.0).***
 
 See also the [home page](http://xsltdoc.github.io/). This project has recently
 been moved, with kind permission from the original authors Iwan Birrer and
 Alessandro Pasetti, from
 [SourceForge](https://sourceforge.net/projects/xsltdoc/) to a [new home on
-GitHub](https://github.com/XSLTdoc/XSLTdoc/). The migration has preserved
-the original Subversion commit history.
+GitHub](https://github.com/XSLTdoc/XSLTdoc/).
+
+The XSLTdoc tool defines conventions for documenting XSLT "code elements" 
+directly in the source code. These "documentation elements" are then extracted 
+by the XSLTdoc tool to build a documentation consisting of several linked 
+HTML pages which facilitate easy access. The
+XSLT source code is also rendered with syntax highlighting.
 
 
-## Using
 
-The easiest (but not the only) way to use this tool is via Node.js.
+**Features**
+
+* Syntax highlighted source code
+* Generates documentation whole sets of stylesheets, following includes and imports
+* Style customizeable with CSS stylesheets
+* Site layout is based on a customizeable/interchangeable html template
+* Easily extensible with new tags
+* Open source under GPL license
+* Written in XSLT
+* Uses Node.js, npm, and node-java for ease of packaging, installation, and running
+
+
+## Installing
+
+The easiest (but not the only) way to install and use this tool is with Node.js.
 If you don't have that installed, and don't want to install it, then
 see the section below, "Running manually".
 
 To install the XSLTdoc tool:
 
-```
+```bash
 npm install -g xsltdoc
 ```
 
-Next, in the project where your XSLT resides, create a configuration file
-to control how the tool works. You can use the following command to create
-a default config file in the current directory, and then edit that file to
-customize it for your XSLT project:
+## Running
 
-```
+In the project where your XSLT resides, create a copy of the default
+configuration file, named `xsltdoc-config.xml`, with:
+
+```bash
 xsltdoc --init
 ```
 
-The default config file has a lot of comments describing the format. See also
-the tool's [home page](http://xsltdoc.github.io/) for more information about 
-the the config file. The tool expects the file, by default, to be named 
-xsltdoc-config.xml, but if you want to use a different name, you can do that,
-and then specify it with a command line option.
+Open this config file in an editor, and change the settings to suit your 
+needs. There are copious comments describing the meaning of each setting, and
+more detailed descriptions below.
+You can rename this config file if you want, but then you will have to specify
+the name with a command line option, whenever you run `xsltdoc`.
 
 To run the tool, and generate the documenation:
 
-```
+```bash
 xsltdoc
 ```
 
@@ -59,22 +78,207 @@ xsltdoc(opts, function(targetDir) {
 
 ## Running manually
 
-Download the latest release, version 1.3.0 from
-[here](https://github.com/XSLTdoc/XSLTdoc/archive/1.3.0.zip).
+Download the latest release from 
+[GitHub](https://github.com/XSLTdoc/XSLTdoc/archive/1.3.1.zip), and unzip it
+to the location of your choice. 
 
-If you need an older version, you can find them listed
+XSLTdoc is written in XSLT 2.0. You need an XSLT 2.0 processor to run it.
+Download the latest version of Saxon-HE
+from the [Sourceforge download 
+page](https://sourceforge.net/projects/saxon/files/Saxon-HE/) (for example,
+`SAXONHE9-7-0-3J.zip`) and extract that into the `lib` subdirectory of
+the XSLTdoc directory.
+
+The examples here assume you're on a Unix-flavored box with a bash shell. If
+you are on Windows, adjust accordingly. The following commands will accomplish
+all of the above instructions, and set an environment variable, `XSLTDOC`, to
+point to the base directory of the tool.
+
+
+```bash
+wget https://github.com/XSLTdoc/XSLTdoc/archive/1.3.1.zip
+unzip 1.3.1.zip
+export XSLTDOC=`pwd`/XSLTdoc-1.3.1/
+wget https://sourceforge.net/projects/saxon/files/Saxon-HE/9.7/SaxonHE9-7-0-3J.zip
+unzip SaxonHE9-7-0-3J.zip -d $XSLTDOC/lib saxon9he.jar
+# clean up
+rm 1.3.1.zip
+rm SaxonHE9-7-0-3J.zip
+```
+
+
+To set up your project's configuration file, copy the template from the tool
+directory:
+
+```bash
+cp $XSLTDOC/templates/xsltdoc-config.xml .
+```
+
+Then open it in an editor and change the settings as needed.
+
+Next, to generate the documentation:
+
+```bash
+java -jar $XSLTDOC/lib/saxon9he.jar xsltdoc-config.xml $XSLTDOC/xsl/xsltdoc.xsl
+```
+
+Fonts, colors and layout of the HTML documentation are defined in a few CSS 
+files which can be found in the `css` directory of the installation. Copy these 
+files to the folder where the documentation was generated. For example:
+
+```bash
+cp $XSLTDOC/css/* doc
+```
+
+***Note:*** If you need an older version of XSLTdoc, you can find them listed
 [here](https://github.com/XSLTdoc/XSLTdoc/releases).
 
-See the [home page](http://xsltdoc.github.io/) for more
-detailed instructions on running from the command line using the
-`java` command.
 
 
-## Building
+## Documenting your XSLT code
 
-You don't need to build this project in order to run it. If you want to build
-it anyway, for whatever reason, this section gives some information about how
-to do that.
+Documentation elements are written in XML. Because XSLT is expressed in XML 
+too, it is necessary to define a new namespace for XSLTdoc to enable a XSLT 
+processor to distinguish between documentation and source code. The URI for 
+this namespace is http://www.pnp-software.com/XSLTdoc. This namespace must 
+be declared in any stylesheet which uses XSLTdoc for documenting. 
+Example:
+
+```xml
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xd="http://www.pnp-software.com/XSLTdoc" version="2.0">
+  ...
+&lt;/xsl:stylesheet>
+```
+
+### General documenting rules
+
+The documentation is normally added before the source element that should be 
+documented. Generally this looks like this:
+
+```xml
+&lt;xd:doc>
+  ...
+&lt;/xd:doc>
+&lt;xsl:...>
+```
+
+Any XSLTdoc documentation is enclosed in an `xd:doc` element. If you just 
+want to write a plain text comment the `xd:doc` element can contain simple 
+text. Text before the first period is considered as short description, the 
+remaining as detailed description:
+
+```xml
+&lt;xd:doc>
+  This is the short description. And here comes a more detailed 
+  description that appears in the detailed view of the documentation only.
+&lt;/xd:doc>
+&lt;xsl:...>
+```
+
+If you use this technique, then no HTML elements are allowed in the text. If 
+you want to use HTML tags within short and detailed description the text for 
+the short and detailed description needs to enclosed in special XSLTdoc tags:
+
+```xml
+&lt;xd:doc>
+  &lt;xd:short>This is the short description with 
+    &lt;code>HTML tags&lt;/code>.&lt;/xd:short>
+  &lt;xd:detail>
+    And here comes a &lt;b>more detailed&lt;/b> 
+    description showed only in the detailed view of the documentation.
+  &lt;/xd:detail>
+&lt;/xd:doc>
+&lt;xsl:...>
+```
+
+### Stylesheet documentation
+
+The documentaion of a stylesheet is the only exception where the documentation 
+is written as a subelement of the target element (xsl:stylesheet). To mark a 
+documentation element as a stylesheet documentation the type attribute of 
+the `xd:doc` element must be set to `stylesheet`. A stylesheet documentation 
+can have the following subelements (properties): 
+`xd:author`, `xd:copyright`, `xd:cvsId`, `xd:svnId`. For example:
+
+```xml
+&lt;xsl:stylesheet ...>
+  &lt;xd:doc type="stylesheet">
+    ...
+    &lt;xd:author>ibirrer&lt;/xd:author>
+    &lt;xd:copyright>P&amp;P Software, 2007&lt;/xd:copyright>
+    &lt;xd:cvsId>$Id: XSLTdocConfig.xml 42 2009-01-16 15:02:32Z ibirrer $&lt;/xd:cvsId>
+  &lt;xd:doc/>
+  ...
+&lt;/xsl:stylesheet>
+```
+
+Properties can be added by writing a property extension. See the properties 
+directory of the XSLTdoc installation for examples.
+
+### Stylesheet Parameter
+
+To document a stylesheet parameter you can use the type attribute of the 
+`xd:doc` element to define its type:
+
+```xml
+&lt;xsl:stylesheet ...>
+...
+  &lt;xd:doc type="string">
+    A Stylesheet parameter of type string.
+  &lt;/xd:doc>
+  &lt;xsl:param name="outputDir"/>
+  ...
+&lt;/xsl:stylesheet>
+```
+
+### Function/Template Documentation
+
+The parameter of a template or a function can be described with a 
+`xd:param` element. The name attribute is obligatory for templates and 
+functions while the type attribute is optional for template definitions.
+
+```xml
+&lt;xd:doc>
+  A template with a parameter of the type string.
+  &lt;xd:param type="string">The string to be processed.&lt;/xd:param>
+&lt;/xd:doc>
+```
+
+Look at the source code of the XSLTdoc tool for more examples. The source 
+code is accessible through this website. Just go to a detailed description 
+of a template or function and click on the source link.
+
+### Inline tags
+
+You can use so-called inline tags to tag special parts inside a 
+`xs:short` or `xd:detail` element. The `xd:xml` inline tag can be used to 
+print XML to the output. The whole xml inside the tag is transformed to html 
+by XSLTdoc.
+
+```xml
+&lt;xd:doc>
+  &lt;xd:detail>
+    The following XML inside the xd:xml tag is printed exactly as it shows 
+    here:
+    &lt;xd:xml>
+&lt;html>
+  &lt;head>&lt;/head>
+  &lt;body>
+    Bla
+  &lt;/body>
+&lt;/html>
+    &lt;/xd:xml>
+  &lt;xd:detail>
+&lt;/xd:doc>
+&lt;xsl:...>
+```
+
+
+## Building, developing, contributing
+
+You don't need to build this project in order to use it. If you want to build
+it anyway, for whatever reason, this section gives some instructions.
 
 You'll need to have Node.js and Java installed.
 
@@ -82,23 +286,20 @@ Then, after cloning the repository, install all the dependencies that the
 main script uses, and install the grunt build tool (you should only need to
 do these once):
 
-```
+```bash
 npm install
 npm install -g grunt-cli
 ```
 
-This uses node-java-maven to fetch SaxonHE from the Maven repository, and
-put it into vendor subdirectory.
-
 Then:
 
-```
+```bash
 grunt
 ```
 
 To get help with grunt, including a list of tasks defined for this project:
 
-```
+```bash
 grunt --help
 ```
 
@@ -109,7 +310,7 @@ repo](https://github.com/XSLTdoc/xsltdoc.github.io). To publish,
 first run a build, and then bring up the "doc" pages
 in a static server to make sure they look okay. Then run
 
-```
+```bash
 grunt gh-pages
 ```
 
@@ -121,7 +322,7 @@ is working correctly.
 Wipe out any temporary directories and files, bump the version number,
 update the release notes, and then:
 
-```
+```bash
 npm uninstall -g .
 npm uninstall -g xsltdoc
 rm -rf node_modules vendor
@@ -134,7 +335,7 @@ go to http://localhost:8080/doc, and check everything.
 
 Then make a temp directory as a sibling of this project dir, and do:
 
-```
+```bash
 npm init -f
 npm install ../XSLTdoc
 ./node_modules/.bin/xsltdoc --init
@@ -146,8 +347,23 @@ cp ../XSLTdoc/test/test.xsl .
 
 * [Release notes](release-notes.md)
 
+## Notes on Node.js implementation
+
+I (Chris Maloney) ported this to Node.js as a proof-of-concept, to see if it 
+would be practical to use Node.js and npm infrastructure, along with node-java,
+to manage XML/XSLT projects. I think it was a success: as long as the basic
+prerequisites are met, that the user has Node.js and Java installed, then
+installing and running this app are very easy and simple -- much easier than
+trying to download, configure and install an XSLT application by hand.
+
 ## To do
 
+* This README needs a TOC that will work both on GitHub and when it's passed
+  through markdown-it -> xsltdoc. Right now, I don't know how to get consistent
+  heading anchors in.
+* The npm `xmltools` library is currently in the works, which provides a better
+  version of the `java-driver.js` script. This repo should be updated whenever
+  that gets done.
 * The node-java-maven dependency right now points to a specific commit on
   GitHub, because of a very minor
   fix to remove a `console.log` message. This should be updated whenever

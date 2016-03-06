@@ -1,5 +1,6 @@
 /doc/
 /vendor/
 /node_modules/
+/readme.xhtml
 /test/testResult.txt
 /test/temp/

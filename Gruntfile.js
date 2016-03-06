@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    clean: ['doc', 'readme.xhtml', 'test/temp', 'test/testResult.txt'],
     jshint: {
       options: {
         esversion: 6,
@@ -20,18 +21,33 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
+
   grunt.registerTask('makeDocs', 'Generate this project\'s docs in the "doc" ' +
     'subdirectory',
     function() {
       var done = this.async();
-      var xsltdoc = require('./main.js');
-      xsltdoc.xsltdoc(null, function(err, docDir) {
-        if (!err) grunt.log.writeln(`Docs written to ${docDir}`);
-        done(err);
+      // Convert the readme markdown into xhtml
+      require('./bin/readme-to-xhtml.js')(function(err) {
+        if (err) {
+          done(err);
+          return;
+        }
+        // Now generate this project's docs
+        var xsltdoc = require('./main.js');
+        xsltdoc.xsltdoc(null, function(err, docDir) {
+          if (err) {
+            done(err);
+            return;
+          }
+          grunt.log.writeln(`Docs written to ${docDir}`);
+          done();
+        });
       });
     });
+
   grunt.registerTask('ghPages',
     'Publish to GitHub pages (requires that you have commit access to the ' +
     'repo)',
@@ -44,5 +60,6 @@ module.exports = function(grunt) {
         }
       );
     });
-  grunt.registerTask('default', ['jshint', 'mochaTest', 'makeDocs']);
+
+  grunt.registerTask('default', ['clean', 'jshint', 'mochaTest', 'makeDocs']);
 };

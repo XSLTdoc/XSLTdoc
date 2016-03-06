@@ -41,10 +41,12 @@
   "devDependencies": {
     "gh-pages": "^0.10.0",
     "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-jshint": "^0.12.0",
     "grunt-mocha-test": "^0.12.7",
     "http-server": "^0.8.5",
     "lodash": "^4.3.0",
+    "markdown-it": "^6.0.0",
     "mocha": "^2.4.5"
   },
   "java": {

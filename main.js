@@ -122,7 +122,7 @@ function doTransform(opts, cb) {
   var tempOut = temp.path({
     prefix: 'xsltdoc-', suffix: '.xml'
   });
-  var args = ['-quit:off', `-s:${config}`, `-xsl:${xslt}`, `-o:${tempOut}`];
+  var args = ['-quit:off', '-xi', `-s:${config}`, `-xsl:${xslt}`, `-o:${tempOut}`];
 
   if (debug) console.log('Running `transform ' + args.join(' ') + '`');
   try {
