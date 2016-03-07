@@ -354,12 +354,7 @@ that will be done automatically.
 * Tag, publish, and re-generate the gh-pages:
 
     ```bash
-    git commit ...
-    git tag -a 1.3.1
-    git push
-    git push --tags
-    npm publish
-    grunt ghPages
+    grunt release
     ```
 
 ## See also
