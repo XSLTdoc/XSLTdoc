@@ -35,8 +35,8 @@
   <!--
     A list of CSS Stylesheet files which should be added to the standard CSS file
     included (XSLTdoc.css). This is optional. The media attribute is also optional.
-  -->
   <AdditionalCSS>
     <File href="print.css" media="print"/>
   </AdditionalCSS>
+  -->
 </XSLTdocConfig>

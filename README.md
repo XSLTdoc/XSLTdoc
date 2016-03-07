@@ -79,7 +79,7 @@ xsltdoc(opts, function(targetDir) {
 ## Running manually
 
 Download the latest release from 
-[GitHub](https://github.com/XSLTdoc/XSLTdoc/archive/1.3.1.zip), and unzip it
+[GitHub](https://github.com/XSLTdoc/XSLTdoc/releases/latest), and unzip it
 to the location of your choice. 
 
 XSLTdoc is written in XSLT 2.0. You need an XSLT 2.0 processor to run it.
@@ -92,10 +92,12 @@ the XSLTdoc directory.
 The examples here assume you're on a Unix-flavored box with a bash shell. If
 you are on Windows, adjust accordingly. The following commands will accomplish
 all of the above instructions, and set an environment variable, `XSLTDOC`, to
-point to the base directory of the tool.
+point to the base directory of the tool. Substitute whatever the current
+latest release version number is.
 
 
 ```bash
+https://github.com/XSLTdoc/XSLTdoc/archive/latest.zip
 wget https://github.com/XSLTdoc/XSLTdoc/archive/1.3.1.zip
 unzip 1.3.1.zip
 export XSLTDOC=`pwd`/XSLTdoc-1.3.1/
@@ -314,38 +316,55 @@ in a static server to make sure they look okay. Then run
 grunt gh-pages
 ```
 
-### Releasing and publishing to npm
+### Releasing and publishing
 
-Here are some instructions with a bunch of manual tests to make sure everything
-is working correctly.
+Here's a checklist for doing a release. Don't bump the version number -- 
+that will be done automatically.
 
-Wipe out any temporary directories and files, bump the version number,
-update the release notes, and then:
+* Update release-notes.md
+* Wipe out any development side-effects:
 
-```bash
-npm uninstall -g .
-npm uninstall -g xsltdoc
-rm -rf node_modules vendor
-npm install
-grunt
-```
+    ```bash
+    npm uninstall -g xsltdoc
+    git clean -ndxff    # dry-run "super clean", make sure it's okay, then
+    git clean -dxff
+    git checkout -f
+    ```
 
-Then check the docs that were just generated. Start `http-server`, and
-go to http://localhost:8080/doc, and check everything.
+* Do `npm install` and `grunt`; make sure tests pass.
 
-Then make a temp directory as a sibling of this project dir, and do:
+* Check the docs. Start `http-server` and then
+  go to http://localhost:8080/doc.
 
-```bash
-npm init -f
-npm install ../XSLTdoc
-./node_modules/.bin/xsltdoc --init
-cp ../XSLTdoc/test/test.xsl .
-./node_modules/.bin/xsltdoc
-```
+* Try out the instructions for using the tool with a new project. Currently:
+
+    ```bash
+    npm install -g .    #=> in the XSLTdoc directory
+    export XSLTDOC=`pwd`
+    mkdir -p ~/temp/try-xsltdoc
+    cd ~/temp/try-xsltdoc
+    xsltdoc --init
+    cp $XSLTDOC/test/test.xsl .
+    xsltdoc
+    http-server  # Go to http://localhost:8080/doc, and verify
+    ```
+
+* Make sure everything is committed and pushed.
+
+* Tag, publish, and re-generate the gh-pages:
+
+    ```bash
+    git commit ...
+    git tag -a 1.3.1
+    git push
+    git push --tags
+    npm publish
+    grunt ghPages
+    ```
 
 ## See also
 
-* [Release notes](release-notes.md)
+* [Release notes](https://github.com/XSLTdoc/XSLTdoc/blob/master/release-notes.md)
 
 ## Notes on Node.js implementation
 
@@ -364,6 +383,9 @@ trying to download, configure and install an XSLT application by hand.
 * The npm `xmltools` library is currently in the works, which provides a better
   version of the `java-driver.js` script. This repo should be updated whenever
   that gets done.
+* Recently added highlight.js for syntax highlighting of the home page. That
+  should probably subsume/replace the "verbatim" syntax highlighting that is
+  currently used for XSLT source (which needs work, anyway).
 * The node-java-maven dependency right now points to a specific commit on
   GitHub, because of a very minor
   fix to remove a `console.log` message. This should be updated whenever

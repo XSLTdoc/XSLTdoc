@@ -1,6 +1,6 @@
 {
   "name": "xsltdoc",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "description": "Tool for auto-generating documentation from XSLT",
   "scripts": {
     "test": "grunt mochaTest",
@@ -44,7 +44,10 @@
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-jshint": "^0.12.0",
     "grunt-mocha-test": "^0.12.7",
+    "@klortho/grunt-release": "^0.13.0",
+    "grunt-replace": "^0.11.0",
     "http-server": "^0.8.5",
+    "load-grunt-tasks": "^3.4.1",
     "lodash": "^4.3.0",
     "markdown-it": "^6.0.0",
     "mocha": "^2.4.5"

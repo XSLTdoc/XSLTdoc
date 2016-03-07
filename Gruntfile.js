@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+  require('load-grunt-tasks')(grunt);
 
   // Project configuration.
   grunt.initConfig({
@@ -18,14 +19,39 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js']
       }
-    }
+    },
+    replace: {
+      dist: {
+        options: {
+          patterns: [
+            {
+              match: /XSLTdoc \d+\.\d+\.\d+/,
+              replacement: 'XSLTdoc <%= pkg.version %>'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['templates/standard.tpl.html'],
+          dest: 'templates/'}
+        ]
+      }
+    },
+    release: {
+      options: {
+        filesToStage: ['templates/standard.tpl.html'],
+        afterBump: ['replace'],
+        afterRelease: ['ghPages'],
+        github: {
+          repo: 'XSLTdoc/XSLTdoc',
+          accessTokenVar: 'GITHUB_GRUNT_RELEASE_ACCESS_TOKEN',
+        },
+      },
+    },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.registerTask('test', ['mochaTest']);
 
-  grunt.registerTask('makeDocs', 'Generate this project\'s docs in the "doc" ' +
+  grunt.registerTask('doc', 'Generate this project\'s docs in the "doc" ' +
     'subdirectory',
     function() {
       var done = this.async();
@@ -61,5 +87,6 @@ module.exports = function(grunt) {
       );
     });
 
-  grunt.registerTask('default', ['clean', 'jshint', 'mochaTest', 'makeDocs']);
+  grunt.registerTask('default', ['clean', 'jshint', 'test', 'doc']);
+
 };

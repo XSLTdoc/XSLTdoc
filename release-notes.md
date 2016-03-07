@@ -1,5 +1,22 @@
 # Release notes
 
+## 1.3.3 - 2016-03-06
+
+* No more Ant! Sorry, it's too much work to maintain two completely independent
+  build frameworks
+* Fixed an XSLT bug
+* New feature: auto-generate a default config file for your project, using the
+  `--init` option
+* The home page text now comes from the README.md, using 
+  [markdown-it](https://github.com/markdown-it/markdown-it) to convert Markdown
+  to XHTML, then `xinclude` to include that into the master 
+  `xsltdoc-config.xml`.
+* Substantially improved and updated the documentation
+* Using Grunt for building
+* Removed clunky xsltdoc.sh script
+* Added some unit tests
+
+
 ## 1.3.0 - 2016-02-15
 
 Project has moved to GitHub and is under new management. Thanks go out to the
