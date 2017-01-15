@@ -147,10 +147,10 @@ be declared in any stylesheet which uses XSLTdoc for documenting.
 Example:
 
 ```xml
-&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xd="http://www.pnp-software.com/XSLTdoc" version="2.0">
   ...
-&lt;/xsl:stylesheet>
+</xsl:stylesheet>
 ```
 
 ### General documenting rules
@@ -159,10 +159,10 @@ The documentation is normally added before the source element that should be
 documented. Generally this looks like this:
 
 ```xml
-&lt;xd:doc>
+<xd:doc>
   ...
-&lt;/xd:doc>
-&lt;xsl:...>
+</xd:doc>
+<xsl:...>
 ```
 
 Any XSLTdoc documentation is enclosed in an `xd:doc` element. If you just 
@@ -171,11 +171,11 @@ text. Text before the first period is considered as short description, the
 remaining as detailed description:
 
 ```xml
-&lt;xd:doc>
+<xd:doc>
   This is the short description. And here comes a more detailed 
   description that appears in the detailed view of the documentation only.
-&lt;/xd:doc>
-&lt;xsl:...>
+</xd:doc>
+<xsl:...>
 ```
 
 If you use this technique, then no HTML elements are allowed in the text. If 
@@ -183,15 +183,15 @@ you want to use HTML tags within short and detailed description the text for
 the short and detailed description needs to enclosed in special XSLTdoc tags:
 
 ```xml
-&lt;xd:doc>
-  &lt;xd:short>This is the short description with 
-    &lt;code>HTML tags&lt;/code>.&lt;/xd:short>
-  &lt;xd:detail>
-    And here comes a &lt;b>more detailed&lt;/b> 
+<xd:doc>
+  <xd:short>This is the short description with 
+    <code>HTML tags</code>.</xd:short>
+  <xd:detail>
+    And here comes a <b>more detailed</b> 
     description showed only in the detailed view of the documentation.
-  &lt;/xd:detail>
-&lt;/xd:doc>
-&lt;xsl:...>
+  </xd:detail>
+</xd:doc>
+<xsl:...>
 ```
 
 ### Stylesheet documentation
@@ -204,15 +204,15 @@ can have the following subelements (properties):
 `xd:author`, `xd:copyright`, `xd:cvsId`, `xd:svnId`. For example:
 
 ```xml
-&lt;xsl:stylesheet ...>
-  &lt;xd:doc type="stylesheet">
+<xsl:stylesheet ...>
+  <xd:doc type="stylesheet">
     ...
-    &lt;xd:author>ibirrer&lt;/xd:author>
-    &lt;xd:copyright>P&amp;P Software, 2007&lt;/xd:copyright>
-    &lt;xd:cvsId>$Id: XSLTdocConfig.xml 42 2009-01-16 15:02:32Z ibirrer $&lt;/xd:cvsId>
-  &lt;xd:doc/>
+    <xd:author>ibirrer</xd:author>
+    <xd:copyright>P&amp;P Software, 2007</xd:copyright>
+    <xd:cvsId>$Id: XSLTdocConfig.xml 42 2009-01-16 15:02:32Z ibirrer $</xd:cvsId>
+  <xd:doc/>
   ...
-&lt;/xsl:stylesheet>
+</xsl:stylesheet>
 ```
 
 Properties can be added by writing a property extension. See the properties 
@@ -224,14 +224,14 @@ To document a stylesheet parameter you can use the type attribute of the
 `xd:doc` element to define its type:
 
 ```xml
-&lt;xsl:stylesheet ...>
+<xsl:stylesheet ...>
 ...
-  &lt;xd:doc type="string">
+  <xd:doc type="string">
     A Stylesheet parameter of type string.
-  &lt;/xd:doc>
-  &lt;xsl:param name="outputDir"/>
+  </xd:doc>
+  <xsl:param name="outputDir"/>
   ...
-&lt;/xsl:stylesheet>
+</xsl:stylesheet>
 ```
 
 ### Function/Template Documentation
@@ -241,10 +241,10 @@ The parameter of a template or a function can be described with a
 functions while the type attribute is optional for template definitions.
 
 ```xml
-&lt;xd:doc>
+<xd:doc>
   A template with a parameter of the type string.
-  &lt;xd:param type="string">The string to be processed.&lt;/xd:param>
-&lt;/xd:doc>
+  <xd:param type="string">The string to be processed.</xd:param>
+</xd:doc>
 ```
 
 Look at the source code of the XSLTdoc tool for more examples. The source 
@@ -259,21 +259,21 @@ print XML to the output. The whole xml inside the tag is transformed to html
 by XSLTdoc.
 
 ```xml
-&lt;xd:doc>
-  &lt;xd:detail>
+<xd:doc>
+  <xd:detail>
     The following XML inside the xd:xml tag is printed exactly as it shows 
     here:
-    &lt;xd:xml>
-&lt;html>
-  &lt;head>&lt;/head>
-  &lt;body>
+    <xd:xml>
+<html>
+  <head></head>
+  <body>
     Bla
-  &lt;/body>
-&lt;/html>
-    &lt;/xd:xml>
-  &lt;xd:detail>
-&lt;/xd:doc>
-&lt;xsl:...>
+  </body>
+</html>
+    </xd:xml>
+  <xd:detail>
+</xd:doc>
+<xsl:...>
 ```
 
 
